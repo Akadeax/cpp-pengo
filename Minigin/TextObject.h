@@ -23,7 +23,9 @@ namespace dae
 		TextObject(TextObject&& other) = delete;
 		TextObject& operator=(const TextObject& other) = delete;
 		TextObject& operator=(TextObject&& other) = delete;
+
 	private:
+
 		bool m_needsUpdate;
 		std::string m_text;
 		Transform m_transform{};
