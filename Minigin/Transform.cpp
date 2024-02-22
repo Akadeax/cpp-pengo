@@ -1,8 +1,22 @@
 #include "Transform.h"
 
-void dae::Transform::SetPosition(const float x, const float y, const float z)
+dae::Transform::Transform()
+	: Transform(glm::vec2{ 0, 0 })
 {
-	m_position.x = x;
-	m_position.y = y;
-	m_position.z = z;
+}
+
+dae::Transform::Transform(glm::vec2 pos)
+	: m_Position{ pos }
+{
+}
+
+void dae::Transform::SetPosition(glm::vec2 vec)
+{
+	m_Position = vec;
+}
+
+void dae::Transform::SetPosition(float x, float y)
+{
+	m_Position.x = x;
+	m_Position.y = y;
 }

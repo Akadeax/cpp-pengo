@@ -3,25 +3,27 @@
 #include <SDL_pixels.h>
 #include <string>
 
-#include "Component.h"
+#include "TextureRenderer.h"
 
 namespace dae
 {
 	class Texture2D;
 	class Font;
 
-	class TextRenderer final : public Component
+	class TextRenderer final : public TextureRenderer
 	{
-		TextRenderer(const std::string& text, std::shared_ptr<Font> font, SDL_Color color);
+	public:
+		TextRenderer(GameObject* pParent, std::string text, std::shared_ptr<Font> font, SDL_Color color);
 
 		void Update() override;
 
 		void SetText(const std::string& text);
 
 	private:
-		bool m_IsDirty{ true };
 		std::string m_Text;
-		std::shared_ptr<Font> m_Font;
-		std::shared_ptr<Texture2D> m_TextTexture;
+		std::shared_ptr<Font> m_pFont;
+		SDL_Color m_Color;
+
+		bool m_IsDirty{ true };
 	};
 }

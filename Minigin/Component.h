@@ -1,14 +1,27 @@
 #pragma once
-class Component
+
+namespace dae
 {
-public:
-	virtual void Update();
-	virtual void Render() const;
+	class GameObject;
 
-	virtual ~Component();
+	class Component
+	{
+	public:
+		virtual void Update() {}
+		virtual void Render() const {}
 
-	Component(Component&& rhs) = delete;
-	Component(const Component& rhs) = delete;
-	Component& operator=(Component&& rhs) = delete;
-	Component& operator=(const Component& rhs) = delete;
-};
+		explicit Component(GameObject* pParent);
+		virtual ~Component() = default;
+
+		Component(Component&& rhs) = delete;
+		Component(const Component& rhs) = delete;
+		Component& operator=(Component&& rhs) = delete;
+		Component& operator=(const Component& rhs) = delete;
+
+		GameObject* GetParent() const { return m_pParent; }
+
+	private:
+		GameObject* m_pParent;
+	};
+}
+

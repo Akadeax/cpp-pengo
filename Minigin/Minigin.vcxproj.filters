@@ -51,13 +51,13 @@
     <ClInclude Include="Scene.h">
       <Filter>GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="TextObject.h">
-      <Filter>GameObject</Filter>
-    </ClInclude>
     <ClInclude Include="Component.h">
       <Filter>GameObject\Components</Filter>
     </ClInclude>
     <ClInclude Include="TextRenderer.h">
+      <Filter>GameObject\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureRenderer.h">
       <Filter>GameObject\Components</Filter>
     </ClInclude>
   </ItemGroup>
@@ -89,9 +89,6 @@
     <ClCompile Include="Scene.cpp">
       <Filter>GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="TextObject.cpp">
-      <Filter>GameObject</Filter>
-    </ClCompile>
     <ClCompile Include="SceneManager.cpp">
       <Filter>GameObject</Filter>
     </ClCompile>
@@ -99,6 +96,9 @@
       <Filter>GameObject\Components</Filter>
     </ClCompile>
     <ClCompile Include="TextRenderer.cpp">
+      <Filter>GameObject\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureRenderer.cpp">
       <Filter>GameObject\Components</Filter>
     </ClCompile>
   </ItemGroup>
