@@ -7,6 +7,7 @@
 #endif
 #endif
 
+#include "Minigin/FPSDisplay.h"
 #include "Minigin/GameObject.h"
 #include "Minigin/Minigin.h"
 #include "Minigin/SceneManager.h"
@@ -17,6 +18,8 @@
 void Load()
 {
 	auto& scene{ dae::SceneManager::GetInstance().CreateScene("Demo") };
+
+	std::shared_ptr<dae::Font> pFont{ dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36) };
 
 	{
 		const std::shared_ptr pBackground{ std::make_shared<dae::GameObject>() };
@@ -39,14 +42,21 @@ void Load()
 	}
 
 	{
-		std::shared_ptr<dae::Font> pFont{ dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36) };
-
 		const std::shared_ptr pTitleText{ std::make_shared<dae::GameObject>() };
 
 		pTitleText->GetTransform().SetPosition(80, 20);
 		pTitleText->AddComponent(std::make_unique<dae::TextRenderer>(pTitleText.get(), "Programming 4 Assignment :)", pFont, SDL_Color{ 255, 255, 255, 255 }));
 		
 		scene.Add(pTitleText);
+	}
+
+	{
+		const std::shared_ptr pFPSDisplay{ std::make_shared<dae::GameObject>() };
+
+		pFPSDisplay->GetTransform().SetPosition(10, 10);
+		pFPSDisplay->AddComponent(std::make_unique<dae::FPSDisplay>(pFPSDisplay.get(), 0.2f, pFont, SDL_Color{ 255, 255, 255, 255 }));
+
+		scene.Add(pFPSDisplay);
 	}
 }
 

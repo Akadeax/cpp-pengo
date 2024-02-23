@@ -8,6 +8,8 @@ namespace dae
 	{
 	public:
 		virtual void Update() {}
+		virtual void LateUpdate() {}
+		virtual void FixedUpdate() {}
 		virtual void Render() const {}
 
 		explicit Component(GameObject* pParent);

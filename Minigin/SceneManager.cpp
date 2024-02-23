@@ -10,6 +10,22 @@ void dae::SceneManager::Update()
 	}
 }
 
+void dae::SceneManager::LateUpdate()
+{
+	for (const auto& scene : m_Scenes)
+	{
+		scene->LateUpdate();
+	}
+}
+
+void dae::SceneManager::FixedUpdate()
+{
+	for (const auto& scene : m_Scenes)
+	{
+		scene->FixedUpdate();
+	}
+}
+
 void dae::SceneManager::Render() const
 {
 	for (const auto& scene : m_Scenes)

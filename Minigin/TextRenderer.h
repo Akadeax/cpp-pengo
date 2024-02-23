@@ -10,7 +10,7 @@ namespace dae
 	class Texture2D;
 	class Font;
 
-	class TextRenderer final : public TextureRenderer
+	class TextRenderer : public TextureRenderer
 	{
 	public:
 		TextRenderer(GameObject* pParent, std::string text, std::shared_ptr<Font> font, SDL_Color color);
