@@ -1,7 +1,5 @@
 #include "GameObject.h"
 
-#include "Component.h"
-
 void dae::GameObject::Update() const
 {
 	for (const auto& component : m_Components)

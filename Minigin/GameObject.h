@@ -3,10 +3,10 @@
 #include <vector>
 
 #include "Transform.h"
+#include "Component.h"
 
 namespace dae
 {
-	class Component;
 	class Texture2D;
 
 	class GameObject final
