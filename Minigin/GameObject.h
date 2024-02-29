@@ -7,6 +7,8 @@
 
 namespace dae
 {
+	struct SceneTreeOperationException{};
+
 	class Texture2D;
 
 	class GameObject final
@@ -30,9 +32,22 @@ namespace dae
 		template<std::derived_from<Component> TComponent>
 		std::vector<TComponent*> GetComponents() const;
 
+		GameObject* GetParent() const;
+
+		void AttachChild(std::unique_ptr<GameObject> go, bool keepWorldPosition = false);
+		std::unique_ptr<GameObject> DetachChild(const GameObject* go, bool keepWorldPosition = false);
+
+		size_t GetChildCount() const;
+		GameObject* GetChildAt(int index) const;
+		const std::vector<std::unique_ptr<GameObject>>& GetChildren() const;
+
 	private:
-		Transform m_Transform{};
+		Transform m_Transform{ this };
 		std::vector<std::unique_ptr<Component>> m_Components{};
+
+		GameObject* m_pParent{};
+		// https://github.com/SixArne/Luna-Engine/blob/main/Engine/GameObject.h
+		std::vector<std::unique_ptr<GameObject>> m_Children{};
 	};
 
 

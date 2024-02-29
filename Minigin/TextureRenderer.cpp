@@ -13,6 +13,6 @@ void dae::TextureRenderer::Render() const
 {
 	if (m_pTexture == nullptr) return;
 
-	const auto& pos = GetParent()->GetTransform().GetPosition();
+	const glm::vec2 pos{ GetParent()->GetTransform().GetWorldPosition() };
 	Renderer::GetInstance().RenderTexture(*m_pTexture, pos.x, pos.y);
 }

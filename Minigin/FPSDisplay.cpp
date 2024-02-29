@@ -14,15 +14,18 @@ void dae::FPSDisplay::Update()
 {
 	TextRenderer::Update();
 
-	m_CurrentUpdateTime += Time::GetInstance().GetDeltaTime();
-	if (m_CurrentUpdateTime > m_UpdateIntervalSecs)
+	m_CurrentDeltaSum += Time::GetInstance().GetDeltaTime();
+	++m_CurrentDeltaCount;
+
+	if (m_CurrentDeltaSum > m_UpdateIntervalSecs)
 	{
-		m_CurrentUpdateTime = 0.f;
+		const float averageFPS{ 1.f / (m_CurrentDeltaSum / static_cast<float>(m_CurrentDeltaCount)) };
+		m_CurrentDeltaSum = 0.f;
+		m_CurrentDeltaCount = 0;
 
 		std::stringstream ss{};
 		ss << std::fixed << std::setprecision(1);
-		ss << (1.f / Time::GetInstance().GetDeltaTime());
-
+		ss << averageFPS;
 		SetText(ss.str());
 	}
 }

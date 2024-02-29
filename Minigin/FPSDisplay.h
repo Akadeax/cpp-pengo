@@ -13,7 +13,9 @@ namespace dae
 	private:
 		float m_UpdateIntervalSecs;
 
-		float m_CurrentUpdateTime{ 0.f };
+		float m_CurrentDeltaSum{ 0.f };
+		uint16_t m_CurrentDeltaCount{ 0 };
+
 	};
 }
 

@@ -2,6 +2,7 @@
 #include "GameObject.h"
 
 #include <algorithm>
+#include <iostream>
 
 using namespace dae;
 
@@ -11,7 +12,7 @@ Scene::Scene(std::string name) : m_Name(std::move(name)) {}
 
 Scene::~Scene() = default;
 
-void Scene::Add(std::shared_ptr<GameObject> object)
+void Scene::Add(std::unique_ptr<GameObject> object)
 {
 	m_Objects.emplace_back(std::move(object));
 }

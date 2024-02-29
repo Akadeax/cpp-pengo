@@ -3,18 +3,30 @@
 
 namespace dae
 {
+	class GameObject;
+
 	class Transform final
 	{
 	public:
-		explicit Transform();
-		explicit Transform(glm::vec2 pos);
+		explicit Transform(GameObject* pGameObject);
+		explicit Transform(GameObject* pGameObject, glm::vec2 localPos);
 
-		const glm::vec2& GetPosition() const { return m_Position; }
+		glm::vec2 GetWorldPosition();
+		glm::vec2 GetLocalPosition() const { return m_LocalPosition; }
 
-		void SetPosition(glm::vec2 vec);
-		void SetPosition(float x, float y);
+		void SetWorldPosition(glm::vec2 newWorld);
+		void SetLocalPosition(glm::vec2 newLocal);
+		void Translate(glm::vec2 delta);
+		void SetPositionDirty();
+
 
 	private:
-		glm::vec2 m_Position;
+		GameObject* m_pGameObject;
+
+		glm::vec2 m_LocalPosition{};
+		glm::vec2 m_WorldPosition{};
+		bool m_Dirty{ true };
+
+		void UpdateWorldPosition();
 	};
 }
