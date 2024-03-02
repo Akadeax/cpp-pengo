@@ -27,6 +27,14 @@ void Scene::RemoveAll()
 	m_Objects.clear();
 }
 
+void Scene::Ready() const
+{
+	for (const auto& object : m_Objects)
+	{
+		object->Ready();
+	}
+}
+
 void Scene::Update() const
 {
 	for(const auto& object : m_Objects)

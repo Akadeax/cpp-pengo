@@ -66,6 +66,9 @@
     <ClInclude Include="FPSDisplay.h">
       <Filter>GameObject\Components</Filter>
     </ClInclude>
+    <ClInclude Include="Rotator.h">
+      <Filter>GameObject\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceManager.cpp">
@@ -111,6 +114,9 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="FPSDisplay.cpp">
+      <Filter>GameObject\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Rotator.cpp">
       <Filter>GameObject\Components</Filter>
     </ClCompile>
   </ItemGroup>

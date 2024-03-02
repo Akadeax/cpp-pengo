@@ -13,9 +13,10 @@ namespace dae
 	public:
 		Scene& CreateScene(const std::string& name);
 
-		void Update();
-		void LateUpdate();
-		void FixedUpdate();
+		void Ready() const;
+		void Update() const;
+		void LateUpdate() const;
+		void FixedUpdate() const;
 		void Render() const;
 
 	private:

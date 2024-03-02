@@ -1,5 +1,8 @@
 #include <stdexcept>
 #include "Renderer.h"
+
+#include <glm/glm.hpp>
+
 #include "SceneManager.h"
 #include "Texture2D.h"
 
@@ -56,14 +59,17 @@ void dae::Renderer::RenderTexture(const Texture2D& texture, const float x, const
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
 }
 
-void dae::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, const float width, const float height) const
+void dae::Renderer::RenderTexture(const Texture2D& texture, glm::vec2 pos, float rotation, glm::vec2 scale) const
 {
 	SDL_Rect dst{};
-	dst.x = static_cast<int>(x);
-	dst.y = static_cast<int>(y);
-	dst.w = static_cast<int>(width);
-	dst.h = static_cast<int>(height);
-	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
+	dst.x = static_cast<int>(pos.x);
+	dst.y = static_cast<int>(pos.y);
+	SDL_QueryTexture(texture.GetSDLTexture(), nullptr, nullptr, &dst.w, &dst.h);
+	// First cast to float to multiply, and then back to int for pixels
+	dst.w = static_cast<int>(static_cast<float>(dst.w) * scale.x);
+	dst.h = static_cast<int>(static_cast<float>(dst.h) * scale.y);
+
+	SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst, glm::degrees(rotation), nullptr, SDL_FLIP_NONE);
 }
 
 SDL_Renderer* dae::Renderer::GetSDLRenderer() const { return m_pRenderer; }

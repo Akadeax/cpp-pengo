@@ -16,6 +16,7 @@ namespace dae
 	public:
 		GameObject() = default;
 
+		void Ready();
 		void Update() const;
 		void LateUpdate() const;
 		void FixedUpdate() const;
@@ -46,7 +47,6 @@ namespace dae
 		std::vector<std::unique_ptr<Component>> m_Components{};
 
 		GameObject* m_pParent{};
-		// https://github.com/SixArne/Luna-Engine/blob/main/Engine/GameObject.h
 		std::vector<std::unique_ptr<GameObject>> m_Children{};
 	};
 

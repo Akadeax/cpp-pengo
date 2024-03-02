@@ -2,6 +2,19 @@
 
 #include <iostream>
 
+void dae::GameObject::Ready()
+{
+	for (const auto& child : m_Children)
+	{
+		child->Ready();
+	}
+
+	for (const auto& component : m_Components)
+	{
+		component->Ready();
+	}
+}
+
 void dae::GameObject::Update() const
 {
 	for (const auto& child : m_Children)
@@ -109,7 +122,7 @@ std::unique_ptr<dae::GameObject> dae::GameObject::DetachChild(const GameObject* 
 	{
 		detachedTransform.SetLocalPosition(GetTransform().GetWorldPosition() + detachedTransform.GetLocalPosition());
 	}
-	detached->GetTransform().SetPositionDirty();
+	detached->GetTransform().SetDirty();
 
 	m_Children.erase(std::begin(m_Children));
 

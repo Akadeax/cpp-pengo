@@ -7,13 +7,12 @@
 #endif
 #endif
 
-#include <iostream>
-
 #include "Minigin/FPSDisplay.h"
 #include "Minigin/GameObject.h"
 #include "Minigin/Minigin.h"
 #include "Minigin/SceneManager.h"
 #include "Minigin/ResourceManager.h"
+#include "Minigin/Rotator.h"
 #include "Minigin/Scene.h"
 #include "Minigin/TextRenderer.h"
 
@@ -57,25 +56,29 @@ void Load()
 
 		pFPSDisplay->GetTransform().SetLocalPosition(glm::vec2(10, 10));
 		pFPSDisplay->AddComponent(std::make_unique<dae::FPSDisplay>(pFPSDisplay.get(), 0.2f, pFont, SDL_Color{ 255, 255, 255, 255 }));
-
+		pFPSDisplay->AddComponent(std::make_unique<dae::Rotator>(pFPSDisplay.get(), 2.f));
 		scene.Add(std::move(pFPSDisplay));
 	}
 
 	{
-		std::unique_ptr pParent{ std::make_unique<dae::GameObject>() };
+		// Scene tree:
+		// pCenterParent (rotates) -> pPengo (rotates) -> pSnobee
+		std::unique_ptr pCenterParent{ std::make_unique<dae::GameObject>() };
+		pCenterParent->GetTransform().SetLocalPosition(glm::vec2(250, 250));
+		pCenterParent->AddComponent(std::make_unique<dae::Rotator>(pCenterParent.get(), 2.f));
 
-		pParent->GetTransform().SetLocalPosition(glm::vec2(250, 250));
-		pParent->AddComponent(std::make_unique<dae::TextRenderer>(pParent.get(), "P", pFont, SDL_Color{ 255, 255, 255, 255 }));
+		std::unique_ptr pPengo{ std::make_unique<dae::GameObject>() };
+		pPengo->GetTransform().SetLocalPosition(glm::vec2(50, 0));
+		pPengo->AddComponent(std::make_unique<dae::TextureRenderer>(pPengo.get(), dae::ResourceManager::GetInstance().LoadTexture("pengo.png")));
+		pPengo->AddComponent(std::make_unique<dae::Rotator>(pPengo.get(), 2.f));
 
+		std::unique_ptr pSnobee{ std::make_unique<dae::GameObject>() };
+		pSnobee->GetTransform().SetLocalPosition(glm::vec2(50, 0));
+		pSnobee->AddComponent(std::make_unique<dae::TextureRenderer>(pSnobee.get(), dae::ResourceManager::GetInstance().LoadTexture("snobee.png")));
 
-		std::unique_ptr pChild{ std::make_unique<dae::GameObject>() };
-
-		pChild->GetTransform().SetLocalPosition(glm::vec2(50, 50));
-		pChild->AddComponent(std::make_unique<dae::TextRenderer>(pChild.get(), "C", pFont, SDL_Color{ 255, 255, 255, 255 }));
-
-		pParent->AttachChild(std::move(pChild));
-
-		scene.Add(std::move(pParent));
+		pPengo->AttachChild(std::move(pSnobee));
+		pCenterParent->AttachChild(std::move(pPengo));
+		scene.Add(std::move(pCenterParent));
 	}
 }
 

@@ -85,8 +85,10 @@ void dae::Minigin::Run(const std::function<void()>& load)
 	load();
 
 	auto& renderer{ Renderer::GetInstance() };
-	auto& sceneManager{ SceneManager::GetInstance() };
+	const auto& sceneManager{ SceneManager::GetInstance() };
 	auto& input{ InputManager::GetInstance() };
+
+	sceneManager.Ready();
 
 	constexpr float targetFPS{ 60.f };
 	constexpr long targetFrameTimeMs{ static_cast<long>(1.f / targetFPS * 1000) };

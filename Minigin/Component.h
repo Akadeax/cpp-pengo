@@ -7,6 +7,7 @@ namespace dae
 	class Component
 	{
 	public:
+		virtual void Ready() {}
 		virtual void Update() {}
 		virtual void LateUpdate() {}
 		virtual void FixedUpdate() {}
