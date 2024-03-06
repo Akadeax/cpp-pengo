@@ -1,7 +1,7 @@
 #include "Rotator.h"
 
 #include "GameObject.h"
-#include "Time.h"
+#include "GameTime.h"
 
 dae::Rotator::Rotator(GameObject* pParent, float radiansPerSecond)
 	: Component(pParent)
@@ -11,6 +11,6 @@ dae::Rotator::Rotator(GameObject* pParent, float radiansPerSecond)
 
 void dae::Rotator::Update()
 {
-	GetParent()->GetTransform().Rotate(m_RadiansPerSecond * Time::GetInstance().GetDeltaTime());
+	GetParent()->GetTransform().Rotate(m_RadiansPerSecond * GameTime::GetInstance().GetDeltaTime());
 
 }

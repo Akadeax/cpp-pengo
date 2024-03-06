@@ -1,3 +1,4 @@
+#define SDL_MAIN_HANDLED
 #include <SDL.h>
 
 #if _DEBUG
@@ -84,6 +85,8 @@ void Load()
 
 int main(int, char* [])
 {
+	SDL_SetMainReady();
+
 	dae::Minigin engine("Data/");
 	engine.Run(Load);
 	return 0;

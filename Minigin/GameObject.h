@@ -21,6 +21,7 @@ namespace dae
 		void LateUpdate() const;
 		void FixedUpdate() const;
 		void Render() const;
+		void OnImGui() const;
 
 		Transform& GetTransform() { return m_Transform; }
 

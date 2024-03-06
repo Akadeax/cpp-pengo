@@ -1,6 +1,6 @@
 #include "FPSDisplay.h"
 
-#include "Time.h"
+#include "GameTime.h"
 #include <sstream>
 #include <iomanip>
 
@@ -14,7 +14,7 @@ void dae::FPSDisplay::Update()
 {
 	TextRenderer::Update();
 
-	m_CurrentDeltaSum += Time::GetInstance().GetDeltaTime();
+	m_CurrentDeltaSum += GameTime::GetInstance().GetDeltaTime();
 	++m_CurrentDeltaCount;
 
 	if (m_CurrentDeltaSum > m_UpdateIntervalSecs)

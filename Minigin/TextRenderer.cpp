@@ -7,7 +7,7 @@
 #include "Font.h"
 #include "Renderer.h"
 #include "Texture2D.h"
-#include "Time.h"
+#include "GameTime.h"
 
 dae::TextRenderer::TextRenderer(GameObject* pParent, std::string text, std::shared_ptr<Font> font, SDL_Color color)
 	: TextureRenderer(pParent, nullptr), m_Text{ std::move(text) }, m_pFont{ std::move(font) }, m_Color{ color }

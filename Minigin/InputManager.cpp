@@ -1,24 +1,25 @@
 #include <SDL.h>
 #include "InputManager.h"
 
+#include <backends/imgui_impl_sdl2.h>
+
 bool dae::InputManager::ProcessInput()
 {
 	SDL_Event e;
 	while (SDL_PollEvent(&e)) 
 	{
-		if (e.type == SDL_QUIT)
+		if (e.type == SDL_QUIT) 
 		{
 			return false;
 		}
-		if (e.type == SDL_KEYDOWN)
+
+		// Passing event to ImGui
+		ImGui_ImplSDL2_ProcessEvent(&e);
+
+		if (e.type == SDL_WINDOWEVENT && e.window.event == SDL_WINDOWEVENT_CLOSE)
 		{
-			
+			return false;
 		}
-		if (e.type == SDL_MOUSEBUTTONDOWN) 
-		{
-			
-		}
-		// etc...
 	}
 
 	return true;

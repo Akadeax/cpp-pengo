@@ -12,6 +12,7 @@ namespace dae
 		virtual void LateUpdate() {}
 		virtual void FixedUpdate() {}
 		virtual void Render() const {}
+		virtual void OnImGui() const {}
 
 		explicit Component(GameObject* pParent);
 		virtual ~Component() = default;

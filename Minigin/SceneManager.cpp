@@ -42,6 +42,14 @@ void dae::SceneManager::Render() const
 	}
 }
 
+void dae::SceneManager::OnImGui() const
+{
+	for (const auto& scene : m_Scenes)
+	{
+		scene->OnImGui();
+	}
+}
+
 dae::Scene& dae::SceneManager::CreateScene(const std::string& name)
 {
 	const auto& scene{ std::shared_ptr<Scene>(new Scene(name)) };

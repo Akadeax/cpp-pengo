@@ -18,6 +18,7 @@ namespace dae
 		void LateUpdate() const;
 		void FixedUpdate() const;
 		void Render() const;
+		void OnImGui() const;
 
 	private:
 		friend class Singleton;

@@ -67,6 +67,19 @@ void dae::GameObject::Render() const
 	}
 }
 
+void dae::GameObject::OnImGui() const
+{
+	for (const auto& child : m_Children)
+	{
+		child->OnImGui();
+	}
+
+	for (const auto& component : m_Components)
+	{
+		component->OnImGui();
+	}
+}
+
 void dae::GameObject::AddComponent(std::unique_ptr<Component> pComponent)
 {
 	m_Components.emplace_back(std::move(pComponent));

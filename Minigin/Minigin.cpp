@@ -7,13 +7,14 @@
 #include "Minigin.h"
 
 #include <chrono>
+#include <iostream>
 #include <thread>
 
 #include "InputManager.h"
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
-#include "Time.h"
+#include "GameTime.h"
 
 SDL_Window* g_window{};
 
@@ -37,19 +38,19 @@ void PrintSDLVersion()
 		version.major, version.minor, version.patch);
 
 	SDL_TTF_VERSION(&version)
-	printf("We compiled against SDL_ttf version %u.%u.%u ...\n",
-		version.major, version.minor, version.patch);
+		printf("We compiled against SDL_ttf version %u.%u.%u ...\n",
+			version.major, version.minor, version.patch);
 
 	version = *TTF_Linked_Version();
 	printf("We are linking against SDL_ttf version %u.%u.%u.\n",
 		version.major, version.minor, version.patch);
 }
 
-dae::Minigin::Minigin(const std::string &dataPath)
+dae::Minigin::Minigin(const std::string& dataPath)
 {
 	PrintSDLVersion();
-	
-	if (SDL_Init(SDL_INIT_VIDEO) != 0) 
+
+	if (SDL_Init(SDL_INIT_VIDEO) != 0)
 	{
 		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
 	}
@@ -62,7 +63,7 @@ dae::Minigin::Minigin(const std::string &dataPath)
 		480,
 		SDL_WINDOW_OPENGL
 	);
-	if (g_window == nullptr) 
+	if (g_window == nullptr)
 	{
 		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
 	}
@@ -104,16 +105,15 @@ void dae::Minigin::Run(const std::function<void()>& load)
 		const float delta{ std::chrono::duration<float>(currentTime - lastFrameStartTime).count() };
 		lastFrameStartTime = currentTime;
 
-		Time::GetInstance().SetDeltaTime(delta);
+		GameTime::GetInstance().SetDeltaTime(delta);
 
 		doContinue = input.ProcessInput();
-
 		lag += delta;
 
-		while (lag >= Time::FIXED_TIME_STEP)
+		while (lag >= GameTime::FIXED_TIME_STEP)
 		{
 			sceneManager.FixedUpdate();
-			lag -= Time::FIXED_TIME_STEP;
+			lag -= GameTime::FIXED_TIME_STEP;
 		}
 
 		sceneManager.Update();
