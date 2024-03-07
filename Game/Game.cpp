@@ -8,6 +8,7 @@
 #endif
 #endif
 
+#include "CacheThrasher.h"
 #include "Minigin/FPSDisplay.h"
 #include "Minigin/GameObject.h"
 #include "Minigin/Minigin.h"
@@ -80,6 +81,12 @@ void Load()
 		pPengo->AttachChild(std::move(pSnobee));
 		pCenterParent->AttachChild(std::move(pPengo));
 		scene.Add(std::move(pCenterParent));
+	}
+
+	{
+		std::unique_ptr pImGuiDisplayer{ std::make_unique<dae::GameObject>() };
+		pImGuiDisplayer->AddComponent(std::make_unique<dae::CacheThrasher>(pImGuiDisplayer.get()));
+		scene.Add(std::move(pImGuiDisplayer));
 	}
 }
 

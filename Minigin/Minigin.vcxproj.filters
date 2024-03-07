@@ -72,6 +72,9 @@
     <ClInclude Include="Rotator.h">
       <Filter>GameObject\Components</Filter>
     </ClInclude>
+    <ClInclude Include="CacheThrasher.h">
+      <Filter>GameObject\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceManager.cpp">
@@ -145,6 +148,9 @@
     </ClCompile>
     <ClCompile Include="..\3rdParty\imgui\backends\imgui_impl_opengl3.cpp">
       <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="CacheThrasher.cpp">
+      <Filter>GameObject\Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

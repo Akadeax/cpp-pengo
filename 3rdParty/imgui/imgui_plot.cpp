@@ -1,9 +1,19 @@
-#ifndef IMGUI_DEFINE_MATH_OPERATORS
-#define IMGUI_DEFINE_MATH_OPERATORS
-#endif
 #include <imgui_plot.h>
 #include <imgui.h>
 #include <imgui_internal.h>
+
+// Visual Studio warnings
+#ifdef _MSC_VER
+#pragma warning (disable: 4127)             // condition expression is constant
+#pragma warning (disable: 4996)             // 'This function or variable may be unsafe': strcpy, strdup, sprintf, vsnprintf, sscanf, fopen
+#if defined(_MSC_VER) && _MSC_VER >= 1922   // MSVC 2019 16.2 or later
+#pragma warning (disable: 5054)             // operator '|': deprecated between enumerations of different types
+#endif
+#pragma warning (disable: 26451)            // [Static Analyzer] Arithmetic overflow : Using operator 'xxx' on a 4 byte value and then casting the result to an 8 byte value. Cast the value to the wider type before calling operator 'xxx' to avoid overflow(io.2).
+#pragma warning (disable: 26495)            // [Static Analyzer] Variable 'XXX' is uninitialized. Always initialize a member variable (type.6).
+#pragma warning (disable: 26812)            // [Static Analyzer] The enum type 'xxx' is unscoped. Prefer 'enum class' over 'enum' (Enum.3).
+#endif
+
 
 namespace ImGui {
 // [0..1] -> [0..1]
@@ -12,7 +22,7 @@ static float rescale(float t, float min, float max, PlotConfig::Scale::Type type
     case PlotConfig::Scale::Linear:
         return t;
     case PlotConfig::Scale::Log10:
-        return static_cast<float>(log10(ImLerp(min, max, t) / min) / log10(max / min));
+        return log10f(ImLerp(min, max, t) / min) / log10f(max / min);
     }
     return 0;
 }
@@ -23,7 +33,7 @@ static float rescale_inv(float t, float min, float max, PlotConfig::Scale::Type 
     case PlotConfig::Scale::Linear:
         return t;
     case PlotConfig::Scale::Log10:
-        return static_cast<float>((pow(max/min, t) * min - min) / (max - min));
+        return (powf(max/min, t) * min - min) / (max - min);
     }
     return 0;
 }
@@ -114,10 +124,10 @@ PlotStatus Plot(const char* label, const PlotConfig& conf) {
                 float cnt = conf.values.count / (conf.grid_x.size / conf.grid_x.subticks);
                 float inc = 1.f / cnt;
                 for (int i = 0; i <= cnt; ++i) {
-                    float x0 = ImLerp(inner_bb.Min.x, inner_bb.Max.x, i * inc);
+                    int x0 = static_cast<int>(ImLerp(inner_bb.Min.x, inner_bb.Max.x, static_cast<float>(i) * inc));
                     window->DrawList->AddLine(
-                        ImVec2(x0, static_cast<float>(y0)),
-                        ImVec2(x0, static_cast<float>(y1)),
+                        ImVec2(static_cast<float>(x0), static_cast<float>(y0)),
+                        ImVec2(static_cast<float>(x0), static_cast<float>(y1)),
                         IM_COL32(200, 200, 200, (i % conf.grid_x.subticks) ? 128 : 255));
                 }
                 break;
@@ -129,11 +139,11 @@ PlotStatus Plot(const char* label, const PlotConfig& conf) {
                         float x = start * i;
                         if (x < x_min) continue;
                         if (x > x_max) break;
-                        float t = static_cast<float>(log10(x / x_min) / log10(x_max / x_min));
-                        float x0 = ImLerp(inner_bb.Min.x, inner_bb.Max.x, t);
+                        float t = log10f(x / x_min) / log10f(x_max / x_min);
+                        int x0 = static_cast<int>(ImLerp(inner_bb.Min.x, inner_bb.Max.x, t));
                         window->DrawList->AddLine(
-                            ImVec2(x0, static_cast<float>(y0)),
-                            ImVec2(x0, static_cast<float>(y1)),
+                            ImVec2(static_cast<float>(x0), static_cast<float>(y0)),
+                            ImVec2(static_cast<float>(x0), static_cast<float>(y1)),
                             IM_COL32(200, 200, 200, (i > 1) ? 128 : 255));
                     }
                     start *= 10.f;
@@ -143,15 +153,15 @@ PlotStatus Plot(const char* label, const PlotConfig& conf) {
             }
         }
         if (conf.grid_y.show) {
-            float x0 = inner_bb.Min.x;
-            float x1 = inner_bb.Max.x;
+            int x0 = static_cast<int>(inner_bb.Min.x);
+            int x1 = static_cast<int>(inner_bb.Max.x);
             float cnt = (conf.scale.max - conf.scale.min) / (conf.grid_y.size / conf.grid_y.subticks);
             float inc = 1.f / cnt;
             for (int i = 0; i <= cnt; ++i) {
-                float y0 = ImLerp(inner_bb.Min.y, inner_bb.Max.y, i * inc);
+                int y0 = static_cast<int>(ImLerp(inner_bb.Min.y, inner_bb.Max.y, static_cast<float>(i) * inc));
                 window->DrawList->AddLine(
-                    ImVec2(x0, y0),
-                    ImVec2(x1, y0),
+                    ImVec2(static_cast<float>(x0), static_cast<float>(y0)),
+                    ImVec2(static_cast<float>(x1), static_cast<float>(y0)),
                     IM_COL32(0, 0, 0, (i % conf.grid_y.subticks) ? 16 : 64));
             }
         }
@@ -219,7 +229,7 @@ PlotStatus Plot(const char* label, const PlotConfig& conf) {
                     uint32_t end = start;
                     if (conf.selection.sanitize_fn)
                         end = conf.selection.sanitize_fn(end - start) + start;
-                    if (end < static_cast<uint32_t>(conf.values.offset + conf.values.count)) {
+                    if (static_cast<int>(end) < conf.values.offset + conf.values.count) {
                         *conf.selection.start = start;
                         *conf.selection.length = end - start;
                         status = PlotStatus::selection_updated;
@@ -235,7 +245,7 @@ PlotStatus Plot(const char* label, const PlotConfig& conf) {
                     if (end > start) {
                         if (conf.selection.sanitize_fn)
                             end = conf.selection.sanitize_fn(end - start) + start;
-                        if (end < static_cast<uint32_t>(conf.values.offset + conf.values.count)) {
+                        if (static_cast<int>(end) < conf.values.offset + conf.values.count) {
                             *conf.selection.length = end - start;
                             status = PlotStatus::selection_updated;
                         }
@@ -244,7 +254,7 @@ PlotStatus Plot(const char* label, const PlotConfig& conf) {
                     ClearActiveID();
                 }
             }
-            float fSelectionStep = 1.0f / item_count;
+            float fSelectionStep = 1.f / static_cast<float>(item_count);
             ImVec2 pos0 = ImLerp(inner_bb.Min, inner_bb.Max,
                                  ImVec2(fSelectionStep * *conf.selection.start, 0.f));
             ImVec2 pos1 = ImLerp(inner_bb.Min, inner_bb.Max,
