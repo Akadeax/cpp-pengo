@@ -1,9 +1,9 @@
 #include "CacheThrasher.h"
 
 #include <chrono>
-#include <iostream>
 #include <SDL_syswm.h>
 #include <vector>
+#include <algorithm>
 
 dae::CacheThrasher::CacheThrasher(GameObject* pParent)
 	: Component(pParent)
