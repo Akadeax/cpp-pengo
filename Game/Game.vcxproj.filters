@@ -11,5 +11,9 @@
     <ClCompile Include="Game.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="PrintCommand.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PrintCommand.h" />
   </ItemGroup>
 </Project>

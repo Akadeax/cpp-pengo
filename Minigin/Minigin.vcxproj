@@ -214,11 +214,15 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\SDL2_ttf.dll" "$(Ou
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CacheThrasher.h" />
+    <ClInclude Include="Command.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="ControllerInputDevice.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FPSDisplay.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="InputDevice.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="KeyboardInputDevice.h" />
     <ClInclude Include="Minigin.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResourceManager.h" />
@@ -243,10 +247,13 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\SDL2_ttf.dll" "$(Ou
     <ClCompile Include="..\3rdParty\imgui\imgui_widgets.cpp" />
     <ClCompile Include="CacheThrasher.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="ControllerInputDevice.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FPSDisplay.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="InputDevice.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="KeyboardInputDevice.cpp" />
     <ClCompile Include="Minigin.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ResourceManager.cpp" />

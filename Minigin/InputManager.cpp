@@ -22,5 +22,14 @@ bool dae::InputManager::ProcessInput()
 		}
 	}
 
+	for (const auto& device : m_InputDevices)
+	{
+		device->ProcessInput();
+	}
 	return true;
+}
+
+void dae::InputManager::AddInputDevice(std::unique_ptr<InputDevice> device)
+{
+	m_InputDevices.push_back(std::move(device));
 }

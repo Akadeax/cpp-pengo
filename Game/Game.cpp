@@ -9,6 +9,8 @@
 #endif
 
 #include "CacheThrasher.h"
+#include "InputManager.h"
+#include "PrintCommand.h"
 #include "Minigin/FPSDisplay.h"
 #include "Minigin/GameObject.h"
 #include "Minigin/Minigin.h"
@@ -83,11 +85,10 @@ void Load()
 		scene.Add(std::move(pCenterParent));
 	}
 
-	{
-		std::unique_ptr pImGuiDisplayer{ std::make_unique<dae::GameObject>() };
-		pImGuiDisplayer->AddComponent(std::make_unique<dae::CacheThrasher>(pImGuiDisplayer.get()));
-		scene.Add(std::move(pImGuiDisplayer));
-	}
+
+	std::unique_ptr keyboard{ std::make_unique<dae::KeyboardInputDevice>()};
+	keyboard->Bind(SDL_SCANCODE_SPACE, dae::InputState::press, std::make_unique<PrintCommand>());
+	dae::InputManager::GetInstance().AddInputDevice(std::move(keyboard));
 }
 
 int main(int, char* [])

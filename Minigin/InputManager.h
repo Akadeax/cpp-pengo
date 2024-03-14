@@ -1,4 +1,7 @@
 #pragma once
+#include <vector>
+
+#include "KeyboardInputDevice.h"
 #include "Singleton.h"
 
 namespace dae
@@ -7,6 +10,10 @@ namespace dae
 	{
 	public:
 		bool ProcessInput();
+		void AddInputDevice(std::unique_ptr<InputDevice> device);
+
+	private:
+		std::vector<std::unique_ptr<InputDevice>> m_InputDevices{};
 	};
 
 }
