@@ -1,7 +1,5 @@
 #include "ControllerInputDevice.h"
 
-#include <Xinput.h>
-
 dae::ControllerInputDevice::ControllerInputDevice(uint32_t controllerIndex)
 	: m_ControllerIndex{ controllerIndex }
 {

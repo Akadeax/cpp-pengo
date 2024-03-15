@@ -251,7 +251,6 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\SDL2_ttf.dll" "$(Ou
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FPSDisplay.cpp" />
     <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="InputDevice.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="KeyboardInputDevice.cpp" />
     <ClCompile Include="Minigin.cpp" />

@@ -4,7 +4,7 @@
 
 #include "InputDevice.h"
 
-#define WIN32_LEAN_AND_MEAN      // Exclude rarely-used stuff from Windows headers
+#define WIN32_LEAN_AND_MEAN // Exclude rarely-used stuff from Windows headers
 #include <windows.h>
 #include <XInput.h>
 
@@ -13,7 +13,7 @@
 
 namespace dae
 {
-    class ControllerInputDevice final : public InputDevice // TODO Implement with Xinput & pimpl
+    class ControllerInputDevice final : public InputDevice // TODO pimpl xinput away
     {
     public:
         enum class ControllerButton

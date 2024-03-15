@@ -10,10 +10,10 @@ namespace dae
 	{
 	public:
 		bool ProcessInput();
-		void AddInputDevice(std::unique_ptr<InputDevice> device);
+		void RegisterInputDevice(std::unique_ptr<InputDevice> device);
 
 	private:
-		std::vector<std::unique_ptr<InputDevice>> m_InputDevices{};
+		std::vector<std::unique_ptr<InputDevice>> m_RegisteredDevices{};
 	};
 
 }

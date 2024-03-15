@@ -2,8 +2,6 @@
 
 namespace dae
 {
-
-
 	class InputDevice
 	{
 	public:
@@ -21,8 +19,6 @@ namespace dae
 		InputDevice(InputDevice&&) noexcept = delete;
 		InputDevice& operator=(const InputDevice&) = delete;
 		InputDevice& operator=(InputDevice&&) noexcept = delete;
-
-
 
 		virtual void ProcessInput() = 0;
 	};

@@ -105,7 +105,7 @@ void Load()
 			dae::InputDevice::InputState::press,
 			std::make_unique<MoveCommand>(pPengo.get(), glm::vec2{ -1.f, 0.f }, speed)
 		);
-		dae::InputManager::GetInstance().AddInputDevice(std::move(keyboard));
+		dae::InputManager::GetInstance().RegisterInputDevice(std::move(keyboard));
 
 
 		// Add Controller Input
@@ -131,7 +131,7 @@ void Load()
 			std::make_unique<MoveCommand>(pSnobee.get(), glm::vec2{ -1.f, 0.f }, speed)
 		);
 
-		dae::InputManager::GetInstance().AddInputDevice(std::move(controller));
+		dae::InputManager::GetInstance().RegisterInputDevice(std::move(controller));
 
 
 

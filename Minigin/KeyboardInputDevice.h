@@ -10,7 +10,7 @@
 
 namespace dae
 {
-	class KeyboardInputDevice final : public InputDevice // TODO Pimpl this away
+	class KeyboardInputDevice final : public InputDevice
 	{
 	public:
 		KeyboardInputDevice() = default;
@@ -36,8 +36,5 @@ namespace dae
 
 		std::array<uint16_t, SDL_NUM_SCANCODES> m_CurrentButtons{};
 		std::array<uint16_t, SDL_NUM_SCANCODES> m_LastFrameButtons{};
-
-		std::array<uint16_t, SDL_NUM_SCANCODES> m_CurrentButtonsDown{};
-		std::array<uint16_t, SDL_NUM_SCANCODES> m_CurrentButtonsUp{};
 	};
 }

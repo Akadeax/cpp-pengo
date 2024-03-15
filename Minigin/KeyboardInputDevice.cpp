@@ -31,6 +31,12 @@ void dae::KeyboardInputDevice::ProcessInput()
 	}
 }
 
+void dae::KeyboardInputDevice::BindKeyboardButton(SDL_Scancode key, InputState inputState, std::unique_ptr<Command> command)
+{
+	const KeyboardBind input{ inputState, key };
+	m_InputBindings[input] = std::move(command);
+}
+
 bool dae::KeyboardInputDevice::IsKeyDown(uint32_t key) const
 {
 	return m_CurrentButtons[key] && !m_LastFrameButtons[key];
@@ -44,10 +50,4 @@ bool dae::KeyboardInputDevice::IsKeyPressed(uint32_t key) const
 bool dae::KeyboardInputDevice::IsKeyUp(uint32_t key) const
 {
 	return !m_CurrentButtons[key] && m_LastFrameButtons[key];
-}
-
-void dae::KeyboardInputDevice::BindKeyboardButton(SDL_Scancode key, InputState inputState, std::unique_ptr<Command> command)
-{
-	const KeyboardBind input{ inputState, key };
-	m_InputBindings[input] = std::move(command);
 }
