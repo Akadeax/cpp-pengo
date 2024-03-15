@@ -46,8 +46,8 @@ bool dae::KeyboardInputDevice::IsKeyUp(uint32_t key) const
 	return !m_CurrentButtons[key] && m_LastFrameButtons[key];
 }
 
-void dae::KeyboardInputDevice::Bind(uint32_t key, InputState inputState, std::unique_ptr<Command> command)
+void dae::KeyboardInputDevice::BindKeyboardButton(SDL_Scancode key, InputState inputState, std::unique_ptr<Command> command)
 {
-	const KeyboardBind input{ inputState, static_cast<SDL_Scancode>(key) };
+	const KeyboardBind input{ inputState, key };
 	m_InputBindings[input] = std::move(command);
 }

@@ -9,8 +9,9 @@
 #endif
 
 #include "CacheThrasher.h"
+#include "ControllerInputDevice.h"
 #include "InputManager.h"
-#include "PrintCommand.h"
+#include "MoveCommand.h"
 #include "Minigin/FPSDisplay.h"
 #include "Minigin/GameObject.h"
 #include "Minigin/Minigin.h"
@@ -69,16 +70,70 @@ void Load()
 		// pCenterParent (rotates) -> pPengo (rotates) -> pSnobee
 		std::unique_ptr pCenterParent{ std::make_unique<dae::GameObject>() };
 		pCenterParent->GetTransform().SetLocalPosition(glm::vec2(250, 250));
-		pCenterParent->AddComponent(std::make_unique<dae::Rotator>(pCenterParent.get(), 2.f));
+		//pCenterParent->AddComponent(std::make_unique<dae::Rotator>(pCenterParent.get(), 2.f));
 
 		std::unique_ptr pPengo{ std::make_unique<dae::GameObject>() };
 		pPengo->GetTransform().SetLocalPosition(glm::vec2(50, 0));
 		pPengo->AddComponent(std::make_unique<dae::TextureRenderer>(pPengo.get(), dae::ResourceManager::GetInstance().LoadTexture("pengo.png")));
-		pPengo->AddComponent(std::make_unique<dae::Rotator>(pPengo.get(), 2.f));
+		//pPengo->AddComponent(std::make_unique<dae::Rotator>(pPengo.get(), 2.f));
 
 		std::unique_ptr pSnobee{ std::make_unique<dae::GameObject>() };
 		pSnobee->GetTransform().SetLocalPosition(glm::vec2(50, 0));
 		pSnobee->AddComponent(std::make_unique<dae::TextureRenderer>(pSnobee.get(), dae::ResourceManager::GetInstance().LoadTexture("snobee.png")));
+
+		constexpr float speed{ 100.f };
+
+		// Add Keyboard Input
+		std::unique_ptr keyboard{ std::make_unique<dae::KeyboardInputDevice>() };
+		keyboard->BindKeyboardButton(
+			SDL_SCANCODE_W,
+			dae::InputDevice::InputState::press,
+			std::make_unique<MoveCommand>(pPengo.get(), glm::vec2{0.f, -1.f}, speed)
+		);
+		keyboard->BindKeyboardButton(
+			SDL_SCANCODE_D,
+			dae::InputDevice::InputState::press,
+			std::make_unique<MoveCommand>(pPengo.get(), glm::vec2{ 1.f, 0.f }, speed)
+		);
+		keyboard->BindKeyboardButton(
+			SDL_SCANCODE_S,
+			dae::InputDevice::InputState::press,
+			std::make_unique<MoveCommand>(pPengo.get(), glm::vec2{ 0.f, 1.f }, speed)
+		);
+		keyboard->BindKeyboardButton(
+			SDL_SCANCODE_A,
+			dae::InputDevice::InputState::press,
+			std::make_unique<MoveCommand>(pPengo.get(), glm::vec2{ -1.f, 0.f }, speed)
+		);
+		dae::InputManager::GetInstance().AddInputDevice(std::move(keyboard));
+
+
+		// Add Controller Input
+		std::unique_ptr controller{ std::make_unique<dae::ControllerInputDevice>(0) };
+		controller->BindControllerButton(
+			dae::ControllerInputDevice::ControllerButton::dpadUp,
+			dae::InputDevice::InputState::press,
+			std::make_unique<MoveCommand>(pSnobee.get(), glm::vec2{ 0.f, -1.f }, speed)
+		);
+		controller->BindControllerButton(
+			dae::ControllerInputDevice::ControllerButton::dpadRight,
+			dae::InputDevice::InputState::press,
+			std::make_unique<MoveCommand>(pSnobee.get(), glm::vec2{ 1.f, 0.f }, speed)
+		);
+		controller->BindControllerButton(
+			dae::ControllerInputDevice::ControllerButton::dpadDown,
+			dae::InputDevice::InputState::press,
+			std::make_unique<MoveCommand>(pSnobee.get(), glm::vec2{ 0.f, 1.f }, speed)
+		);
+		controller->BindControllerButton(
+			dae::ControllerInputDevice::ControllerButton::dpadLeft,
+			dae::InputDevice::InputState::press,
+			std::make_unique<MoveCommand>(pSnobee.get(), glm::vec2{ -1.f, 0.f }, speed)
+		);
+
+		dae::InputManager::GetInstance().AddInputDevice(std::move(controller));
+
+
 
 		pPengo->AttachChild(std::move(pSnobee));
 		pCenterParent->AttachChild(std::move(pPengo));
@@ -86,9 +141,9 @@ void Load()
 	}
 
 
-	std::unique_ptr keyboard{ std::make_unique<dae::KeyboardInputDevice>()};
-	keyboard->Bind(SDL_SCANCODE_SPACE, dae::InputState::press, std::make_unique<PrintCommand>());
-	dae::InputManager::GetInstance().AddInputDevice(std::move(keyboard));
+
+
+
 }
 
 int main(int, char* [])

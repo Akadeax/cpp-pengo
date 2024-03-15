@@ -10,7 +10,7 @@
 
 namespace dae
 {
-	class KeyboardInputDevice final : public InputDevice
+	class KeyboardInputDevice final : public InputDevice // TODO Pimpl this away
 	{
 	public:
 		KeyboardInputDevice() = default;
@@ -23,12 +23,12 @@ namespace dae
 
 		void ProcessInput() override;
 
-		void Bind(uint32_t key, InputState inputState, std::unique_ptr<Command> command) override;
+		void BindKeyboardButton(SDL_Scancode key, InputState inputState, std::unique_ptr<Command> command);
 
 	private:
-		bool IsKeyDown(uint32_t key) const override;
-		bool IsKeyPressed(uint32_t key) const override;
-		bool IsKeyUp(uint32_t key) const override;
+		bool IsKeyDown(uint32_t key) const;
+		bool IsKeyPressed(uint32_t key) const;
+		bool IsKeyUp(uint32_t key) const;
 
 		using KeyboardBind = std::pair<InputState, SDL_Scancode>;
 
