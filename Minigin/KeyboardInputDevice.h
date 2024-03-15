@@ -4,6 +4,7 @@
 #include <memory>
 #include <SDL_scancode.h>
 #include <utility>
+#include <vector>
 
 #include "Command.h"
 #include "InputDevice.h"
@@ -30,9 +31,8 @@ namespace dae
 		bool IsKeyPressed(uint32_t key) const;
 		bool IsKeyUp(uint32_t key) const;
 
-		using KeyboardBind = std::pair<InputState, SDL_Scancode>;
-
-		std::map<KeyboardBind, std::unique_ptr<Command>> m_InputBindings{};
+		using KeyboardBind = std::tuple<InputState, SDL_Scancode, std::unique_ptr<Command>>;
+		std::vector<KeyboardBind> m_InputBindings{};
 
 		std::array<uint16_t, SDL_NUM_SCANCODES> m_CurrentButtons{};
 		std::array<uint16_t, SDL_NUM_SCANCODES> m_LastFrameButtons{};

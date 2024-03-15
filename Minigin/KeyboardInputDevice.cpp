@@ -18,12 +18,12 @@ void dae::KeyboardInputDevice::ProcessInput()
 	}
 
 
-	for (const auto& [bind, command] : m_InputBindings)
+	for (const auto& [inputState, key, command] : m_InputBindings)
 	{
 		if (
-			(bind.first == InputState::down && IsKeyDown(bind.second)) ||
-			(bind.first == InputState::press && IsKeyPressed(bind.second)) ||
-			(bind.first == InputState::up && IsKeyUp(bind.second))
+			(inputState == InputState::down && IsKeyDown(key)) ||
+			(inputState == InputState::press && IsKeyPressed(key)) ||
+			(inputState == InputState::up && IsKeyUp(key))
 			)
 		{
 			command->Execute();
@@ -33,8 +33,7 @@ void dae::KeyboardInputDevice::ProcessInput()
 
 void dae::KeyboardInputDevice::BindKeyboardButton(SDL_Scancode key, InputState inputState, std::unique_ptr<Command> command)
 {
-	const KeyboardBind input{ inputState, key };
-	m_InputBindings[input] = std::move(command);
+	m_InputBindings.emplace_back(inputState, key, std::move(command));
 }
 
 bool dae::KeyboardInputDevice::IsKeyDown(uint32_t key) const

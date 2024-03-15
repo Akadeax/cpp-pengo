@@ -3,6 +3,7 @@
 #include <map>
 
 #define WIN32_LEAN_AND_MEAN // Exclude rarely-used stuff from Windows headers
+#include <vector>
 #include <windows.h>
 #include <XInput.h>
 
@@ -21,8 +22,8 @@ private:
 	bool IsButtonPressed(ControllerButton key) const;
 	bool IsButtonUp(ControllerButton key) const;
 
-	using ControllerBind = std::pair<InputState, ControllerButton>;
-	std::map<ControllerBind, std::unique_ptr<Command>> m_InputBindings{};
+	using ControllerBind = std::tuple<InputState, ControllerButton, std::unique_ptr<Command>>;
+	std::vector<ControllerBind> m_InputBindings{};
 
 	XINPUT_STATE m_CurrentInput{};
 	XINPUT_STATE m_LastFrameInput{};
@@ -50,12 +51,12 @@ void dae::ControllerInputDevice::ControllerInputDeviceImpl::ProcessInput()
 	m_ButtonsPressedThisFrame = buttonChanges & m_CurrentInput.Gamepad.wButtons;
 	m_ButtonsReleasedThisFrame = buttonChanges & ~m_CurrentInput.Gamepad.wButtons;
 
-	for (const auto& [bind, command] : m_InputBindings)
+	for (const auto& [inputState, button, command] : m_InputBindings)
 	{
 		if (
-			(bind.first == InputState::down && IsButtonDown(bind.second)) ||
-			(bind.first == InputState::press && IsButtonPressed(bind.second)) ||
-			(bind.first == InputState::up && IsButtonUp(bind.second))
+			(inputState == InputState::down && IsButtonDown(button)) ||
+			(inputState == InputState::press && IsButtonPressed(button)) ||
+			(inputState == InputState::up && IsButtonUp(button))
 			)
 		{
 			command->Execute();
@@ -66,8 +67,7 @@ void dae::ControllerInputDevice::ControllerInputDeviceImpl::ProcessInput()
 void dae::ControllerInputDevice::ControllerInputDeviceImpl::BindControllerButton(ControllerButton button,
 	InputState inputState, std::unique_ptr<Command> command)
 {
-	const ControllerBind input{ inputState, button };
-	m_InputBindings[input] = std::move(command);
+	m_InputBindings.emplace_back(inputState, button, std::move(command));
 }
 
 bool dae::ControllerInputDevice::ControllerInputDeviceImpl::IsButtonDown(ControllerButton key) const
