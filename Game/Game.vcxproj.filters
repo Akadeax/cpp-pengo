@@ -11,9 +11,13 @@
     <ClCompile Include="Game.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="MoveCommand.cpp" />
+    <ClCompile Include="MoveCommand.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MoveCommand.h" />
+    <ClInclude Include="MoveCommand.h">
+      <Filter>Source</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

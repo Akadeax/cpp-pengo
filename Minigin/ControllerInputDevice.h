@@ -1,19 +1,13 @@
 #pragma once
-#include <map>
 #include <memory>
 
 #include "InputDevice.h"
 
-#define WIN32_LEAN_AND_MEAN // Exclude rarely-used stuff from Windows headers
-#include <windows.h>
-#include <XInput.h>
-
-#include "Command.h"
-
-
 namespace dae
 {
-    class ControllerInputDevice final : public InputDevice // TODO pimpl xinput away
+	class Command;
+
+	class ControllerInputDevice final : public InputDevice
     {
     public:
         enum class ControllerButton
@@ -36,7 +30,7 @@ namespace dae
 
         explicit ControllerInputDevice(uint32_t controllerIndex);
 
-        ~ControllerInputDevice() override = default;
+        ~ControllerInputDevice() override;
         ControllerInputDevice(const ControllerInputDevice&) = delete;
         ControllerInputDevice(ControllerInputDevice&&) noexcept = delete;
         ControllerInputDevice& operator=(const ControllerInputDevice&) = delete;
@@ -47,19 +41,7 @@ namespace dae
         void BindControllerButton(ControllerButton button, InputState inputState, std::unique_ptr<Command> command);
 
     private:
-        bool IsKeyDown(ControllerButton key) const;
-        bool IsKeyPressed(ControllerButton key) const;
-        bool IsKeyUp(ControllerButton key) const;
-
-        using ControllerBind = std::pair<InputState, ControllerButton>;
-        std::map<ControllerBind, std::unique_ptr<Command>> m_InputBindings{};
-
-        XINPUT_STATE m_CurrentInput{};
-        XINPUT_STATE m_LastFrameInput{};
-
-        WORD m_ButtonsPressedThisFrame{};
-        WORD m_ButtonsReleasedThisFrame{};
-
-        uint32_t m_ControllerIndex{};
+        class ControllerInputDeviceImpl;
+        std::unique_ptr<ControllerInputDeviceImpl> m_pImpl;
     };
 }
