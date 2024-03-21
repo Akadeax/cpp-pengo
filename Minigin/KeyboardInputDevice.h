@@ -1,6 +1,5 @@
 #pragma once
 #include <array>
-#include <map>
 #include <memory>
 #include <SDL_scancode.h>
 #include <utility>

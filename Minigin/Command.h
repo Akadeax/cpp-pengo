@@ -2,11 +2,13 @@
 
 namespace dae
 {
+	class GameObject;
+
 	class Command
 	{
 	public:
 		Command() = default;
-		explicit Command(class GameObject* pObject) : m_pGameObject{ pObject } {}
+		explicit Command(GameObject* pObject) : m_pGameObject{ pObject } {}
 		virtual ~Command() = default;
 
 		Command(const Command&) = delete;

@@ -86,6 +86,9 @@
     <ClInclude Include="KeyboardInputDevice.h">
       <Filter>Input</Filter>
     </ClInclude>
+    <ClInclude Include="Signal.h">
+      <Filter>Source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceManager.cpp">
@@ -168,6 +171,9 @@
     </ClCompile>
     <ClCompile Include="KeyboardInputDevice.cpp">
       <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Signal.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

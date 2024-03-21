@@ -26,6 +26,7 @@ namespace dae
 		Transform& GetTransform() { return m_Transform; }
 
 		void AddComponent(std::unique_ptr<Component> pComponent);
+
 		void RemoveComponent(const Component* pComponent);
 
 		template<std::derived_from<Component> TComponent>
@@ -51,13 +52,12 @@ namespace dae
 		std::vector<std::unique_ptr<GameObject>> m_Children{};
 	};
 
-
 	template<std::derived_from<Component> TComponent>
 	TComponent* GameObject::GetComponent() const
 	{
 		for (auto& comp : m_Components)
 		{
-			TComponent* castComponent{ dynamic_cast<TComponent*>(comp) };
+			TComponent* castComponent{ dynamic_cast<TComponent*>(comp.get()) };
 			if (castComponent) return castComponent;
 		}
 

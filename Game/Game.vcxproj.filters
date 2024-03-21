@@ -14,10 +14,28 @@
     <ClCompile Include="MoveCommand.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerController.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="RemoveLifeCommand.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LivesDisplay.cpp" />
+    <ClCompile Include="IncreaseScoreCommand.cpp" />
+    <ClCompile Include="ScoreDisplay.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MoveCommand.h">
       <Filter>Source</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerController.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="RemoveLifeCommand.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="LivesDisplay.h" />
+    <ClInclude Include="IncreaseScoreCommand.h" />
+    <ClInclude Include="ScoreDisplay.h" />
   </ItemGroup>
 </Project>
