@@ -9,6 +9,7 @@
 #include <chrono>
 #include <iostream>
 #include <thread>
+#include <steam_api.h>
 
 #include "InputManager.h"
 #include "SceneManager.h"
@@ -79,10 +80,19 @@ dae::Minigin::~Minigin()
 	SDL_DestroyWindow(g_window);
 	g_window = nullptr;
 	SDL_Quit();
+
+	SteamAPI_Shutdown();
 }
 
 void dae::Minigin::Run(const std::function<void()>& load)
 {
+	if (!SteamAPI_Init())
+	{
+		std::cerr << "Fatal Error - Steam must be running to play this game (SteamAPI_Init() failed).\n";
+		return;
+	}
+	std::cout << "Successfully initialized steam.\n";
+
 	load();
 
 	auto& renderer{ Renderer::GetInstance() };
@@ -115,6 +125,8 @@ void dae::Minigin::Run(const std::function<void()>& load)
 			sceneManager.FixedUpdate();
 			lag -= GameTime::FIXED_TIME_STEP;
 		}
+
+		SteamAPI_RunCallbacks();
 
 		sceneManager.Update();
 		sceneManager.LateUpdate();

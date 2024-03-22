@@ -162,7 +162,7 @@
     </Link>
     <PostBuildEvent>
       <Command>xcopy "$(ProjectDir)Data" "$(OutputPath)Data" /i /e /y
-</Command>
+xcopy "$(ProjectDir)steam_appid.txt" "$(OutputPath)" /i /e /y</Command>
     </PostBuildEvent>
     <PreLinkEvent>
       <Command>xcopy "$(SolutionDir)Minigin\$(Platform)\$(Configuration)\" "$(OutputPath)" /i /e /y</Command>
@@ -190,13 +190,14 @@
     </Link>
     <PostBuildEvent>
       <Command>xcopy "$(ProjectDir)Data" "$(OutputPath)Data" /i /e /y
-</Command>
+xcopy "$(ProjectDir)steam_appid.txt" "$(OutputPath)" /i /e /y</Command>
     </PostBuildEvent>
     <PreLinkEvent>
       <Command>xcopy "$(SolutionDir)Minigin\$(Platform)\$(Configuration)\" "$(OutputPath)" /i /e /y</Command>
     </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AchievementGranter.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="IncreaseScoreCommand.cpp" />
     <ClCompile Include="LivesDisplay.cpp" />
@@ -211,6 +212,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AchievementGranter.h" />
     <ClInclude Include="IncreaseScoreCommand.h" />
     <ClInclude Include="LivesDisplay.h" />
     <ClInclude Include="MoveCommand.h" />

@@ -6,6 +6,12 @@
       <Extensions>
       </Extensions>
     </Filter>
+    <Filter Include="Source\Life">
+      <UniqueIdentifier>{43da52e8-3c81-4922-848a-f9cd4eabcecf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Score">
+      <UniqueIdentifier>{c0d6f402-4778-4627-9d41-a93e72d7e687}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -18,11 +24,18 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="RemoveLifeCommand.cpp">
-      <Filter>Source</Filter>
+      <Filter>Source\Life</Filter>
     </ClCompile>
-    <ClCompile Include="LivesDisplay.cpp" />
-    <ClCompile Include="IncreaseScoreCommand.cpp" />
-    <ClCompile Include="ScoreDisplay.cpp" />
+    <ClCompile Include="LivesDisplay.cpp">
+      <Filter>Source\Life</Filter>
+    </ClCompile>
+    <ClCompile Include="IncreaseScoreCommand.cpp">
+      <Filter>Source\Score</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreDisplay.cpp">
+      <Filter>Source\Score</Filter>
+    </ClCompile>
+    <ClCompile Include="AchievementGranter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MoveCommand.h">
@@ -32,10 +45,17 @@
       <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="RemoveLifeCommand.h">
-      <Filter>Source</Filter>
+      <Filter>Source\Life</Filter>
     </ClInclude>
-    <ClInclude Include="LivesDisplay.h" />
-    <ClInclude Include="IncreaseScoreCommand.h" />
-    <ClInclude Include="ScoreDisplay.h" />
+    <ClInclude Include="LivesDisplay.h">
+      <Filter>Source\Life</Filter>
+    </ClInclude>
+    <ClInclude Include="IncreaseScoreCommand.h">
+      <Filter>Source\Score</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreDisplay.h">
+      <Filter>Source\Score</Filter>
+    </ClInclude>
+    <ClInclude Include="AchievementGranter.h" />
   </ItemGroup>
 </Project>

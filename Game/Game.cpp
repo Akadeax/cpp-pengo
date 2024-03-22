@@ -11,6 +11,7 @@
 #include <iostream>
 #include <sstream>
 
+#include "AchievementGranter.h"
 #include "ControllerInputDevice.h"
 #include "IncreaseScoreCommand.h"
 #include "InputManager.h"
@@ -34,6 +35,10 @@ void Load()
 
 	std::shared_ptr<dae::Font> pFont{ dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36) };
 	std::shared_ptr<dae::Font> pFontSmall{ dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 14) };
+
+	{
+
+	}
 
 	{
 		std::unique_ptr pBackground{ std::make_unique<dae::GameObject>() };
@@ -118,6 +123,13 @@ void Load()
 		scene.Add(std::move(pPengoLivesDisplay));
 		scene.Add(std::move(pPengoScoreDisplay));
 
+		std::unique_ptr pAchievements{ std::make_unique<dae::GameObject>() };
+		pAchievements->AddComponent(std::make_unique<AchievementGranter>(
+			pAchievements.get(),
+			pPengo->GetComponent<PlayerController>())
+		);
+
+		scene.Add(std::move(pAchievements));
 
 
 		// Snobee and its UI
