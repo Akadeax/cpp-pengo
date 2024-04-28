@@ -19,6 +19,8 @@
 #include "PlayerController.h"
 #include "RemoveLifeCommand.h"
 #include "ScoreDisplay.h"
+#include "SDLSoundSystem.h"
+#include "ServiceLocator.h"
 #include "Minigin/FPSDisplay.h"
 #include "Minigin/GameObject.h"
 #include "Minigin/Minigin.h"
@@ -30,6 +32,12 @@
 
 void Load()
 {
+	dae::ServiceLocator::RegisterSoundSystem(std::make_unique<dae::SDLSoundSystem>());
+	dae::ServiceLocator::GetSoundSystem().RegisterSound(
+		dae::SoundSystem::SoundType::sfx,
+		"Data/Sound/act_start.mp3"
+	);
+
 	auto& scene{ dae::SceneManager::GetInstance().CreateScene("Demo") };
 
 	std::shared_ptr<dae::Font> pFont{ dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36) };
@@ -58,8 +66,8 @@ void Load()
 	{
 		std::unique_ptr pTitleText{ std::make_unique<dae::GameObject>() };
 
-		pTitleText->GetTransform().SetLocalPosition(glm::vec2(80, 20));
-		pTitleText->AddComponent(std::make_unique<dae::TextRenderer>(pTitleText.get(), "Programming 4 Assignment :)", pFont, SDL_Color{ 255, 255, 255, 255 }));
+		pTitleText->GetTransform().SetLocalPosition(glm::vec2(100, 20));
+		pTitleText->AddComponent(std::make_unique<dae::TextRenderer>(pTitleText.get(), "Press R for sound", pFont, SDL_Color{ 255, 255, 255, 255 }));
 		
 		scene.Add(std::move(pTitleText));
 	}
