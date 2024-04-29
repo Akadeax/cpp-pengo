@@ -5,7 +5,6 @@
 #include <condition_variable>
 #include <mutex>
 #include <queue>
-#include <SDL_mixer.h>
 #include <thread>
 #include <vector>
 
@@ -116,7 +115,10 @@ namespace dae
 
             while (!m_SoundRequests.empty())
             {
+                if (!lock.owns_lock()) lock.lock();
                 const SoundRequest& currentRequest{ m_SoundRequests.front() };
+                m_SoundRequests.pop();
+                lock.unlock();
 
                 switch (currentRequest.type)
                 {
@@ -131,7 +133,6 @@ namespace dae
                     break;
                 }
 
-                m_SoundRequests.pop();
             }
         }
 	}
