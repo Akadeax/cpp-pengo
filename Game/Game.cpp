@@ -15,12 +15,15 @@
 #include "IncreaseScoreCommand.h"
 #include "InputManager.h"
 #include "LivesDisplay.h"
-#include "MoveCommand.h"
+#include "PlayerMoveCommand.h"
 #include "PlayerController.h"
+#include "PlayerIdleState.h"
+#include "PlayerMoveState.h"
 #include "RemoveLifeCommand.h"
 #include "ScoreDisplay.h"
 #include "SDLSoundSystem.h"
 #include "ServiceLocator.h"
+#include "StateMachine.h"
 #include "Minigin/FPSDisplay.h"
 #include "Minigin/GameObject.h"
 #include "Minigin/Minigin.h"
@@ -88,20 +91,40 @@ void Load()
 			pInfo.get(), "WASD to move pengo, R to damage, T to increase score", pFontSmall, SDL_Color{ 255, 255, 255, 255 })
 		);
 
-		std::unique_ptr pInfo2{ std::make_unique<dae::GameObject>() };
-		pInfo2->GetTransform().SetLocalPosition({ 20, 95 });
-		pInfo2->AddComponent(std::make_unique<dae::TextRenderer>(
-			pInfo2.get(), "D-Pad to move snobee, A to damage, B to increase score", pFontSmall, SDL_Color{ 255, 255, 255, 255 })
-		);
+		//std::unique_ptr pInfo2{ std::make_unique<dae::GameObject>() };
+		//pInfo2->GetTransform().SetLocalPosition({ 20, 95 });
+		//pInfo2->AddComponent(std::make_unique<dae::TextRenderer>(
+		//	pInfo2.get(), "D-Pad to move snobee, A to damage, B to increase score", pFontSmall, SDL_Color{ 255, 255, 255, 255 })
+		//);
 
 		scene.Add(std::move(pInfo));
-		scene.Add(std::move(pInfo2));
+		//scene.Add(std::move(pInfo2));
+	}
 
+	{
 		// Pengo and its UI
 		std::unique_ptr pPengo{ std::make_unique<dae::GameObject>() };
 		pPengo->GetTransform().SetLocalPosition(glm::vec2(150, 200));
 		pPengo->AddComponent(std::make_unique<dae::TextureRenderer>(pPengo.get(), dae::ResourceManager::GetInstance().LoadTexture("pengo.png")));
 		pPengo->AddComponent(std::make_unique<PlayerController>(pPengo.get()));
+
+		// State machine
+		auto stateMachine{ std::make_unique<dae::StateMachine>(pPengo.get()) };
+
+		stateMachine->AddState(std::make_unique<PlayerIdleState>(
+			stateMachine.get(),
+			pPengo->GetComponent<PlayerController>(),
+			1
+		));
+		stateMachine->AddState(std::make_unique<PlayerMoveState>(
+			stateMachine.get(),
+			pPengo->GetComponent<PlayerController>(),
+			0
+		));
+
+		stateMachine->SetState(0);
+
+		pPengo->AddComponent(std::move(stateMachine));
 
 		std::unique_ptr pPengoLivesDisplay{ std::make_unique<dae::GameObject>() };
 		pPengoLivesDisplay->GetTransform().SetLocalPosition({ 20, 120 });
@@ -129,7 +152,7 @@ void Load()
 
 
 		// Snobee and its UI
-		std::unique_ptr pSnobee{ std::make_unique<dae::GameObject>() };
+		/*std::unique_ptr pSnobee{ std::make_unique<dae::GameObject>() };
 		pSnobee->GetTransform().SetLocalPosition(glm::vec2(250, 200));
 		pSnobee->AddComponent(std::make_unique<dae::TextureRenderer>(pSnobee.get(), dae::ResourceManager::GetInstance().LoadTexture("snobee.png")));
 		pSnobee->AddComponent(std::make_unique<PlayerController>(pSnobee.get()));
@@ -155,32 +178,31 @@ void Load()
 		));
 
 		scene.Add(std::move(pSnobeeLivesDisplay));
-		scene.Add(std::move(pSnobeeScoreDisplay));
+		scene.Add(std::move(pSnobeeScoreDisplay));*/
 
 
-		constexpr float speed{ 100.f };
 
 		// Add Keyboard Input
 		std::unique_ptr keyboard{ std::make_unique<dae::KeyboardInputDevice>() };
 		keyboard->BindKeyboardButton(
 			SDL_SCANCODE_W,
 			dae::InputDevice::InputState::press,
-			std::make_unique<MoveCommand>(pPengo.get(), glm::vec2{0.f, -1.f}, speed)
+			std::make_unique<PlayerMoveCommand>(pPengo.get(), glm::vec2{0.f, -1.f})
 		);
 		keyboard->BindKeyboardButton(
 			SDL_SCANCODE_D,
 			dae::InputDevice::InputState::press,
-			std::make_unique<MoveCommand>(pPengo.get(), glm::vec2{ 1.f, 0.f }, speed)
+			std::make_unique<PlayerMoveCommand>(pPengo.get(), glm::vec2{ 1.f, 0.f })
 		);
 		keyboard->BindKeyboardButton(
 			SDL_SCANCODE_S,
 			dae::InputDevice::InputState::press,
-			std::make_unique<MoveCommand>(pPengo.get(), glm::vec2{ 0.f, 1.f }, speed)
+			std::make_unique<PlayerMoveCommand>(pPengo.get(), glm::vec2{ 0.f, 1.f })
 		);
 		keyboard->BindKeyboardButton(
 			SDL_SCANCODE_A,
 			dae::InputDevice::InputState::press,
-			std::make_unique<MoveCommand>(pPengo.get(), glm::vec2{ -1.f, 0.f }, speed)
+			std::make_unique<PlayerMoveCommand>(pPengo.get(), glm::vec2{ -1.f, 0.f })
 		);
 		keyboard->BindKeyboardButton(
 			SDL_SCANCODE_R,
@@ -196,26 +218,26 @@ void Load()
 
 
 		// Add Controller Input
-		std::unique_ptr controller{ std::make_unique<dae::ControllerInputDevice>(0) };
+		/*std::unique_ptr controller{ std::make_unique<dae::ControllerInputDevice>(0) };
 		controller->BindControllerButton(
 			dae::ControllerInputDevice::ControllerButton::dpadUp,
 			dae::InputDevice::InputState::press,
-			std::make_unique<MoveCommand>(pSnobee.get(), glm::vec2{ 0.f, -1.f }, speed * 2)
+			std::make_unique<PlayerMoveCommand>(pSnobee.get(), glm::vec2{ 0.f, -1.f })
 		);
 		controller->BindControllerButton(
 			dae::ControllerInputDevice::ControllerButton::dpadRight,
 			dae::InputDevice::InputState::press,
-			std::make_unique<MoveCommand>(pSnobee.get(), glm::vec2{ 1.f, 0.f }, speed * 2)
+			std::make_unique<PlayerMoveCommand>(pSnobee.get(), glm::vec2{ 1.f, 0.f })
 		);
 		controller->BindControllerButton(
 			dae::ControllerInputDevice::ControllerButton::dpadDown,
 			dae::InputDevice::InputState::press,
-			std::make_unique<MoveCommand>(pSnobee.get(), glm::vec2{ 0.f, 1.f }, speed * 2)
+			std::make_unique<PlayerMoveCommand>(pSnobee.get(), glm::vec2{ 0.f, 1.f })
 		);
 		controller->BindControllerButton(
 			dae::ControllerInputDevice::ControllerButton::dpadLeft,
 			dae::InputDevice::InputState::press,
-			std::make_unique<MoveCommand>(pSnobee.get(), glm::vec2{ -1.f, 0.f }, speed * 2)
+			std::make_unique<PlayerMoveCommand>(pSnobee.get(), glm::vec2{ -1.f, 0.f })
 		);
 		controller->BindControllerButton(
 			dae::ControllerInputDevice::ControllerButton::a,
@@ -227,18 +249,14 @@ void Load()
 			dae::InputDevice::InputState::up,
 			std::make_unique<IncreaseScoreCommand>(pSnobee.get())
 		);
-		dae::InputManager::GetInstance().RegisterInputDevice(std::move(controller));
+		dae::InputManager::GetInstance().RegisterInputDevice(std::move(controller));*/
 
 
 
 		scene.Add(std::move(pPengo));
-		scene.Add(std::move(pSnobee));
+		//scene.Add(std::move(pSnobee));
+
 	}
-
-
-
-
-
 }
 
 int main(int, char* [])

@@ -1,5 +1,6 @@
 #pragma once
 #include <Component.h>
+#include <glm/vec2.hpp>
 
 #include "Signal.h"
 
@@ -18,7 +19,17 @@ public:
 	int GetScore() const { return m_Score; }
 	void IncreaseScore(int amount);
 
+	bool IsMoving() const;
+	void SetMoveDirection(glm::vec2 dir) { m_MoveDir = dir; }
+
+	void Update() override;
+
 private:
+	float m_MoveSpeed{ 100.f };
+
 	int m_Lives{ 3 };
 	int m_Score{ 0 };
+
+	bool m_IsMoving{ false };
+	glm::vec2 m_MoveDir;
 };

@@ -104,6 +104,8 @@
     <ClInclude Include="NullSoundSystem.h">
       <Filter>Source\Services</Filter>
     </ClInclude>
+    <ClInclude Include="StateMachine.h" />
+    <ClInclude Include="State.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceManager.cpp">
@@ -199,5 +201,6 @@
     <ClCompile Include="NullSoundSystem.cpp">
       <Filter>Source\Services</Filter>
     </ClCompile>
+    <ClCompile Include="StateMachine.cpp" />
   </ItemGroup>
 </Project>

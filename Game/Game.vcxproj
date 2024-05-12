@@ -200,8 +200,10 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="IncreaseScoreCommand.cpp" />
     <ClCompile Include="LivesDisplay.cpp" />
-    <ClCompile Include="MoveCommand.cpp" />
     <ClCompile Include="PlayerController.cpp" />
+    <ClCompile Include="PlayerIdleState.cpp" />
+    <ClCompile Include="PlayerMoveCommand.cpp" />
+    <ClCompile Include="PlayerMoveState.cpp" />
     <ClCompile Include="RemoveLifeCommand.cpp" />
     <ClCompile Include="ScoreDisplay.cpp" />
   </ItemGroup>
@@ -213,8 +215,10 @@
   <ItemGroup>
     <ClInclude Include="IncreaseScoreCommand.h" />
     <ClInclude Include="LivesDisplay.h" />
-    <ClInclude Include="MoveCommand.h" />
     <ClInclude Include="PlayerController.h" />
+    <ClInclude Include="PlayerIdleState.h" />
+    <ClInclude Include="PlayerMoveCommand.h" />
+    <ClInclude Include="PlayerMoveState.h" />
     <ClInclude Include="RemoveLifeCommand.h" />
     <ClInclude Include="ScoreDisplay.h" />
   </ItemGroup>
