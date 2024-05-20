@@ -18,6 +18,8 @@ namespace dae
 		void Render() const;
 		void OnImGui() const;
 
+		GameObject* GetGameObjectByTag(const std::string& tag);
+
 		~Scene();
 		Scene(const Scene& other) = delete;
 		Scene(Scene&& other) = delete;
@@ -25,7 +27,7 @@ namespace dae
 		Scene& operator=(Scene&& other) = delete;
 
 	private:
-		friend Scene& SceneManager::CreateScene(const std::string& name);
+		friend Scene& SceneManager::CreateScene(const std::string& name, SceneManager::SceneID sceneIndex);
 		explicit Scene(std::string name);
 
 		std::string m_Name;

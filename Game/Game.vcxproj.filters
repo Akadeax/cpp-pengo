@@ -12,12 +12,12 @@
     <Filter Include="Source\Player\States">
       <UniqueIdentifier>{383b13a7-3dc0-4344-bb23-940375afbab8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Player\Commands">
+      <UniqueIdentifier>{28486c50-d2f4-4117-b2e1-e3f60be5bdf2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="RemoveLifeCommand.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="LivesDisplay.cpp" />
@@ -26,27 +26,36 @@
     <ClCompile Include="PlayerController.cpp">
       <Filter>Source\Player</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerMoveCommand.cpp">
-      <Filter>Source\Player</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerMoveState.cpp">
       <Filter>Source\Player\States</Filter>
     </ClCompile>
     <ClCompile Include="PlayerIdleState.cpp">
       <Filter>Source\Player\States</Filter>
     </ClCompile>
+    <ClCompile Include="GridManager.cpp" />
+    <ClCompile Include="Block.cpp" />
+    <ClCompile Include="PlayerStateMachine.cpp">
+      <Filter>Source\Player\States</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerState.cpp">
+      <Filter>Source\Player\States</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerInteractState.cpp" />
+    <ClCompile Include="PlayerMoveCommand.cpp">
+      <Filter>Source\Player\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerInteractCommand.cpp">
+      <Filter>Source\Player\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="RemoveLifeCommand.cpp">
+      <Filter>Source\Player\Commands</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="RemoveLifeCommand.h">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="LivesDisplay.h" />
     <ClInclude Include="IncreaseScoreCommand.h" />
     <ClInclude Include="ScoreDisplay.h" />
     <ClInclude Include="PlayerController.h">
-      <Filter>Source\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerMoveCommand.h">
       <Filter>Source\Player</Filter>
     </ClInclude>
     <ClInclude Include="PlayerMoveState.h">
@@ -54,6 +63,24 @@
     </ClInclude>
     <ClInclude Include="PlayerIdleState.h">
       <Filter>Source\Player\States</Filter>
+    </ClInclude>
+    <ClInclude Include="GridManager.h" />
+    <ClInclude Include="Block.h" />
+    <ClInclude Include="PlayerStateMachine.h">
+      <Filter>Source\Player\States</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerState.h">
+      <Filter>Source\Player\States</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerInteractState.h" />
+    <ClInclude Include="PlayerMoveCommand.h">
+      <Filter>Source\Player\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerInteractCommand.h">
+      <Filter>Source\Player\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="RemoveLifeCommand.h">
+      <Filter>Source\Player\Commands</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

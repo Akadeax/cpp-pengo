@@ -106,6 +106,9 @@
     </ClInclude>
     <ClInclude Include="StateMachine.h" />
     <ClInclude Include="State.h" />
+    <ClInclude Include="AnimatedTextureRenderer.h">
+      <Filter>GameObject\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceManager.cpp">
@@ -202,5 +205,8 @@
       <Filter>Source\Services</Filter>
     </ClCompile>
     <ClCompile Include="StateMachine.cpp" />
+    <ClCompile Include="AnimatedTextureRenderer.cpp">
+      <Filter>GameObject\Components</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -8,28 +8,26 @@
 #endif
 #endif
 
-#include <iostream>
 #include <sstream>
 
+#include "AnimatedTextureRenderer.h"
 #include "ControllerInputDevice.h"
+#include "GridManager.h"
 #include "IncreaseScoreCommand.h"
 #include "InputManager.h"
 #include "LivesDisplay.h"
 #include "PlayerMoveCommand.h"
 #include "PlayerController.h"
-#include "PlayerIdleState.h"
-#include "PlayerMoveState.h"
+#include "PlayerInteractCommand.h"
+#include "PlayerStateMachine.h"
 #include "RemoveLifeCommand.h"
 #include "ScoreDisplay.h"
 #include "SDLSoundSystem.h"
 #include "ServiceLocator.h"
-#include "StateMachine.h"
-#include "Minigin/FPSDisplay.h"
 #include "Minigin/GameObject.h"
 #include "Minigin/Minigin.h"
 #include "Minigin/SceneManager.h"
 #include "Minigin/ResourceManager.h"
-#include "Minigin/Rotator.h"
 #include "Minigin/Scene.h"
 #include "Minigin/TextRenderer.h"
 
@@ -41,48 +39,21 @@ void Load()
 		"Data/Sound/act_start.mp3"
 	);
 
-	auto& scene{ dae::SceneManager::GetInstance().CreateScene("Demo") };
+	auto& scene{ dae::SceneManager::GetInstance().CreateScene("Demo", 0) };
 
 	std::shared_ptr<dae::Font> pFont{ dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36) };
 	std::shared_ptr<dae::Font> pFontSmall{ dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 14) };
 
 	{
-		std::unique_ptr pBackground{ std::make_unique<dae::GameObject>() };
-
-		std::shared_ptr<dae::Texture2D> pBackgroundTexture{ dae::ResourceManager::GetInstance().LoadTexture("background.tga") };
-		pBackground->AddComponent(std::make_unique<dae::TextureRenderer>(pBackground.get(), pBackgroundTexture));
-
-		scene.Add(std::move(pBackground));
+		std::unique_ptr pGridManager{ std::make_unique<dae::GameObject>("GridManager")};
+		pGridManager->GetTransform().SetWorldPosition(
+			{ dae::Minigin::WINDOW_WIDTH / 2.f, dae::Minigin::WINDOW_HEIGHT / 2.f }
+		);
+		pGridManager->GetTransform().SetLocalScale({ 1.5f, 1.5f });
+		pGridManager->AddComponent(std::make_unique<GridManager>(pGridManager.get()));
+		scene.Add(std::move(pGridManager));
 	}
 
-	{
-		std::unique_ptr pLogo{ std::make_unique<dae::GameObject>() };
-
-		pLogo->GetTransform().SetLocalPosition(glm::vec2(216, 180));
-
-		std::shared_ptr<dae::Texture2D> pLogoTexture{ dae::ResourceManager::GetInstance().LoadTexture("logo.tga") };
-		pLogo->AddComponent(std::make_unique<dae::TextureRenderer>(pLogo.get(), pLogoTexture));
-
-		scene.Add(std::move(pLogo));
-	}
-
-	{
-		std::unique_ptr pTitleText{ std::make_unique<dae::GameObject>() };
-
-		pTitleText->GetTransform().SetLocalPosition(glm::vec2(100, 20));
-		pTitleText->AddComponent(std::make_unique<dae::TextRenderer>(pTitleText.get(), "Press R for sound", pFont, SDL_Color{ 255, 255, 255, 255 }));
-		
-		scene.Add(std::move(pTitleText));
-	}
-
-	{
-		std::unique_ptr pFPSDisplay{ std::make_unique<dae::GameObject>() };
-
-		pFPSDisplay->GetTransform().SetLocalPosition(glm::vec2(10, 10));
-		pFPSDisplay->AddComponent(std::make_unique<dae::FPSDisplay>(pFPSDisplay.get(), 0.2f, pFont, SDL_Color{ 255, 255, 255, 255 }));
-		pFPSDisplay->AddComponent(std::make_unique<dae::Rotator>(pFPSDisplay.get(), 2.f));
-		scene.Add(std::move(pFPSDisplay));
-	}
 
 	{
 		std::unique_ptr pInfo{ std::make_unique<dae::GameObject>() };
@@ -105,24 +76,16 @@ void Load()
 		// Pengo and its UI
 		std::unique_ptr pPengo{ std::make_unique<dae::GameObject>() };
 		pPengo->GetTransform().SetLocalPosition(glm::vec2(150, 200));
-		pPengo->AddComponent(std::make_unique<dae::TextureRenderer>(pPengo.get(), dae::ResourceManager::GetInstance().LoadTexture("pengo.png")));
+		pPengo->GetTransform().SetLocalScale({ 1.5f, 1.5f });
+		pPengo->AddComponent(std::make_unique<dae::AnimatedTextureRenderer>(
+			pPengo.get(),
+			dae::ResourceManager::GetInstance().LoadTexture("pengo_red.png"),
+			4, 8
+		));
 		pPengo->AddComponent(std::make_unique<PlayerController>(pPengo.get()));
 
 		// State machine
-		auto stateMachine{ std::make_unique<dae::StateMachine>(pPengo.get()) };
-
-		stateMachine->AddState(std::make_unique<PlayerIdleState>(
-			stateMachine.get(),
-			pPengo->GetComponent<PlayerController>(),
-			1
-		));
-		stateMachine->AddState(std::make_unique<PlayerMoveState>(
-			stateMachine.get(),
-			pPengo->GetComponent<PlayerController>(),
-			0
-		));
-
-		stateMachine->SetState(0);
+		auto stateMachine{ std::make_unique<PlayerStateMachine>(pPengo.get()) };
 
 		pPengo->AddComponent(std::move(stateMachine));
 
@@ -207,7 +170,7 @@ void Load()
 		keyboard->BindKeyboardButton(
 			SDL_SCANCODE_R,
 			dae::InputDevice::InputState::up,
-			std::make_unique<RemoveLifeCommand>(pPengo.get())
+			std::make_unique<PlayerInteractCommand>(pPengo.get())
 		);
 		keyboard->BindKeyboardButton(
 			SDL_SCANCODE_T,

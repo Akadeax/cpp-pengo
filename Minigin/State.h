@@ -1,13 +1,11 @@
 #pragma once
-#include "StateMachine.h"
 
 namespace dae
 {
 	class State
 	{
 	public:
-		explicit State(StateMachine* pStateMachine) : m_pStateMachine{ pStateMachine } {}
-		
+		explicit State() = default;
 		virtual ~State() = default;
 
 		State(const State&) = delete;
@@ -18,11 +16,5 @@ namespace dae
 		virtual void OnEnter() {}
 		virtual void OnExit() {}
 		virtual void Update() {}
-
-	protected:
-		StateMachine* GetStateMachine() const { return m_pStateMachine; }
-
-	private:
-		StateMachine* m_pStateMachine;
 	};
 }

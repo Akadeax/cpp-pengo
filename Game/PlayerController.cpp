@@ -1,14 +1,29 @@
 #include "PlayerController.h"
 
+#include <iostream>
 #include <glm/gtx/norm.inl>
 
+#pragma warning(push, 0)
+#include <glm/gtx/string_cast.hpp>
+#pragma warning(pop)
 
+#include "GridManager.h"
 #include "GameObject.h"
-#include "GameTime.h"
+#include "Scene.h"
+#include "SceneManager.h"
 
 PlayerController::PlayerController(dae::GameObject* pParent)
 	: Component(pParent)
 {
+}
+
+void PlayerController::Ready()
+{
+	dae::Scene* pScene{ dae::SceneManager::GetInstance().GetCurrentScene() };
+	const GridManager* pGridManager{ pScene->GetGameObjectByTag("GridManager")->GetComponent<GridManager>() };
+
+	const glm::vec2 startPos{ pGridManager->GridToWorld({ 0, 0 }) };
+	GetParent()->GetTransform().SetLocalPosition(startPos);
 }
 
 void PlayerController::Kill()
@@ -26,25 +41,4 @@ void PlayerController::IncreaseScore(int amount)
 {
 	m_Score += amount;
 	OnScoreChanged.Emit();
-}
-
-bool PlayerController::IsMoving() const
-{
-	return m_IsMoving;
-}
-
-void PlayerController::Update()
-{
-	if (length2(m_MoveDir) == 0.f)
-	{
-		m_IsMoving = false;
-		return;
-	}
-
-	m_IsMoving = true;
-	GetParent()->GetTransform().Translate(
-		m_MoveDir * m_MoveSpeed * dae::GameTime::GetInstance().GetDeltaTime()
-	);
-
-	m_MoveDir = glm::vec2{ 0, 0 };
 }

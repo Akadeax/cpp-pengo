@@ -4,6 +4,8 @@
 
 #include "Signal.h"
 
+class GridManager;
+
 class PlayerController final : public dae::Component
 {
 public:
@@ -13,23 +15,18 @@ public:
 
 	explicit PlayerController(dae::GameObject* pParent);
 
+	void Ready() override;
+
 	int GetLives() const { return m_Lives; }
 	void Kill();
 
 	int GetScore() const { return m_Score; }
 	void IncreaseScore(int amount);
 
-	bool IsMoving() const;
-	void SetMoveDirection(glm::vec2 dir) { m_MoveDir = dir; }
-
-	void Update() override;
+	glm::ivec2 FacingDir{};
+	glm::vec2 MovementTarget{};
 
 private:
-	float m_MoveSpeed{ 100.f };
-
 	int m_Lives{ 3 };
 	int m_Score{ 0 };
-
-	bool m_IsMoving{ false };
-	glm::vec2 m_MoveDir;
 };

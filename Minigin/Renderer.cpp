@@ -104,15 +104,27 @@ void dae::Renderer::RenderTexture(const Texture2D& texture, const float x, const
 
 void dae::Renderer::RenderTexture(const Texture2D& texture, glm::vec2 pos, float rotation, glm::vec2 scale) const
 {
-	SDL_Rect dst{};
-	dst.x = static_cast<int>(pos.x);
-	dst.y = static_cast<int>(pos.y);
-	SDL_QueryTexture(texture.GetSDLTexture(), nullptr, nullptr, &dst.w, &dst.h);
-	// First cast to float to multiply, and then back to int for pixels
-	dst.w = static_cast<int>(static_cast<float>(dst.w) * scale.x);
-	dst.h = static_cast<int>(static_cast<float>(dst.h) * scale.y);
+	glm::ivec2 size{};
+	SDL_QueryTexture(texture.GetSDLTexture(), nullptr, nullptr, &size.x, &size.y);
+	RenderTexture(texture, nullptr, size, pos, rotation, scale);
+}
 
-	SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst, glm::degrees(rotation), nullptr, SDL_FLIP_NONE);
+void dae::Renderer::RenderTexture(
+	const Texture2D& texture,
+	const SDL_Rect* sourceRect,
+	glm::ivec2 destSize,
+	glm::vec2 pos,
+	float rotation,
+	glm::vec2 scale) const
+{
+	const SDL_Rect dst{
+		static_cast<int>(pos.x),
+		static_cast<int>(pos.y),
+		static_cast<int>(static_cast<float>(destSize.x) * scale.x),
+		static_cast<int>(static_cast<float>(destSize.y) * scale.y)
+	};
+
+	SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), sourceRect, &dst, glm::degrees(rotation), nullptr, SDL_FLIP_NONE);
 }
 
 SDL_Renderer* dae::Renderer::GetSDLRenderer() const { return m_pRenderer; }

@@ -1,4 +1,5 @@
 #pragma once
+#include <map>
 #include <vector>
 #include <string>
 #include <memory>
@@ -11,7 +12,9 @@ namespace dae
 	class SceneManager final : public Singleton<SceneManager>
 	{
 	public:
-		Scene& CreateScene(const std::string& name);
+		using SceneID = uint8_t;
+
+		Scene& CreateScene(const std::string& name, SceneID sceneIndex);
 
 		void Ready() const;
 		void Update() const;
@@ -20,10 +23,14 @@ namespace dae
 		void Render() const;
 		void OnImGui() const;
 
+		Scene* GetCurrentScene();
+		void SetCurrentScene(SceneID id);
+
 	private:
 		friend class Singleton;
 		SceneManager() = default;
 
-		std::vector<std::shared_ptr<Scene>> m_Scenes;
+		std::map<SceneID, std::shared_ptr<Scene>> m_Scenes;
+		SceneID m_CurrentSceneId{ 0 };
 	};
 }

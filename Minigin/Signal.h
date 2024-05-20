@@ -3,6 +3,8 @@
 
 namespace dae
 {
+    using ConnectionID = size_t;
+
     // Implementation of Observer through sigslots: https://en.wikipedia.org/wiki/Signals_and_slots
 	// As used in Godot (Signals), Unity (UnityActions/delegates), etc.
     template<typename... SignalArgs>
@@ -10,19 +12,18 @@ namespace dae
     {
     public:
         typedef std::function<void(SignalArgs...)> FuncType;
-        typedef size_t ConnectionId;
-        typedef std::pair<ConnectionId, FuncType> Connection;
+        typedef std::pair<ConnectionID, FuncType> Connection;
 
         Signal() = default;
 
-        ConnectionId Connect(FuncType func)
+        ConnectionID Connect(FuncType func)
         {
-            ConnectionId idForThisConnect{ m_NextConnectionId++ };
+            ConnectionID idForThisConnect{ m_NextConnectionID++ };
             m_Connections.emplace_back(Connection{ idForThisConnect, func });
             return idForThisConnect;
         }
 
-        void Disconnect(ConnectionId id)
+        void Disconnect(ConnectionID id)
         {
             std::erase_if(m_Connections, [id](const Connection& conn) { return conn.first == id; });
         }
@@ -37,7 +38,7 @@ namespace dae
 
     private:
         std::vector<Connection> m_Connections{};
-        size_t m_NextConnectionId{ 0 };
+        size_t m_NextConnectionID{ 0 };
     };
 
 }

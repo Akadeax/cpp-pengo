@@ -75,3 +75,18 @@ void Scene::OnImGui() const
 	}
 }
 
+GameObject* Scene::GetGameObjectByTag(const std::string& tag)
+{
+	const auto result{ std::ranges::find_if(
+		m_Objects,
+		[this, tag](auto& ptr) { return ptr->GetTag() == tag; }
+	) };
+
+	if (result == std::end(m_Objects))
+	{
+		return nullptr;
+	}
+
+	return (*result).get();
+}
+

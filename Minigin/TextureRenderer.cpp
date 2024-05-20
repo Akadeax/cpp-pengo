@@ -4,8 +4,11 @@
 #include "Renderer.h"
 #include "Texture2D.h"
 
-dae::TextureRenderer::TextureRenderer(GameObject* pParent, std::shared_ptr<Texture2D> pTexture)
-	: Component(pParent), m_pTexture{ std::move(pTexture) }
+dae::TextureRenderer::TextureRenderer(GameObject* pParent, std::shared_ptr<Texture2D> pTexture, int vframes, int hframes)
+	: Component(pParent)
+	, m_pTexture{ std::move(pTexture) }
+	, m_VFrames{ vframes }
+	, m_HFrames{ hframes }
 {
 }
 
@@ -13,8 +16,25 @@ void dae::TextureRenderer::Render() const
 {
 	if (m_pTexture == nullptr) return;
 
-	//const glm::vec2 pos{ GetParent()->GetTransform().GetWorldPosition() };
-	//Renderer::GetInstance().RenderTexture(*m_pTexture, pos.x, pos.y);
 	Transform& transform{ GetParent()->GetTransform() };
-	Renderer::GetInstance().RenderTexture(*m_pTexture, transform.GetWorldPosition(), transform.GetWorldRotation(), transform.GetWorldScale());
+
+	const glm::ivec2 texSize{ m_pTexture->GetSize() };
+	const int cellSizeX{ texSize.x / m_HFrames };
+	const int cellSizeY{ texSize.y / m_VFrames };
+
+	const SDL_Rect source{
+		(frame % m_HFrames) * cellSizeX,
+		(frame / m_HFrames) * cellSizeY,
+		cellSizeX,
+		cellSizeY
+	};
+
+	Renderer::GetInstance().RenderTexture(
+		*m_pTexture,
+		&source,
+		{ cellSizeX, cellSizeY },
+		transform.GetWorldPosition(),
+		transform.GetWorldRotation(),
+		transform.GetWorldScale()
+	);
 }

@@ -11,7 +11,7 @@ namespace dae
 	class StateNotFoundException{};
 	using StateID = size_t;
 
-	class StateMachine final : public Component
+	class StateMachine : public Component
 	{
 	public:
 		explicit StateMachine(GameObject* pParent);

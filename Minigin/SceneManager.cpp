@@ -1,59 +1,54 @@
 #include "SceneManager.h"
+
+#include <cassert>
+
 #include "Scene.h"
 #include <iostream>
 
 void dae::SceneManager::Ready() const
 {
-	for (const auto& scene : m_Scenes)
-	{
-		scene->Ready();
-	}
+	m_Scenes.at(m_CurrentSceneId)->Ready();
 }
 
 void dae::SceneManager::Update() const
 {
-	for(const auto& scene : m_Scenes)
-	{
-		scene->Update();
-	}
+	m_Scenes.at(m_CurrentSceneId)->Update();
 }
 
 void dae::SceneManager::LateUpdate() const
 {
-	for (const auto& scene : m_Scenes)
-	{
-		scene->LateUpdate();
-	}
+	m_Scenes.at(m_CurrentSceneId)->LateUpdate();
 }
 
 void dae::SceneManager::FixedUpdate() const
 {
-	for (const auto& scene : m_Scenes)
-	{
-		scene->FixedUpdate();
-	}
+	m_Scenes.at(m_CurrentSceneId)->FixedUpdate();
 }
 
 void dae::SceneManager::Render() const
 {
-	for (const auto& scene : m_Scenes)
-	{
-		scene->Render();
-	}
+	m_Scenes.at(m_CurrentSceneId)->Render();
 }
 
 void dae::SceneManager::OnImGui() const
 {
-	for (const auto& scene : m_Scenes)
-	{
-		scene->OnImGui();
-	}
+	m_Scenes.at(m_CurrentSceneId)->OnImGui();
 }
 
-dae::Scene& dae::SceneManager::CreateScene(const std::string& name)
+dae::Scene* dae::SceneManager::GetCurrentScene()
+{
+	return m_Scenes[m_CurrentSceneId].get();
+}
+
+void dae::SceneManager::SetCurrentScene(SceneID id)
+{
+	m_CurrentSceneId = id;
+}
+
+dae::Scene& dae::SceneManager::CreateScene(const std::string& name, SceneID sceneIndex)
 {
 	const auto& scene{ std::shared_ptr<Scene>(new Scene(name)) };
-	m_Scenes.push_back(scene);
+	m_Scenes[sceneIndex] = scene;
 	return *scene;
 }
 

@@ -1,19 +1,32 @@
 #pragma once
-#include "State.h"
-#include "StateMachine.h"
+#include "AnimatedTextureRenderer.h"
+#include "PlayerState.h"
+#include "PlayerStateMachine.h"
 
-class PlayerController;
-
-class PlayerIdleState final : public dae::State
+class PlayerIdleState final : public PlayerState
 {
 public:
-	PlayerIdleState(dae::StateMachine* pStateMachine, PlayerController* pPlayer, dae::StateID moveStateID);
+	PlayerIdleState(
+		PlayerController* pPlayerController,
+		PlayerStateMachine* pStateMachine, 
+		dae::AnimatedTextureRenderer* pRenderer, 
+		dae::StateID moveStateID,
+		dae::StateID interactStateID
+	);
 
 	void OnEnter() override;
-	void Update() override;
+	void OnExit() override;
 
 private:
-	PlayerController* m_pPlayerController;
 	dae::StateID m_MoveStateID;
+	dae::StateID m_InteractStateID;
+
+	dae::ConnectionID m_OnMoveInputConn{};
+	dae::ConnectionID m_OnInteractInputConn{};
+
+	dae::AnimationID m_IdleUp{};
+	dae::AnimationID m_IdleRight{};
+	dae::AnimationID m_IdleDown{};
+	dae::AnimationID m_IdleLeft{};
 };
 

@@ -1,19 +1,36 @@
 #pragma once
-#include "State.h"
+#include <glm/vec2.hpp>
+
+#include "AnimatedTextureRenderer.h"
+#include "PlayerState.h"
 #include "StateMachine.h"
 
 class PlayerController;
 
-class PlayerMoveState final : public dae::State
+class PlayerMoveState final : public PlayerState
 {
 public:
-	PlayerMoveState(dae::StateMachine* pStateMachine, PlayerController* pPlayer, dae::StateID idleStateID);
+	PlayerMoveState(
+		PlayerController* pPlayerController, 
+		PlayerStateMachine* pStateMachine, 
+		dae::AnimatedTextureRenderer* pRenderer, 
+		dae::StateID idleStateID
+	);
 
 	void OnEnter() override;
 	void Update() override;
 
 private:
-	PlayerController* m_pPlayerController;
 	dae::StateID m_IdleStateID;
+
+	glm::vec2 m_MoveStartPos{};
+	float m_TimeSinceEnter{ 0.f };
+
+	const float m_MoveTime{ 0.4f };
+
+	dae::AnimationID m_MoveUp{};
+	dae::AnimationID m_MoveRight{};
+	dae::AnimationID m_MoveDown{};
+	dae::AnimationID m_MoveLeft{};
 };
 

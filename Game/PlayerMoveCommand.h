@@ -2,15 +2,15 @@
 #include <Command.h>
 #include <glm/vec2.hpp>
 
-class PlayerController;
+class PlayerStateMachine;
 
 class PlayerMoveCommand final : public dae::Command
 {
 public:
-	explicit PlayerMoveCommand(dae::GameObject* pPlayer, glm::vec2 dir);
+	explicit PlayerMoveCommand(dae::GameObject* pPlayer, glm::ivec2 dir);
 	void Execute() override;
 
 private:
-	PlayerController* m_pPlayerController;
-	glm::vec2 m_Dir;
+	PlayerStateMachine* m_pPlayerStateMachine;
+	glm::ivec2 m_Dir;
 };

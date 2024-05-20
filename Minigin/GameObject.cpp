@@ -2,81 +2,95 @@
 
 #include <iostream>
 
+dae::GameObject::GameObject(std::string&& tag)
+	: m_Tag{ std::move(tag) }
+{
+}
+
 void dae::GameObject::Ready()
 {
-	for (const auto& child : m_Children)
-	{
-		child->Ready();
-	}
-
 	for (const auto& component : m_Components)
 	{
 		component->Ready();
+	}
+
+	for (const auto& child : m_Children)
+	{
+		child->Ready();
 	}
 }
 
 void dae::GameObject::Update() const
 {
-	for (const auto& child : m_Children)
-	{
-		child->Update();
-	}
-
 	for (const auto& component : m_Components)
 	{
 		component->Update();
+	}
+
+	for (const auto& child : m_Children)
+	{
+		child->Update();
 	}
 }
 
 void dae::GameObject::LateUpdate() const
 {
-	for (const auto& child : m_Children)
-	{
-		child->LateUpdate();
-	}
-
 	for (const auto& component : m_Components)
 	{
 		component->LateUpdate();
 	}
+
+	for (const auto& child : m_Children)
+	{
+		child->LateUpdate();
+	}
+}
+
+void dae::GameObject::HandleDeletion()
+{
+	for (size_t i{ m_Children.size() - 1 }; i == 0; --i)
+	{
+		m_Children.erase(m_Children.begin() + i);
+	}
+	// TODO deletion
 }
 
 void dae::GameObject::FixedUpdate() const
 {
-	for (const auto& child : m_Children)
-	{
-		child->FixedUpdate();
-	}
-
 	for (const auto& component : m_Components)
 	{
 		component->FixedUpdate();
+	}
+
+	for (const auto& child : m_Children)
+	{
+		child->FixedUpdate();
 	}
 }
 
 void dae::GameObject::Render() const
 {
-	for (const auto& child : m_Children)
-	{
-		child->Render();
-	}
-
 	for (const auto& component : m_Components)
 	{
 		component->Render();
+	}
+
+	for (const auto& child : m_Children)
+	{
+		child->Render();
 	}
 }
 
 void dae::GameObject::OnImGui() const
 {
-	for (const auto& child : m_Children)
-	{
-		child->OnImGui();
-	}
-
 	for (const auto& component : m_Components)
 	{
 		component->OnImGui();
+	}
+
+	for (const auto& child : m_Children)
+	{
+		child->OnImGui();
 	}
 }
 
@@ -99,7 +113,7 @@ dae::GameObject* dae::GameObject::GetParent() const
 }
 
 
-void dae::GameObject::AttachChild(std::unique_ptr<GameObject> go, [[maybe_unused]] bool keepWorldPosition)
+void dae::GameObject::AttachChild(std::unique_ptr<GameObject> go, bool keepWorldPosition)
 {
 	if (!go) throw SceneTreeOperationException{};
 

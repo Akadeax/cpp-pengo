@@ -219,6 +219,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\SDL2_mixer.dll" "
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AnimatedTextureRenderer.h" />
     <ClInclude Include="CacheThrasher.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="Component.h" />
@@ -258,6 +259,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\SDL2_mixer.dll" "
     <ClCompile Include="..\3rdParty\imgui\imgui_plot.cpp" />
     <ClCompile Include="..\3rdParty\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\3rdParty\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="AnimatedTextureRenderer.cpp" />
     <ClCompile Include="CacheThrasher.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ControllerInputDevice.cpp" />
