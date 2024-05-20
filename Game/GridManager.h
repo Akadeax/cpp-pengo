@@ -4,6 +4,7 @@
 #include <vector>
 #include <glm/vec2.hpp>
 
+#include "Block.h"
 #include "Component.h" 
 #include "Texture2D.h"
 
@@ -19,6 +20,7 @@ public:
 	glm::vec2 IndexToGrid(size_t index) const;
 
 	bool HasBlock(glm::vec2 grid) const;
+	Block* GetBlock(glm::vec2 grid) const;
 
 	void SpawnLevelFromJson(const std::string& path);
 

@@ -20,6 +20,11 @@ void dae::SceneManager::LateUpdate() const
 	m_Scenes.at(m_CurrentSceneId)->LateUpdate();
 }
 
+void dae::SceneManager::HandleDeletion() const
+{
+	m_Scenes.at(m_CurrentSceneId)->HandleDeletion();
+}
+
 void dae::SceneManager::FixedUpdate() const
 {
 	m_Scenes.at(m_CurrentSceneId)->FixedUpdate();

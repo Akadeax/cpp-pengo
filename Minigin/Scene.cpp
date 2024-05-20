@@ -1,5 +1,4 @@
 #include "Scene.h"
-#include "GameObject.h"
 
 #include <algorithm>
 #include <iostream>
@@ -17,9 +16,12 @@ void Scene::Add(std::unique_ptr<GameObject> object)
 	m_Objects.emplace_back(std::move(object));
 }
 
-void Scene::Remove(const std::shared_ptr<GameObject>& object)
+void Scene::Remove(const GameObject* object)
 {
-	std::erase(m_Objects, object);
+	std::erase_if(m_Objects, [object](const std::unique_ptr<GameObject>& pGo)
+		{
+			return pGo.get() == object;
+		});
 }
 
 void Scene::RemoveAll()
@@ -48,6 +50,19 @@ void Scene::LateUpdate() const
 	for (const auto& object : m_Objects)
 	{
 		object->LateUpdate();
+	}
+}
+
+void Scene::HandleDeletion()
+{
+	std::erase_if(m_Objects, [](const std::unique_ptr<GameObject>& pGo)
+		{
+			return pGo->IsMarkedForDeletion();
+		});
+
+	for (const auto& object : m_Objects)
+	{
+		object->HandleDeletion();
 	}
 }
 

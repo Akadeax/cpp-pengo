@@ -78,6 +78,13 @@ bool GridManager::HasBlock(glm::vec2 grid) const
 	return m_BlockGrid[GridToIndex(grid)] != nullptr;
 }
 
+Block* GridManager::GetBlock(glm::vec2 grid) const
+{
+	const size_t index{ GridToIndex(grid) };
+	if (m_BlockGrid[index] == nullptr) return nullptr;
+	return m_BlockGrid[index]->GetComponent<Block>();
+}
+
 /**
  * \brief loads json in `path` and spawns blocks from the data in it
  * \param path json file path

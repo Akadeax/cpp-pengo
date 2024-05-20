@@ -48,7 +48,11 @@ void PlayerInteractState::OnEnter()
 		pGridManager->WorldToGrid(playerTransform.GetLocalPosition()) + glm::vec2{ dir.x, dir.y }
 	};
 
-	std::cout << (pGridManager->HasBlock(targetGridSpace)) << '\n';
+	Block* targetBlock{ pGridManager->GetBlock(targetGridSpace) };
+	if (targetBlock == nullptr) return;
+
+	targetBlock->Push(pGridManager);
+	//std::cout << pGridManager->HasBlock(targetGridSpace) << '\n';
 }
 
 void PlayerInteractState::Update()

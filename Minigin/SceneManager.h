@@ -19,6 +19,7 @@ namespace dae
 		void Ready() const;
 		void Update() const;
 		void LateUpdate() const;
+		void HandleDeletion() const;
 		void FixedUpdate() const;
 		void Render() const;
 		void OnImGui() const;

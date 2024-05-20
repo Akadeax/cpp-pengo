@@ -26,6 +26,7 @@ namespace dae
 		void Render() const;
 		void OnImGui() const;
 
+		bool IsMarkedForDeletion() const { return m_MarkedForDeletion; }
 		void MarkForDeletion() { m_MarkedForDeletion = true; }
 
 		Transform& GetTransform() { return m_Transform; }

@@ -48,11 +48,10 @@ void dae::GameObject::LateUpdate() const
 
 void dae::GameObject::HandleDeletion()
 {
-	for (size_t i{ m_Children.size() - 1 }; i == 0; --i)
-	{
-		m_Children.erase(m_Children.begin() + i);
-	}
-	// TODO deletion
+	std::erase_if(m_Children, [](const std::unique_ptr<GameObject>& pGo)
+		{
+			return pGo->IsMarkedForDeletion();
+		});
 }
 
 void dae::GameObject::FixedUpdate() const
