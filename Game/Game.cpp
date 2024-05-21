@@ -46,7 +46,7 @@ void Load()
 
 	{
 		std::unique_ptr pGridManager{ std::make_unique<dae::GameObject>("GridManager")};
-		pGridManager->GetTransform().SetWorldPosition(
+		pGridManager->GetTransform().SetLocalPosition(
 			{ dae::Minigin::WINDOW_WIDTH / 2.f, dae::Minigin::WINDOW_HEIGHT / 2.f }
 		);
 		pGridManager->GetTransform().SetLocalScale({ 1.5f, 1.5f });

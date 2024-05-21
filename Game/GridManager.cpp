@@ -45,6 +45,12 @@ glm::vec2 GridManager::GridToWorld(glm::vec2 grid, bool applyScale) const
 	return grid * blockSize + GetParent()->GetTransform().GetLocalPosition();
 }
 
+glm::vec2 GridManager::GridToLocal(glm::vec2 grid, bool applyScale) const
+{
+	const float blockSize{ applyScale ? GetBlockWorldSize() : BLOCK_SQUARE_SIZE };
+	return grid * blockSize;
+}
+
 /**
  * \brief convert from grid coordinates to an array index
  */
@@ -75,14 +81,28 @@ glm::vec2 GridManager::IndexToGrid(size_t index) const
 
 bool GridManager::HasBlock(glm::vec2 grid) const
 {
+	if (!IsGridPositionValid(grid)) return false;
+
 	return m_BlockGrid[GridToIndex(grid)] != nullptr;
 }
 
 Block* GridManager::GetBlock(glm::vec2 grid) const
 {
+	if (!IsGridPositionValid(grid)) return nullptr;
+
 	const size_t index{ GridToIndex(grid) };
 	if (m_BlockGrid[index] == nullptr) return nullptr;
 	return m_BlockGrid[index]->GetComponent<Block>();
+}
+
+void GridManager::AddBlock(glm::vec2 grid, dae::GameObject* block)
+{
+	m_BlockGrid[GridToIndex(grid)] = block;
+}
+
+void GridManager::RemoveBlock(glm::vec2 grid)
+{
+	m_BlockGrid[GridToIndex(grid)] = nullptr;
 }
 
 /**
@@ -115,6 +135,15 @@ float GridManager::GetBlockWorldSize() const
 	return BLOCK_SQUARE_SIZE * GetParent()->GetTransform().GetWorldScale().x;
 }
 
+bool GridManager::IsGridPositionValid(glm::vec2 grid) const
+{
+	constexpr float halfWidth{ static_cast<float>(GRID_WIDTH) / 2.f };
+	constexpr float halfHeight{ static_cast<float>(GRID_HEIGHT) / 2.f };
+	const bool xValid{ grid.x > -halfWidth && grid.x < halfWidth };
+	const bool yValid{ grid.y > -halfHeight && grid.y < halfHeight };
+	return xValid && yValid;
+}
+
 /**
  * \brief Spawn a block GameObject at the given grid position (in grid coordinates)
  */
@@ -124,7 +153,7 @@ void GridManager::SpawnBlockAt(glm::ivec2 gridPos)
 
 	// Don't apply scale when going from grid to world because this block
 	// is a child of GridManager anyways, so scale is applied already
-	pBlock->GetTransform().SetWorldPosition(GridToWorld(gridPos, false));
+	pBlock->GetTransform().SetLocalPosition(GridToWorld(gridPos, false));
 	pBlock->AddComponent(std::make_unique<dae::TextureRenderer>(pBlock.get(), m_pBlockTexture));
 	pBlock->AddComponent(std::make_unique<Block>(pBlock.get()));
 

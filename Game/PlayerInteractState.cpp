@@ -51,8 +51,17 @@ void PlayerInteractState::OnEnter()
 	Block* targetBlock{ pGridManager->GetBlock(targetGridSpace) };
 	if (targetBlock == nullptr) return;
 
-	targetBlock->Push(pGridManager);
-	//std::cout << pGridManager->HasBlock(targetGridSpace) << '\n';
+	const glm::vec2 targetGridSpaceBehind{ targetGridSpace + glm::vec2{ dir.x, dir.y } };
+	Block* targetBlockBehind{ pGridManager->GetBlock(targetGridSpaceBehind) };
+
+	if (targetBlockBehind == nullptr)
+	{
+		targetBlock->Push(dir);
+	}
+	else
+	{
+		targetBlock->Destroy();
+	}
 }
 
 void PlayerInteractState::Update()

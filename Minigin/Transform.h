@@ -29,9 +29,6 @@ namespace dae
 
 		void SetLocalScale(glm::vec2 newLocal);
 
-
-		void SetWorldPosition(glm::vec2 newWorld);
-
 	private:
 		GameObject* m_pGameObject;
 

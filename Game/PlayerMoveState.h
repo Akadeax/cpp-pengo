@@ -26,7 +26,7 @@ private:
 	glm::vec2 m_MoveStartPos{};
 	float m_TimeSinceEnter{ 0.f };
 
-	const float m_MoveTime{ 0.4f };
+	static constexpr float m_MoveTime{ 0.3f };
 
 	dae::AnimationID m_MoveUp{};
 	dae::AnimationID m_MoveRight{};

@@ -45,15 +45,6 @@ glm::vec2 dae::Transform::GetWorldScale()
 	return m_WorldScale;
 }
 
-
-void dae::Transform::SetWorldPosition(glm::vec2 newWorld)
-{
-	const glm::vec2 oldWorld{ GetWorldPosition() };
-	const auto delta{ newWorld - oldWorld };
-
-	SetLocalPosition(delta);
-}
-
 void dae::Transform::SetLocalPosition(glm::vec2 newLocal)
 {
 	m_LocalPosition = newLocal;

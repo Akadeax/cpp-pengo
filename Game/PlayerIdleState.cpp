@@ -62,6 +62,7 @@ void PlayerIdleState::OnEnter()
 			};
 
 			if (pGridManager->HasBlock(targetGridSpace)) return;
+			if (!pGridManager->IsGridPositionValid(targetGridSpace)) return;
 
 			GetPlayerController()->MovementTarget = pGridManager->GridToWorld(targetGridSpace);
 

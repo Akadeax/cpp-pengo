@@ -16,15 +16,21 @@ public:
 
 	glm::vec2 WorldToGrid(glm::vec2 world) const;
 	glm::vec2 GridToWorld(glm::vec2 grid, bool applyScale = true) const;
+	glm::vec2 GridToLocal(glm::vec2 grid, bool applyScale = true) const;
 	size_t GridToIndex(glm::vec2 grid) const;
 	glm::vec2 IndexToGrid(size_t index) const;
 
 	bool HasBlock(glm::vec2 grid) const;
 	Block* GetBlock(glm::vec2 grid) const;
 
+	void AddBlock(glm::vec2 grid, dae::GameObject* block);
+	void RemoveBlock(glm::vec2 grid);
+
 	void SpawnLevelFromJson(const std::string& path);
 
 	float GetBlockWorldSize() const;
+
+	bool IsGridPositionValid(glm::vec2 grid) const;
 
 private:
 	void SpawnBlockAt(glm::ivec2 gridPos);

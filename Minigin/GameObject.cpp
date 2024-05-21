@@ -137,7 +137,6 @@ std::unique_ptr<dae::GameObject> dae::GameObject::DetachChild(const GameObject* 
 		return item.get() == go;
 	}) };
 
-	//go->m_Transform.SetWorldPosition(m_Transform.GetLocalPosition());
 	// Move to var first so we can remove it from m_Children
 	std::unique_ptr<GameObject> detached{ std::move(*pos) };
 
