@@ -31,25 +31,25 @@ void Scene::RemoveAll()
 
 void Scene::Ready() const
 {
-	for (const auto& object : m_Objects)
+	for (size_t i{}; i < m_Objects.size(); ++i)
 	{
-		object->Ready();
+		m_Objects[i]->Ready();
 	}
 }
 
 void Scene::Update() const
 {
-	for(const auto& object : m_Objects)
+	for (size_t i{}; i < m_Objects.size(); ++i)
 	{
-		object->Update();
+		m_Objects[i]->Update();
 	}
 }
 
 void Scene::LateUpdate() const
 {
-	for (const auto& object : m_Objects)
+	for (size_t i{}; i < m_Objects.size(); ++i)
 	{
-		object->LateUpdate();
+		m_Objects[i]->LateUpdate();
 	}
 }
 
@@ -60,33 +60,33 @@ void Scene::HandleDeletion()
 			return pGo->IsMarkedForDeletion();
 		});
 
-	for (const auto& object : m_Objects)
+	for (size_t i{}; i < m_Objects.size(); ++i)
 	{
-		object->HandleDeletion();
+		m_Objects[i]->HandleDeletion();
 	}
 }
 
 void Scene::FixedUpdate() const
 {
-	for (const auto& object : m_Objects)
+	for (size_t i{}; i < m_Objects.size(); ++i)
 	{
-		object->FixedUpdate();
+		m_Objects[i]->FixedUpdate();
 	}
 }
 
 void Scene::Render() const
 {
-	for (const auto& object : m_Objects)
+	for (size_t i{}; i < m_Objects.size(); ++i)
 	{
-		object->Render();
+		m_Objects[i]->Render();
 	}
 }
 
 void Scene::OnImGui() const
 {
-	for (const auto& object : m_Objects)
+	for (size_t i{}; i < m_Objects.size(); ++i)
 	{
-		object->OnImGui();
+		m_Objects[i]->OnImGui();
 	}
 }
 
@@ -102,6 +102,6 @@ GameObject* Scene::GetGameObjectByTag(const std::string& tag)
 		return nullptr;
 	}
 
-	return (*result).get();
+	return result->get();
 }
 

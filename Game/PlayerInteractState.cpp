@@ -1,6 +1,7 @@
 #include "PlayerInteractState.h"
 
 #include <iostream>
+#include <SDL_syswm.h>
 
 #include "AnimatedTextureRenderer.h"
 #include "GameObject.h"
@@ -54,13 +55,13 @@ void PlayerInteractState::OnEnter()
 	const glm::vec2 targetGridSpaceBehind{ targetGridSpace + glm::vec2{ dir.x, dir.y } };
 	Block* targetBlockBehind{ pGridManager->GetBlock(targetGridSpaceBehind) };
 
-	if (targetBlockBehind == nullptr)
+	if (targetBlockBehind != nullptr || !pGridManager->IsGridPositionValid(targetGridSpaceBehind))
 	{
-		targetBlock->Push(dir);
+		targetBlock->Destroy();
 	}
 	else
 	{
-		targetBlock->Destroy();
+		targetBlock->Push(dir);
 	}
 }
 

@@ -9,27 +9,23 @@
 #endif
 
 #include <sstream>
-
 #include "AnimatedTextureRenderer.h"
 #include "ControllerInputDevice.h"
+#include "GameManager.h"
 #include "GridManager.h"
 #include "IncreaseScoreCommand.h"
 #include "InputManager.h"
-#include "LivesDisplay.h"
 #include "PlayerMoveCommand.h"
 #include "PlayerController.h"
 #include "PlayerInteractCommand.h"
 #include "PlayerStateMachine.h"
-#include "RemoveLifeCommand.h"
-#include "ScoreDisplay.h"
+#include "SDLResourceSystem.h"
 #include "SDLSoundSystem.h"
 #include "ServiceLocator.h"
 #include "Minigin/GameObject.h"
 #include "Minigin/Minigin.h"
 #include "Minigin/SceneManager.h"
-#include "Minigin/ResourceManager.h"
 #include "Minigin/Scene.h"
-#include "Minigin/TextRenderer.h"
 
 void Load()
 {
@@ -38,29 +34,43 @@ void Load()
 		dae::SoundSystem::SoundType::sfx,
 		"Data/Sound/act_start.mp3"
 	);
+	dae::ServiceLocator::RegisterResourceSystem(std::make_unique<dae::SDLResourceSystem>());
 
 	auto& scene{ dae::SceneManager::GetInstance().CreateScene("Demo", 0) };
 
-	std::shared_ptr<dae::Font> pFont{ dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36) };
-	std::shared_ptr<dae::Font> pFontSmall{ dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 14) };
+	std::shared_ptr<dae::Font> pFont{
+		dae::ServiceLocator::GetResourceSystem().LoadFont("Data/Lingua.otf", 36)
+	};
+	std::shared_ptr<dae::Font> pFontSmall{
+		dae::ServiceLocator::GetResourceSystem().LoadFont("Data/Lingua.otf", 14)
+	};
 
+	const glm::vec2 centerScreen{ dae::Minigin::WINDOW_WIDTH / 2.f, dae::Minigin::WINDOW_HEIGHT / 2.f };
 	{
 		std::unique_ptr pGridManager{ std::make_unique<dae::GameObject>("GridManager")};
-		pGridManager->GetTransform().SetLocalPosition(
-			{ dae::Minigin::WINDOW_WIDTH / 2.f, dae::Minigin::WINDOW_HEIGHT / 2.f }
-		);
+		pGridManager->GetTransform().SetLocalPosition(centerScreen);
 		pGridManager->GetTransform().SetLocalScale({ 1.5f, 1.5f });
+
 		pGridManager->AddComponent(std::make_unique<GridManager>(pGridManager.get()));
 		scene.Add(std::move(pGridManager));
 	}
 
+	{
+		std::unique_ptr pGameManager{ std::make_unique<dae::GameObject>("GameManager") };
+		pGameManager->GetTransform().SetLocalPosition(centerScreen);
+		pGameManager->GetTransform().SetLocalScale({ 1.5f, 1.5f });
+
+		pGameManager->AddComponent(std::make_unique<GameManager>(pGameManager.get()));
+		scene.Add(std::move(pGameManager));
+	}
+
 
 	{
-		std::unique_ptr pInfo{ std::make_unique<dae::GameObject>() };
-		pInfo->GetTransform().SetLocalPosition({ 20, 80 });
-		pInfo->AddComponent(std::make_unique<dae::TextRenderer>(
-			pInfo.get(), "WASD to move pengo, R to damage, T to increase score", pFontSmall, SDL_Color{ 255, 255, 255, 255 })
-		);
+		//std::unique_ptr pInfo{ std::make_unique<dae::GameObject>() };
+		//pInfo->GetTransform().SetLocalPosition({ 20, 80 });
+		//pInfo->AddComponent(std::make_unique<dae::TextRenderer>(
+		//	pInfo.get(), "WASD to move pengo, R to damage, T to increase score", pFontSmall, SDL_Color{ 255, 255, 255, 255 })
+		//);
 
 		//std::unique_ptr pInfo2{ std::make_unique<dae::GameObject>() };
 		//pInfo2->GetTransform().SetLocalPosition({ 20, 95 });
@@ -68,7 +78,7 @@ void Load()
 		//	pInfo2.get(), "D-Pad to move snobee, A to damage, B to increase score", pFontSmall, SDL_Color{ 255, 255, 255, 255 })
 		//);
 
-		scene.Add(std::move(pInfo));
+		//scene.Add(std::move(pInfo));
 		//scene.Add(std::move(pInfo2));
 	}
 
@@ -79,7 +89,7 @@ void Load()
 		pPengo->GetTransform().SetLocalScale({ 1.5f, 1.5f });
 		pPengo->AddComponent(std::make_unique<dae::AnimatedTextureRenderer>(
 			pPengo.get(),
-			dae::ResourceManager::GetInstance().LoadTexture("pengo_red.png"),
+			dae::ServiceLocator::GetResourceSystem().LoadTexture("Data/pengo_red.png"),
 			4, 8
 		));
 		pPengo->AddComponent(std::make_unique<PlayerController>(pPengo.get()));
@@ -89,35 +99,35 @@ void Load()
 
 		pPengo->AddComponent(std::move(stateMachine));
 
-		std::unique_ptr pPengoLivesDisplay{ std::make_unique<dae::GameObject>() };
-		pPengoLivesDisplay->GetTransform().SetLocalPosition({ 20, 120 });
-		pPengoLivesDisplay->AddComponent(std::make_unique<dae::TextRenderer>(
-			pPengoLivesDisplay.get(), "", pFont, SDL_Color{ 255, 255, 255, 255 })
-		);
-		pPengoLivesDisplay->AddComponent(std::make_unique<LivesDisplay>(
-			pPengoLivesDisplay.get(),
-			pPengo->GetComponent<PlayerController>()
-		));
+		//std::unique_ptr pPengoLivesDisplay{ std::make_unique<dae::GameObject>() };
+		//pPengoLivesDisplay->GetTransform().SetLocalPosition({ 20, 120 });
+		//pPengoLivesDisplay->AddComponent(std::make_unique<dae::TextRenderer>(
+		//	pPengoLivesDisplay.get(), "", pFont, SDL_Color{ 255, 255, 255, 255 })
+		//);
+		//pPengoLivesDisplay->AddComponent(std::make_unique<LivesDisplay>(
+		//	pPengoLivesDisplay.get(),
+		//	pPengo->GetComponent<PlayerController>()
+		//));
 
-		std::unique_ptr pPengoScoreDisplay{ std::make_unique<dae::GameObject>() };
-		pPengoScoreDisplay->GetTransform().SetLocalPosition({ 220, 120 });
-		pPengoScoreDisplay->AddComponent(std::make_unique<dae::TextRenderer>(
-			pPengoScoreDisplay.get(), "", pFont, SDL_Color{ 255, 255, 255, 255 })
-		);
-		pPengoScoreDisplay->AddComponent(std::make_unique<ScoreDisplay>(
-			pPengoScoreDisplay.get(),
-			pPengo->GetComponent<PlayerController>()
-		));
+		//std::unique_ptr pPengoScoreDisplay{ std::make_unique<dae::GameObject>() };
+		//pPengoScoreDisplay->GetTransform().SetLocalPosition({ 220, 120 });
+		//pPengoScoreDisplay->AddComponent(std::make_unique<dae::TextRenderer>(
+		//	pPengoScoreDisplay.get(), "", pFont, SDL_Color{ 255, 255, 255, 255 })
+		//);
+		//pPengoScoreDisplay->AddComponent(std::make_unique<ScoreDisplay>(
+		//	pPengoScoreDisplay.get(),
+		//	pPengo->GetComponent<PlayerController>()
+		//));
 
-		scene.Add(std::move(pPengoLivesDisplay));
-		scene.Add(std::move(pPengoScoreDisplay));
+		//scene.Add(std::move(pPengoLivesDisplay));
+		//scene.Add(std::move(pPengoScoreDisplay));
 
 
 
 		// Snobee and its UI
 		/*std::unique_ptr pSnobee{ std::make_unique<dae::GameObject>() };
 		pSnobee->GetTransform().SetLocalPosition(glm::vec2(250, 200));
-		pSnobee->AddComponent(std::make_unique<dae::TextureRenderer>(pSnobee.get(), dae::ResourceManager::GetInstance().LoadTexture("snobee.png")));
+		pSnobee->AddComponent(std::make_unique<dae::TextureRenderer>(pSnobee.get(), dae::ServiceLocator::GetResourceSystem().LoadTexture("snobee.png")));
 		pSnobee->AddComponent(std::make_unique<PlayerController>(pSnobee.get()));
 
 		std::unique_ptr pSnobeeLivesDisplay{ std::make_unique<dae::GameObject>() };

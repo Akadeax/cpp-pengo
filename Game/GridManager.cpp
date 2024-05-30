@@ -3,14 +3,17 @@
 #include <iostream>
 #include <fstream>
 #include <json.hpp>
+#include <random>
 
 #include "Block.h"
 #include "GameObject.h"
-#include "ResourceManager.h"
 #include "TextureRenderer.h"
 
 #pragma warning(push, 0)
 #include <glm/gtx/string_cast.hpp>
+
+#include "ResourceSystem.h"
+#include "ServiceLocator.h"
 #pragma warning(pop)
 
 GridManager::GridManager(dae::GameObject* pParent)
@@ -20,11 +23,29 @@ GridManager::GridManager(dae::GameObject* pParent)
 
 void GridManager::Ready()
 {
-	m_pBlockTexture = dae::ResourceManager::GetInstance().LoadTexture("block.png");
-	m_BlockGrid = std::vector<dae::GameObject*>(static_cast<size_t>(GRID_WIDTH * GRID_HEIGHT));
+	std::cout << "READY\n";
+	m_pBlockTexture = dae::ServiceLocator::GetResourceSystem().LoadTexture("Data/blocks.png");
+
+	m_BlockGrid = std::vector<Block*>(GRID_WIDTH * GRID_HEIGHT);
 	std::ranges::fill(m_BlockGrid, nullptr);
 
 	SpawnLevelFromJson("Data/Levels/level1.json");
+
+	std::vector<Block*> normalBlocks{ GetBlocksOfType(Block::Type::normal) };
+
+	std::random_device rd;
+	std::mt19937 gen{ rd() };
+
+	std::ranges::shuffle(normalBlocks, gen);
+
+	for(int i{}; i < DIAMOND_BLOCK_COUNT; ++i)
+	{
+		normalBlocks[i]->SetType(Block::Type::diamond);
+	}
+	for (int i{ DIAMOND_BLOCK_COUNT }; i < DIAMOND_BLOCK_COUNT + UNHATCHED_BLOCK_COUNT; ++i)
+	{
+		normalBlocks[i]->SetType(Block::Type::unhatched);
+	}
 }
 
 /**
@@ -43,6 +64,11 @@ glm::vec2 GridManager::GridToWorld(glm::vec2 grid, bool applyScale) const
 {
 	const float blockSize{ applyScale ? GetBlockWorldSize() : BLOCK_SQUARE_SIZE };
 	return grid * blockSize + GetParent()->GetTransform().GetLocalPosition();
+}
+
+glm::vec2 GridManager::LocalToGrid(glm::vec2 local) const
+{
+	return local * (1.f / GetBlockWorldSize());
 }
 
 glm::vec2 GridManager::GridToLocal(glm::vec2 grid, bool applyScale) const
@@ -92,10 +118,10 @@ Block* GridManager::GetBlock(glm::vec2 grid) const
 
 	const size_t index{ GridToIndex(grid) };
 	if (m_BlockGrid[index] == nullptr) return nullptr;
-	return m_BlockGrid[index]->GetComponent<Block>();
+	return m_BlockGrid[index];
 }
 
-void GridManager::AddBlock(glm::vec2 grid, dae::GameObject* block)
+void GridManager::AddBlock(glm::vec2 grid, Block* block)
 {
 	m_BlockGrid[GridToIndex(grid)] = block;
 }
@@ -144,6 +170,18 @@ bool GridManager::IsGridPositionValid(glm::vec2 grid) const
 	return xValid && yValid;
 }
 
+std::vector<Block*> GridManager::GetBlocksOfType(Block::Type type)
+{
+	std::vector<Block*> ret{};
+	std::ranges::copy_if(m_BlockGrid, std::back_inserter(ret), [type](const Block* block)
+		{
+			if (block == nullptr) return false;
+			return block->GetType() == type;
+		});
+
+	return ret;
+}
+
 /**
  * \brief Spawn a block GameObject at the given grid position (in grid coordinates)
  */
@@ -152,15 +190,20 @@ void GridManager::SpawnBlockAt(glm::ivec2 gridPos)
 	std::unique_ptr pBlock{ std::make_unique<dae::GameObject>() };
 
 	// Don't apply scale when going from grid to world because this block
-	// is a child of GridManager anyways, so scale is applied already
+	// is a child of GridManager anyways, scale is applied already
 	pBlock->GetTransform().SetLocalPosition(GridToWorld(gridPos, false));
-	pBlock->AddComponent(std::make_unique<dae::TextureRenderer>(pBlock.get(), m_pBlockTexture));
-	pBlock->AddComponent(std::make_unique<Block>(pBlock.get()));
+	pBlock->AddComponent(std::make_unique<dae::TextureRenderer>(
+		pBlock.get(),
+		m_pBlockTexture,
+		3, 1
+	));
 
-	m_BlockGrid[GridToIndex(gridPos)] = pBlock.get();
+	std::unique_ptr<Block> pBlockComp{ std::make_unique<Block>(pBlock.get()) };
+
+	m_BlockGrid[GridToIndex(gridPos)] = pBlockComp.get();
+	pBlock->AddComponent(std::move(pBlockComp));
 
 	GetParent()->AttachChild(std::move(pBlock), true);
-
 }
 
 /**

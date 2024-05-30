@@ -9,40 +9,47 @@ dae::GameObject::GameObject(std::string&& tag)
 
 void dae::GameObject::Ready()
 {
-	for (const auto& component : m_Components)
+	m_Ready = true;
+
+	for (size_t i{}; i < m_Components.size(); ++i)
 	{
-		component->Ready();
+		m_Components[i]->Ready();
 	}
 
-	for (const auto& child : m_Children)
+	for (size_t i{}; i < m_Children.size(); ++i)
 	{
-		child->Ready();
+		m_Children[i]->Ready();
 	}
 }
 
-void dae::GameObject::Update() const
+void dae::GameObject::Update()
 {
-	for (const auto& component : m_Components)
+	if (!m_Ready)
 	{
-		component->Update();
+		Ready();
 	}
 
-	for (const auto& child : m_Children)
+	for (size_t i{}; i < m_Components.size(); ++i)
 	{
-		child->Update();
+		m_Components[i]->Update();
+	}
+
+	for (size_t i{}; i < m_Children.size(); ++i)
+	{
+		m_Children[i]->Update();
 	}
 }
 
 void dae::GameObject::LateUpdate() const
 {
-	for (const auto& component : m_Components)
+	for (size_t i{}; i < m_Components.size(); ++i)
 	{
-		component->LateUpdate();
+		m_Components[i]->LateUpdate();
 	}
 
-	for (const auto& child : m_Children)
+	for (size_t i{}; i < m_Children.size(); ++i)
 	{
-		child->LateUpdate();
+		m_Children[i]->LateUpdate();
 	}
 }
 
@@ -52,45 +59,56 @@ void dae::GameObject::HandleDeletion()
 		{
 			return pGo->IsMarkedForDeletion();
 		});
+
+	for (size_t i{}; i < m_Children.size(); ++i)
+	{
+		m_Children[i]->HandleDeletion();
+	}
 }
 
 void dae::GameObject::FixedUpdate() const
 {
-	for (const auto& component : m_Components)
+	for (size_t i{}; i < m_Components.size(); ++i)
 	{
-		component->FixedUpdate();
+		m_Components[i]->FixedUpdate();
 	}
 
-	for (const auto& child : m_Children)
+	for (size_t i{}; i < m_Children.size(); ++i)
 	{
-		child->FixedUpdate();
+		m_Children[i]->FixedUpdate();
 	}
 }
 
 void dae::GameObject::Render() const
 {
-	for (const auto& component : m_Components)
+	for (size_t i{}; i < m_Components.size(); ++i)
 	{
-		component->Render();
+		m_Components[i]->Render();
 	}
 
-	for (const auto& child : m_Children)
+	for (size_t i{}; i < m_Children.size(); ++i)
 	{
-		child->Render();
+		m_Children[i]->Render();
 	}
 }
 
 void dae::GameObject::OnImGui() const
 {
-	for (const auto& component : m_Components)
+	for (size_t i{}; i < m_Components.size(); ++i)
 	{
-		component->OnImGui();
+		m_Components[i]->OnImGui();
 	}
 
-	for (const auto& child : m_Children)
+	for (size_t i{}; i < m_Children.size(); ++i)
 	{
-		child->OnImGui();
+		m_Children[i]->OnImGui();
 	}
+}
+
+void dae::GameObject::MarkForDeletion()
+{
+	m_MarkedForDeletion = true;
+	MarkedForDeletion.Emit(this);
 }
 
 void dae::GameObject::AddComponent(std::unique_ptr<Component> pComponent)

@@ -108,6 +108,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)3rdParty\imgui;$(SolutionDir)3rdParty\SDL2_mixer\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <DisableSpecificWarnings>5105</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -136,6 +137,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\SDL2_mixer.dll" "
       <AdditionalIncludeDirectories>$(SolutionDir)3rdParty\imgui;$(SolutionDir)3rdParty\SDL2_mixer\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <DisableSpecificWarnings>5105</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -166,6 +168,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\SDL2_mixer.dll" "
       <AdditionalIncludeDirectories>$(SolutionDir)3rdParty\imgui;$(SolutionDir)3rdParty\SDL2_mixer\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <DisableSpecificWarnings>5105</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -198,6 +201,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\SDL2_mixer.dll" "
       <AdditionalIncludeDirectories>$(SolutionDir)3rdParty\imgui;$(SolutionDir)3rdParty\SDL2_mixer\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <DisableSpecificWarnings>5105</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -233,10 +237,11 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\SDL2_mixer.dll" "
     <ClInclude Include="Minigin.h" />
     <ClInclude Include="NullSoundSystem.h" />
     <ClInclude Include="Renderer.h" />
-    <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="ResourceSystem.h" />
     <ClInclude Include="Rotator.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="SDLResourceSystem.h" />
     <ClInclude Include="SDLSoundSystem.h" />
     <ClInclude Include="ServiceLocator.h" />
     <ClInclude Include="Signal.h" />
@@ -248,6 +253,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\SDL2_mixer.dll" "
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="TextureRenderer.h" />
     <ClInclude Include="GameTime.h" />
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="Transform.h" />
   </ItemGroup>
   <ItemGroup>
@@ -269,12 +275,14 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\SDL2_mixer.dll" "
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="KeyboardInputDevice.cpp" />
     <ClCompile Include="Minigin.cpp" />
+    <ClCompile Include="NullResourceSystem.cpp" />
+    <ClCompile Include="NullResourceSystem.h" />
     <ClCompile Include="NullSoundSystem.cpp" />
     <ClCompile Include="Renderer.cpp" />
-    <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Rotator.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SDLResourceSystem.cpp" />
     <ClCompile Include="SDLSoundSystem.cpp" />
     <ClCompile Include="ServiceLocator.cpp" />
     <ClCompile Include="Signal.cpp" />
@@ -283,6 +291,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\SDL2_mixer.dll" "
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="TextureRenderer.cpp" />
     <ClCompile Include="GameTime.cpp" />
+    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

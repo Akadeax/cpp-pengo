@@ -15,14 +15,14 @@
     <Filter Include="Source\Player\Commands">
       <UniqueIdentifier>{28486c50-d2f4-4117-b2e1-e3f60be5bdf2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Grid">
+      <UniqueIdentifier>{af43d257-2f76-459b-8047-5f532fb4f948}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="LivesDisplay.cpp" />
-    <ClCompile Include="IncreaseScoreCommand.cpp" />
-    <ClCompile Include="ScoreDisplay.cpp" />
     <ClCompile Include="PlayerController.cpp">
       <Filter>Source\Player</Filter>
     </ClCompile>
@@ -32,15 +32,12 @@
     <ClCompile Include="PlayerIdleState.cpp">
       <Filter>Source\Player\States</Filter>
     </ClCompile>
-    <ClCompile Include="GridManager.cpp" />
-    <ClCompile Include="Block.cpp" />
     <ClCompile Include="PlayerStateMachine.cpp">
       <Filter>Source\Player\States</Filter>
     </ClCompile>
     <ClCompile Include="PlayerState.cpp">
       <Filter>Source\Player\States</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerInteractState.cpp" />
     <ClCompile Include="PlayerMoveCommand.cpp">
       <Filter>Source\Player\Commands</Filter>
     </ClCompile>
@@ -50,11 +47,30 @@
     <ClCompile Include="RemoveLifeCommand.cpp">
       <Filter>Source\Player\Commands</Filter>
     </ClCompile>
+    <ClCompile Include="IncreaseScoreCommand.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LivesDisplay.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerInteractState.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreDisplay.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Block.cpp">
+      <Filter>Source\Grid</Filter>
+    </ClCompile>
+    <ClCompile Include="GridManager.cpp">
+      <Filter>Source\Grid</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="SnobeeController.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="LivesDisplay.h" />
-    <ClInclude Include="IncreaseScoreCommand.h" />
-    <ClInclude Include="ScoreDisplay.h" />
     <ClInclude Include="PlayerController.h">
       <Filter>Source\Player</Filter>
     </ClInclude>
@@ -64,15 +80,12 @@
     <ClInclude Include="PlayerIdleState.h">
       <Filter>Source\Player\States</Filter>
     </ClInclude>
-    <ClInclude Include="GridManager.h" />
-    <ClInclude Include="Block.h" />
     <ClInclude Include="PlayerStateMachine.h">
       <Filter>Source\Player\States</Filter>
     </ClInclude>
     <ClInclude Include="PlayerState.h">
       <Filter>Source\Player\States</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerInteractState.h" />
     <ClInclude Include="PlayerMoveCommand.h">
       <Filter>Source\Player\Commands</Filter>
     </ClInclude>
@@ -82,5 +95,27 @@
     <ClInclude Include="RemoveLifeCommand.h">
       <Filter>Source\Player\Commands</Filter>
     </ClInclude>
+    <ClInclude Include="IncreaseScoreCommand.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="LivesDisplay.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerInteractState.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreDisplay.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Block.h">
+      <Filter>Source\Grid</Filter>
+    </ClInclude>
+    <ClInclude Include="GridManager.h">
+      <Filter>Source\Grid</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="SnobeeController.h" />
   </ItemGroup>
 </Project>

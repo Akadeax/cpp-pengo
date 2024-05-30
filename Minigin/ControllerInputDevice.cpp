@@ -4,7 +4,9 @@
 
 #define WIN32_LEAN_AND_MEAN // Exclude rarely-used stuff from Windows headers
 #include <vector>
+#undef MICROSOFT_WINDOWS_WINBASE_H_DEFINE_INTERLOCKED_CPLUSPLUS_OVERLOADS
 #include <windows.h>
+#undef MICROSOFT_WINDOWS_WINBASE_H_DEFINE_INTERLOCKED_CPLUSPLUS_OVERLOADS
 #include <XInput.h>
 
 #include "Command.h"

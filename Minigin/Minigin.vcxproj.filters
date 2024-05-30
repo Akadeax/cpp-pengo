@@ -32,9 +32,6 @@
     <ClInclude Include="Renderer.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="ResourceManager.h">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="Singleton.h">
       <Filter>Source</Filter>
     </ClInclude>
@@ -104,16 +101,26 @@
     <ClInclude Include="NullSoundSystem.h">
       <Filter>Source\Services</Filter>
     </ClInclude>
-    <ClInclude Include="StateMachine.h" />
-    <ClInclude Include="State.h" />
     <ClInclude Include="AnimatedTextureRenderer.h">
       <Filter>GameObject\Components</Filter>
     </ClInclude>
+    <ClInclude Include="State.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceSystem.h">
+      <Filter>Source\Services</Filter>
+    </ClInclude>
+    <ClInclude Include="SDLResourceSystem.h">
+      <Filter>Source\Services</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ResourceManager.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="Renderer.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -204,9 +211,23 @@
     <ClCompile Include="NullSoundSystem.cpp">
       <Filter>Source\Services</Filter>
     </ClCompile>
-    <ClCompile Include="StateMachine.cpp" />
     <ClCompile Include="AnimatedTextureRenderer.cpp">
       <Filter>GameObject\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="StateMachine.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="SDLResourceSystem.cpp">
+      <Filter>Source\Services</Filter>
+    </ClCompile>
+    <ClCompile Include="NullResourceSystem.h">
+      <Filter>Source\Services</Filter>
+    </ClCompile>
+    <ClCompile Include="NullResourceSystem.cpp">
+      <Filter>Source\Services</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,7 +1,7 @@
 #include <stdexcept>
-#define WIN32_LEAN_AND_MEAN 
-#include <windows.h>
 #include <SDL.h>
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include "Minigin.h"
@@ -13,7 +13,6 @@
 #include "InputManager.h"
 #include "SceneManager.h"
 #include "Renderer.h"
-#include "ResourceManager.h"
 #include "GameTime.h"
 
 SDL_Window* g_window{};
@@ -47,6 +46,7 @@ void PrintSDLVersion()
 }
 
 dae::Minigin::Minigin(const std::string& dataPath)
+	: m_DataPath{ dataPath }
 {
 	PrintSDLVersion();
 
@@ -69,8 +69,6 @@ dae::Minigin::Minigin(const std::string& dataPath)
 	}
 
 	Renderer::GetInstance().Init(g_window);
-
-	ResourceManager::GetInstance().Init(dataPath);
 }
 
 dae::Minigin::~Minigin()

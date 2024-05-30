@@ -5,6 +5,7 @@
 
 #include "Transform.h"
 #include "Component.h"
+#include "Signal.h"
 
 namespace dae
 {
@@ -15,10 +16,12 @@ namespace dae
 	class GameObject final
 	{
 	public:
+		Signal<GameObject*> MarkedForDeletion{};
+
 		explicit GameObject(std::string&& tag = "");
 
 		void Ready();
-		void Update() const;
+		void Update();
 		void LateUpdate() const;
 		void HandleDeletion();
 
@@ -27,7 +30,7 @@ namespace dae
 		void OnImGui() const;
 
 		bool IsMarkedForDeletion() const { return m_MarkedForDeletion; }
-		void MarkForDeletion() { m_MarkedForDeletion = true; }
+		void MarkForDeletion();
 
 		Transform& GetTransform() { return m_Transform; }
 
@@ -52,6 +55,8 @@ namespace dae
 		const std::string& GetTag() const { return m_Tag; }
 
 	private:
+		bool m_Ready{ false };
+
 		Transform m_Transform{ this };
 		std::vector<std::unique_ptr<Component>> m_Components{};
 
