@@ -53,9 +53,6 @@
     <ClCompile Include="LivesDisplay.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerInteractState.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="ScoreDisplay.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -68,7 +65,12 @@
     <ClCompile Include="GameManager.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="SnobeeController.cpp" />
+    <ClCompile Include="SnobeeController.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerInteractState.cpp">
+      <Filter>Source\Player\States</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerController.h">
@@ -101,9 +103,6 @@
     <ClInclude Include="LivesDisplay.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerInteractState.h">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="ScoreDisplay.h">
       <Filter>Source</Filter>
     </ClInclude>
@@ -116,6 +115,11 @@
     <ClInclude Include="GameManager.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="SnobeeController.h" />
+    <ClInclude Include="SnobeeController.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerInteractState.h">
+      <Filter>Source\Player\States</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

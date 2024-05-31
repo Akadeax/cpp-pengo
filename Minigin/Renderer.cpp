@@ -127,4 +127,17 @@ void dae::Renderer::RenderTexture(
 	SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), sourceRect, &dst, glm::degrees(rotation), nullptr, SDL_FLIP_NONE);
 }
 
+void dae::Renderer::RenderRect(glm::vec2 pos, glm::vec2 size, glm::vec<4, Uint8> color) const
+{
+	const SDL_Rect dst{
+		static_cast<int>(pos.x),
+		static_cast<int>(pos.y),
+		static_cast<int>(size.x),
+		static_cast<int>(size.y)
+	};
+
+	SDL_SetRenderDrawColor(GetSDLRenderer(), color.r, color.g, color.b, color.a);
+	SDL_RenderDrawRect(GetSDLRenderer(), &dst);
+}
+
 SDL_Renderer* dae::Renderer::GetSDLRenderer() const { return m_pRenderer; }

@@ -1,6 +1,7 @@
 #pragma once
 #include <SDL.h>
 #include <glm/vec2.hpp>
+#include <glm/vec4.hpp>
 
 #include "Singleton.h"
 
@@ -27,6 +28,8 @@ namespace dae
 			float rotation,
 			glm::vec2 scale
 		) const;
+
+		void RenderRect(glm::vec2 pos, glm::vec2 size, glm::vec<4, Uint8> color) const;
 
 		SDL_Renderer* GetSDLRenderer() const;
 

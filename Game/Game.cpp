@@ -8,6 +8,7 @@
 #endif
 #endif
 
+#include <iostream>
 #include <sstream>
 #include "AnimatedTextureRenderer.h"
 #include "ControllerInputDevice.h"
@@ -22,6 +23,7 @@
 #include "SDLResourceSystem.h"
 #include "SDLSoundSystem.h"
 #include "ServiceLocator.h"
+#include "UIButton.h"
 #include "Minigin/GameObject.h"
 #include "Minigin/Minigin.h"
 #include "Minigin/SceneManager.h"
@@ -229,6 +231,18 @@ void Load()
 		scene.Add(std::move(pPengo));
 		//scene.Add(std::move(pSnobee));
 
+	}
+
+	{
+		std::unique_ptr pUITest{ std::make_unique<dae::GameObject>() };
+		pUITest->GetTransform().SetLocalPosition({ 50, 50 });
+		pUITest->GetTransform().SetLocalScale({ 2, 2 });
+		std::unique_ptr pButtonComp{ std::make_unique<dae::UIButton>(pUITest.get(), glm::vec2{ 50.f, 50.f }) };
+		pButtonComp->Hover.Connect([]() { std::cout << "hover\n"; });
+
+		pUITest->AddComponent(std::move(pButtonComp));
+
+		scene.Add(std::move(pUITest));
 	}
 }
 

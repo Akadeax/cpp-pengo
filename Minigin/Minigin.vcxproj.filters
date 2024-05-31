@@ -1,12 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="GameObject">
-      <UniqueIdentifier>{14ace829-fbe0-40d1-9645-55342376979d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObject\Components">
-      <UniqueIdentifier>{bde81ba7-d849-41a0-b403-c0fc340269b3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>
@@ -15,153 +9,171 @@
     <Filter Include="ImGui">
       <UniqueIdentifier>{3046aa89-fbf9-4a30-a8f3-9ca6b67a8cce}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Input">
-      <UniqueIdentifier>{ada683c0-8870-4a6b-949a-403c8d4c8157}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Services">
       <UniqueIdentifier>{80eca54e-7b70-45f9-b5f5-88c7833fc332}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Services\Resource">
+      <UniqueIdentifier>{4b02c1c7-da9f-4fd3-a8a8-10812dba3bc0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Services\Sound">
+      <UniqueIdentifier>{759da582-ba2f-48b0-900f-0747422995ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Rendering">
+      <UniqueIdentifier>{ee11044a-da83-4d06-9f13-c62ca9be8969}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Core">
+      <UniqueIdentifier>{4da237d7-22f1-42f3-b94d-cfd69b6021ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Core\Signal">
+      <UniqueIdentifier>{b5180cdf-7be2-4df3-91ed-a5546d00dbf8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Core\FSM">
+      <UniqueIdentifier>{fe36f34e-906c-4c66-8490-f11045e53b3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Input">
+      <UniqueIdentifier>{ada683c0-8870-4a6b-949a-403c8d4c8157}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\SceneTree">
+      <UniqueIdentifier>{14ace829-fbe0-40d1-9645-55342376979d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\SceneTree\Components">
+      <UniqueIdentifier>{bde81ba7-d849-41a0-b403-c0fc340269b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\SceneTree\Components\UI">
+      <UniqueIdentifier>{6685deab-325e-4851-915e-9a2c115cd6e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\SceneTree\Components\Util">
+      <UniqueIdentifier>{7a426328-9063-4822-a075-3fd8de2d3112}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Font.h">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="Minigin.h">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer.h">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="Singleton.h">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture2D.h">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="Transform.h">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject.h">
-      <Filter>GameObject</Filter>
+      <Filter>Source\SceneTree</Filter>
     </ClInclude>
     <ClInclude Include="Scene.h">
-      <Filter>GameObject</Filter>
+      <Filter>Source\SceneTree</Filter>
     </ClInclude>
     <ClInclude Include="Component.h">
-      <Filter>GameObject\Components</Filter>
+      <Filter>Source\SceneTree\Components</Filter>
     </ClInclude>
     <ClInclude Include="TextRenderer.h">
-      <Filter>GameObject\Components</Filter>
+      <Filter>Source\SceneTree\Components</Filter>
     </ClInclude>
     <ClInclude Include="TextureRenderer.h">
-      <Filter>GameObject\Components</Filter>
+      <Filter>Source\SceneTree\Components</Filter>
     </ClInclude>
     <ClInclude Include="SceneManager.h">
-      <Filter>GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="GameTime.h">
-      <Filter>Source</Filter>
+      <Filter>Source\SceneTree</Filter>
     </ClInclude>
     <ClInclude Include="FPSDisplay.h">
-      <Filter>GameObject\Components</Filter>
+      <Filter>Source\SceneTree\Components</Filter>
     </ClInclude>
     <ClInclude Include="Rotator.h">
-      <Filter>GameObject\Components</Filter>
+      <Filter>Source\SceneTree\Components</Filter>
     </ClInclude>
     <ClInclude Include="CacheThrasher.h">
-      <Filter>GameObject\Components</Filter>
+      <Filter>Source\SceneTree\Components</Filter>
     </ClInclude>
     <ClInclude Include="Command.h">
-      <Filter>Input</Filter>
+      <Filter>Source\Input</Filter>
     </ClInclude>
     <ClInclude Include="InputManager.h">
-      <Filter>Input</Filter>
+      <Filter>Source\Input</Filter>
     </ClInclude>
     <ClInclude Include="ControllerInputDevice.h">
-      <Filter>Input</Filter>
+      <Filter>Source\Input</Filter>
     </ClInclude>
     <ClInclude Include="InputDevice.h">
-      <Filter>Input</Filter>
+      <Filter>Source\Input</Filter>
     </ClInclude>
     <ClInclude Include="KeyboardInputDevice.h">
-      <Filter>Input</Filter>
-    </ClInclude>
-    <ClInclude Include="Signal.h">
-      <Filter>Source</Filter>
+      <Filter>Source\Input</Filter>
     </ClInclude>
     <ClInclude Include="ServiceLocator.h">
       <Filter>Source\Services</Filter>
     </ClInclude>
-    <ClInclude Include="SoundSystem.h">
-      <Filter>Source\Services</Filter>
-    </ClInclude>
-    <ClInclude Include="SDLSoundSystem.h">
-      <Filter>Source\Services</Filter>
-    </ClInclude>
-    <ClInclude Include="NullSoundSystem.h">
-      <Filter>Source\Services</Filter>
-    </ClInclude>
     <ClInclude Include="AnimatedTextureRenderer.h">
-      <Filter>GameObject\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="State.h">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="StateMachine.h">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="Timer.h">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceSystem.h">
-      <Filter>Source\Services</Filter>
+      <Filter>Source\SceneTree\Components</Filter>
     </ClInclude>
     <ClInclude Include="SDLResourceSystem.h">
-      <Filter>Source\Services</Filter>
+      <Filter>Source\Services\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceSystem.h">
+      <Filter>Source\Services\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="NullSoundSystem.h">
+      <Filter>Source\Services\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="SDLSoundSystem.h">
+      <Filter>Source\Services\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundSystem.h">
+      <Filter>Source\Services\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>Source\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Source\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Signal.h">
+      <Filter>Source\Core\Signal</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine.h">
+      <Filter>Source\Core\FSM</Filter>
+    </ClInclude>
+    <ClInclude Include="State.h">
+      <Filter>Source\Core\FSM</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture2D.h">
+      <Filter>Source\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="GameTime.h">
+      <Filter>Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Minigin.h">
+      <Filter>Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Source\SceneTree\Components\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="UIAnchor.h">
+      <Filter>Source\SceneTree\Components\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIButton.h">
+      <Filter>Source\SceneTree\Components\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Renderer.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Texture2D.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Transform.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Font.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Minigin.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject.cpp">
-      <Filter>GameObject</Filter>
+      <Filter>Source\SceneTree</Filter>
     </ClCompile>
     <ClCompile Include="Scene.cpp">
-      <Filter>GameObject</Filter>
+      <Filter>Source\SceneTree</Filter>
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
-      <Filter>GameObject</Filter>
+      <Filter>Source\SceneTree</Filter>
     </ClCompile>
     <ClCompile Include="Component.cpp">
-      <Filter>GameObject\Components</Filter>
+      <Filter>Source\SceneTree\Components</Filter>
     </ClCompile>
     <ClCompile Include="TextRenderer.cpp">
-      <Filter>GameObject\Components</Filter>
+      <Filter>Source\SceneTree\Components</Filter>
     </ClCompile>
     <ClCompile Include="TextureRenderer.cpp">
-      <Filter>GameObject\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="GameTime.cpp">
-      <Filter>Source</Filter>
+      <Filter>Source\SceneTree\Components</Filter>
     </ClCompile>
     <ClCompile Include="FPSDisplay.cpp">
-      <Filter>GameObject\Components</Filter>
+      <Filter>Source\SceneTree\Components</Filter>
     </ClCompile>
     <ClCompile Include="Rotator.cpp">
-      <Filter>GameObject\Components</Filter>
+      <Filter>Source\SceneTree\Components</Filter>
     </ClCompile>
     <ClCompile Include="..\3rdParty\imgui\imgui.cpp">
       <Filter>ImGui</Filter>
@@ -188,46 +200,70 @@
       <Filter>ImGui</Filter>
     </ClCompile>
     <ClCompile Include="CacheThrasher.cpp">
-      <Filter>GameObject\Components</Filter>
+      <Filter>Source\SceneTree\Components</Filter>
     </ClCompile>
     <ClCompile Include="InputManager.cpp">
-      <Filter>Input</Filter>
+      <Filter>Source\Input</Filter>
     </ClCompile>
     <ClCompile Include="ControllerInputDevice.cpp">
-      <Filter>Input</Filter>
+      <Filter>Source\Input</Filter>
     </ClCompile>
     <ClCompile Include="KeyboardInputDevice.cpp">
-      <Filter>Input</Filter>
-    </ClCompile>
-    <ClCompile Include="Signal.cpp">
-      <Filter>Source</Filter>
+      <Filter>Source\Input</Filter>
     </ClCompile>
     <ClCompile Include="ServiceLocator.cpp">
       <Filter>Source\Services</Filter>
     </ClCompile>
-    <ClCompile Include="SDLSoundSystem.cpp">
-      <Filter>Source\Services</Filter>
-    </ClCompile>
-    <ClCompile Include="NullSoundSystem.cpp">
-      <Filter>Source\Services</Filter>
-    </ClCompile>
     <ClCompile Include="AnimatedTextureRenderer.cpp">
-      <Filter>GameObject\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="StateMachine.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Timer.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="SDLResourceSystem.cpp">
-      <Filter>Source\Services</Filter>
-    </ClCompile>
-    <ClCompile Include="NullResourceSystem.h">
-      <Filter>Source\Services</Filter>
+      <Filter>Source\SceneTree\Components</Filter>
     </ClCompile>
     <ClCompile Include="NullResourceSystem.cpp">
-      <Filter>Source\Services</Filter>
+      <Filter>Source\Services\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="NullResourceSystem.h">
+      <Filter>Source\Services\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="SDLResourceSystem.cpp">
+      <Filter>Source\Services\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="NullSoundSystem.cpp">
+      <Filter>Source\Services\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="SDLSoundSystem.cpp">
+      <Filter>Source\Services\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>Source\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Source\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Signal.cpp">
+      <Filter>Source\Core\Signal</Filter>
+    </ClCompile>
+    <ClCompile Include="StateMachine.cpp">
+      <Filter>Source\Core\FSM</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture2D.cpp">
+      <Filter>Source\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="GameTime.cpp">
+      <Filter>Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Minigin.cpp">
+      <Filter>Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Source\SceneTree\Components\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="UIAnchor.cpp">
+      <Filter>Source\SceneTree\Components\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIButton.cpp">
+      <Filter>Source\SceneTree\Components\UI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -13,6 +13,20 @@ bool dae::InputManager::ProcessInput()
 			return false;
 		}
 
+		// Handle mouse input
+		if (e.type == SDL_MOUSEBUTTONDOWN)
+		{
+			MouseDown.Emit(m_MousePosition);
+		}
+		else if (e.type == SDL_MOUSEBUTTONUP)
+		{
+			MouseUp.Emit(m_MousePosition);
+		}
+		else if (e.type == SDL_MOUSEMOTION)
+		{
+			m_MousePosition = { e.motion.x, e.motion.y };
+		}
+
 		// Passing event to ImGui
 		ImGui_ImplSDL2_ProcessEvent(&e);
 

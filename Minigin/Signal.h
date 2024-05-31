@@ -28,7 +28,7 @@ namespace dae
             std::erase_if(m_Connections, [id](const Connection& conn) { return conn.first == id; });
         }
 
-        void Emit(SignalArgs... args)
+        void Emit(SignalArgs... args) const
         {
             for (const Connection& conn : m_Connections)
             {
