@@ -27,7 +27,7 @@ void dae::UIButton::Update()
 void dae::UIButton::Render() const
 {
 #if _DEBUG
-	const glm::vec2 localPos{ GetParent()->GetTransform().GetLocalPosition() };
+	const glm::vec2 localPos{ GetParent()->GetTransform().GetWorldPosition() };
 	const glm::vec2 scale{ GetParent()->GetTransform().GetWorldScale() };
 
 	Renderer::GetInstance().RenderRect(localPos, m_ButtonClickSize * scale, { 255, 0, 0, 255 });
@@ -50,7 +50,7 @@ void dae::UIButton::CheckMouseUp(glm::vec2) const
 
 bool dae::UIButton::IsInBounds(glm::vec2 clickPos) const
 {
-	const glm::vec2 localPos{ GetParent()->GetTransform().GetLocalPosition() };
+	const glm::vec2 localPos{ GetParent()->GetTransform().GetWorldPosition() };
 	const glm::vec2 size{ m_ButtonClickSize * GetParent()->GetTransform().GetWorldScale() };
 
 

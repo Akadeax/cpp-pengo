@@ -5,8 +5,9 @@
 #include "GameObject.h"
 #include "Minigin.h"
 
-dae::UIAnchor::UIAnchor(GameObject* pParent, UIAnchorPoint anchor)
+dae::UIAnchor::UIAnchor(GameObject* pParent, UIAnchorPoint anchor, glm::vec2 offset)
 	: Component(pParent)
+	, offset{ offset }
 	, m_Anchor{ anchor }
 {
 }
@@ -35,5 +36,5 @@ void dae::UIAnchor::UpdateAnchoredPosition() const
 	case UIAnchorPoint::bottomRight: target = { w      , h       }; break;
 	}
 
-	GetParent()->GetTransform().SetLocalPosition(target);
+	GetParent()->GetTransform().SetLocalPosition(target + offset);
 }

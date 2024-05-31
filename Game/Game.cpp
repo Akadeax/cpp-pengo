@@ -23,6 +23,7 @@
 #include "SDLResourceSystem.h"
 #include "SDLSoundSystem.h"
 #include "ServiceLocator.h"
+#include "UIAnchor.h"
 #include "UIButton.h"
 #include "Minigin/GameObject.h"
 #include "Minigin/Minigin.h"
@@ -234,15 +235,22 @@ void Load()
 	}
 
 	{
-		std::unique_ptr pUITest{ std::make_unique<dae::GameObject>() };
-		pUITest->GetTransform().SetLocalPosition({ 50, 50 });
-		pUITest->GetTransform().SetLocalScale({ 2, 2 });
-		std::unique_ptr pButtonComp{ std::make_unique<dae::UIButton>(pUITest.get(), glm::vec2{ 50.f, 50.f }) };
-		pButtonComp->Hover.Connect([]() { std::cout << "hover\n"; });
+		std::unique_ptr pAnchorObject{ std::make_unique<dae::GameObject>() };
+		pAnchorObject->AddComponent(std::make_unique<dae::UIAnchor>(
+			pAnchorObject.get(),
+			dae::UIAnchorPoint::topRight,
+			glm::vec2{ -175, 25 }
+		));
 
-		pUITest->AddComponent(std::move(pButtonComp));
+		std::unique_ptr pButton{ std::make_unique<dae::GameObject>() };
 
-		scene.Add(std::move(pUITest));
+		std::unique_ptr pButtonComp{ std::make_unique<dae::UIButton>(pButton.get(), glm::vec2{ 150.f, 50.f }) };
+		pButtonComp->MouseDown.Connect([] { std::cout << "hover\n"; });
+		pButton->AddComponent(std::move(pButtonComp));
+
+		pAnchorObject->AttachChild(std::move(pButton));
+
+		scene.Add(std::move(pAnchorObject));
 	}
 }
 
