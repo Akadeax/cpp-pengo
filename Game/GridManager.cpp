@@ -66,9 +66,9 @@ glm::vec2 GridManager::GridToWorld(glm::vec2 grid, bool applyScale) const
 	return grid * blockSize + GetParent()->GetTransform().GetLocalPosition();
 }
 
-glm::vec2 GridManager::LocalToGrid(glm::vec2 local) const
+glm::vec2 GridManager::LocalToGrid(glm::vec2 local, bool applyScale) const
 {
-	return local * (1.f / GetBlockWorldSize());
+	return local * (1.f / (applyScale ? GetBlockWorldSize() : BLOCK_SQUARE_SIZE));
 }
 
 glm::vec2 GridManager::GridToLocal(glm::vec2 grid, bool applyScale) const

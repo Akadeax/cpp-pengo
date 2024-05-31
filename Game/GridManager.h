@@ -19,7 +19,7 @@ public:
 
 	glm::vec2 WorldToGrid(glm::vec2 world) const;
 	glm::vec2 GridToWorld(glm::vec2 grid, bool applyScale = true) const;
-	glm::vec2 LocalToGrid(glm::vec2 local) const;
+	glm::vec2 LocalToGrid(glm::vec2 local, bool applyScale = true) const;
 	glm::vec2 GridToLocal(glm::vec2 grid, bool applyScale = true) const;
 	size_t GridToIndex(glm::vec2 grid) const;
 	glm::vec2 IndexToGrid(size_t index) const;

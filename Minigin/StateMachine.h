@@ -3,11 +3,10 @@
 #include <vector>
 
 #include "Component.h"
+#include "State.h"
 
 namespace dae
 {
-	class State;
-
 	class StateNotFoundException{};
 	using StateID = size_t;
 

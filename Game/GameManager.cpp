@@ -4,11 +4,12 @@
 #include <iostream>
 #include <random>
 
+#include "AnimatedTextureRenderer.h"
 #include "Scene.h"
 #include "GridManager.h"
 #include "ResourceSystem.h"
 #include "ServiceLocator.h"
-#include "TextureRenderer.h"
+#include "SnobeeStateMachine.h"
 #include "Timer.h"
 
 GameManager::GameManager(dae::GameObject* pParent)
@@ -47,7 +48,6 @@ void GameManager::RefillEnemiesFromUnhatched()
 	int currentEnemyIndex{ 0 };
 	while (m_CurrentEnemyCount < MAX_ENEMIES)
 	{
-		std::cout << "spawning enemy\n";
 		ReplaceBlockWithEnemy(unhatchedBlocks[currentEnemyIndex++]);
 	}
 }
@@ -55,10 +55,12 @@ void GameManager::RefillEnemiesFromUnhatched()
 void GameManager::ReplaceBlockWithEnemy(const Block* block)
 {
 	std::unique_ptr pSnobee{ std::make_unique<dae::GameObject>() };
-	pSnobee->AddComponent(std::make_unique<dae::TextureRenderer>(pSnobee.get(), m_pSnobeeTexture, 5, 8));
+	pSnobee->AddComponent(std::make_unique<dae::AnimatedTextureRenderer>(
+		pSnobee.get(), m_pSnobeeTexture, 5, 8)
+	);
 
-	std::unique_ptr pSnobeeController{ std::make_unique<SnobeeController>(pSnobee.get()) };
-	pSnobee->AddComponent(std::move(pSnobeeController));
+	pSnobee->AddComponent(std::make_unique<SnobeeController>(pSnobee.get()));
+	pSnobee->AddComponent(std::make_unique<SnobeeStateMachine>(pSnobee.get()));
 
 	pSnobee->GetTransform().SetLocalPosition(block->GetParent()->GetTransform().GetLocalPosition());
 	pSnobee->MarkedForDeletion.Connect([this](const dae::GameObject* go) { OnEnemyMarkedForDeletion(go); });

@@ -202,6 +202,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Block.cpp" />
+    <ClCompile Include="SnobeeState.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GridManager.cpp" />
@@ -217,7 +218,10 @@
     <ClCompile Include="PlayerStateMachine.cpp" />
     <ClCompile Include="RemoveLifeCommand.cpp" />
     <ClCompile Include="ScoreDisplay.cpp" />
+    <ClCompile Include="SnobeeChaseState.cpp" />
     <ClCompile Include="SnobeeController.cpp" />
+    <ClCompile Include="SnobeeStateMachine.cpp" />
+    <ClCompile Include="SnobeeStunState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Minigin\Minigin.vcxproj">
@@ -226,6 +230,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Block.h" />
+    <ClInclude Include="SnobeeState.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GridManager.h" />
     <ClInclude Include="IncreaseScoreCommand.h" />
@@ -240,7 +245,10 @@
     <ClInclude Include="PlayerStateMachine.h" />
     <ClInclude Include="RemoveLifeCommand.h" />
     <ClInclude Include="ScoreDisplay.h" />
+    <ClInclude Include="SnobeeChaseState.h" />
     <ClInclude Include="SnobeeController.h" />
+    <ClInclude Include="SnobeeStateMachine.h" />
+    <ClInclude Include="SnobeeStunState.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

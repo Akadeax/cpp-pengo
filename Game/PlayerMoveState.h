@@ -24,7 +24,7 @@ private:
 	dae::StateID m_IdleStateID;
 
 	glm::vec2 m_MoveStartPos{};
-	float m_TimeSinceEnter{ 0.f };
+	float m_MoveTimer{ 0.f };
 
 	static constexpr float m_MoveTime{ 0.3f };
 

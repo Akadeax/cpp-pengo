@@ -18,6 +18,9 @@
     <Filter Include="Source\Grid">
       <UniqueIdentifier>{af43d257-2f76-459b-8047-5f532fb4f948}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Enemy">
+      <UniqueIdentifier>{ff285a42-edb3-46d6-985c-67e00d2ffcbc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -65,11 +68,23 @@
     <ClCompile Include="GameManager.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="SnobeeController.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerInteractState.cpp">
       <Filter>Source\Player\States</Filter>
+    </ClCompile>
+    <ClCompile Include="SnobeeController.cpp">
+      <Filter>Source\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="SnobeeStateMachine.cpp">
+      <Filter>Source\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="SnobeeStunState.cpp">
+      <Filter>Source\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="SnobeeChaseState.cpp">
+      <Filter>Source\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="SnobeeState.cpp">
+      <Filter>Source\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -115,11 +130,23 @@
     <ClInclude Include="GameManager.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="SnobeeController.h">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerInteractState.h">
       <Filter>Source\Player\States</Filter>
+    </ClInclude>
+    <ClInclude Include="SnobeeController.h">
+      <Filter>Source\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="SnobeeStateMachine.h">
+      <Filter>Source\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="SnobeeStunState.h">
+      <Filter>Source\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="SnobeeChaseState.h">
+      <Filter>Source\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="SnobeeState.h">
+      <Filter>Source\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

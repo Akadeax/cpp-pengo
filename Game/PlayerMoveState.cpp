@@ -27,7 +27,7 @@ PlayerMoveState::PlayerMoveState(
 
 void PlayerMoveState::OnEnter()
 {
-	m_TimeSinceEnter = 0.f;
+	m_MoveTimer = 0.f;
 	m_MoveStartPos = GetPlayerController()->GetParent()->GetTransform().GetWorldPosition();
 	GetRenderer()->SetDirectionalAnimation(
 		GetPlayerController()->FacingDir,
@@ -40,9 +40,9 @@ void PlayerMoveState::OnEnter()
 
 void PlayerMoveState::Update()
 {
-	m_TimeSinceEnter += dae::GameTime::GetInstance().GetDeltaTime() / m_MoveTime;
+	m_MoveTimer += dae::GameTime::GetInstance().GetDeltaTime() / m_MoveTime;
 
-	if (m_TimeSinceEnter >= 1.f)
+	if (m_MoveTimer >= 1.f)
 	{
 		GetPlayerController()->GetParent()->GetTransform().SetLocalPosition(
 			GetPlayerController()->MovementTarget
@@ -53,7 +53,7 @@ void PlayerMoveState::Update()
 	else
 	{
 		GetPlayerController()->GetParent()->GetTransform().SetLocalPosition(
-			mix(m_MoveStartPos, GetPlayerController()->MovementTarget, m_TimeSinceEnter)
+			mix(m_MoveStartPos, GetPlayerController()->MovementTarget, m_MoveTimer)
 		);
 	}
 }

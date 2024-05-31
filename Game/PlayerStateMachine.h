@@ -3,8 +3,6 @@
 
 #include "Signal.h"
 #include "StateMachine.h"
-// ReSharper disable once CppUnusedIncludeDirective -> for smart ptr destructor
-#include "State.h"
 
 class PlayerStateMachine final : public dae::StateMachine
 {
