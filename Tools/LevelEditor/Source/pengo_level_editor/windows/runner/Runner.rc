@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "source_level_editor" "\0"
+            VALUE "FileDescription", "pengo_level_editor" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "source_level_editor" "\0"
+            VALUE "InternalName", "pengo_level_editor" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2024 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "source_level_editor.exe" "\0"
-            VALUE "ProductName", "source_level_editor" "\0"
+            VALUE "OriginalFilename", "pengo_level_editor.exe" "\0"
+            VALUE "ProductName", "pengo_level_editor" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

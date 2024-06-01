@@ -14,7 +14,7 @@ public:
 	dae::Signal<Block*> BlockPushStart{};
 	dae::Signal<Block*> BlockPushEnd{};
 
-	explicit GridManager(dae::GameObject* pParent);
+	explicit GridManager(dae::GameObject* pParent, const std::string& levelFilePath);
 	void Ready() override;
 
 	glm::vec2 WorldToGrid(glm::vec2 world) const;
@@ -38,16 +38,18 @@ public:
 	std::vector<Block*> GetBlocksOfType(Block::Type type);
 	std::vector<Block*>& GetBlocks() { return m_BlockGrid; }
 
+	static constexpr int BLOCK_SQUARE_SIZE{ 16 };
+	static constexpr int GRID_WIDTH{ 13 };
+	static constexpr int GRID_HEIGHT{ 15 };
+
 private:
+	std::string m_LevelFilePath;
+
 	void SpawnBlockAt(glm::ivec2 gridPos);
 	void SpawnBlockAt(size_t index);
 
 	std::vector<Block*> m_BlockGrid{};
 	std::shared_ptr<dae::Texture2D> m_pBlockTexture{};
-
-	static constexpr int BLOCK_SQUARE_SIZE{ 16 };
-	static constexpr int GRID_WIDTH { 13 };
-	static constexpr int GRID_HEIGHT{ 15 };
 
 	static constexpr int DIAMOND_BLOCK_COUNT{ 3 };
 	static constexpr int UNHATCHED_BLOCK_COUNT{ 6 };

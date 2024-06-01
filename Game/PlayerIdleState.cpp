@@ -14,6 +14,7 @@
 #pragma warning(pop)
 
 #include "AnimatedTextureRenderer.h"
+#include "SceneManager.h"
 
 PlayerIdleState::PlayerIdleState(
 	PlayerController* pPlayerController,

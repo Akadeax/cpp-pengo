@@ -20,9 +20,14 @@ void dae::SceneManager::LateUpdate() const
 	m_Scenes.at(m_CurrentSceneId)->LateUpdate();
 }
 
-void dae::SceneManager::HandleDeletion() const
+void dae::SceneManager::HandleDeletion()
 {
 	m_Scenes.at(m_CurrentSceneId)->HandleDeletion();
+
+	if (m_QueuedSceneLoad.has_value())
+	{
+		SetCurrentScene(m_QueuedSceneLoad.value());
+	}
 }
 
 void dae::SceneManager::FixedUpdate() const
@@ -45,16 +50,26 @@ dae::Scene* dae::SceneManager::GetCurrentScene()
 	return m_Scenes[m_CurrentSceneId].get();
 }
 
-void dae::SceneManager::SetCurrentScene(SceneID id)
+uint16_t dae::SceneManager::GetCurrentSceneID()
+{
+	return m_CurrentSceneId;
+}
+
+void dae::SceneManager::SetCurrentScene(uint16_t id)
 {
 	m_CurrentSceneId = id;
 }
 
-dae::Scene& dae::SceneManager::CreateScene(const std::string& name, SceneID sceneIndex)
+dae::Scene* dae::SceneManager::MakeSceneForID(uint16_t id)
 {
-	const auto& scene{ std::shared_ptr<Scene>(new Scene(name)) };
-	m_Scenes[sceneIndex] = scene;
-	return *scene;
+	std::unique_ptr scene{std::make_unique<Scene>(id)};
+	m_Scenes[id] = std::move(scene);
+	return m_Scenes[id].get();
+}
+
+void dae::SceneManager::QueueSceneLoadForEndOfFrame(uint16_t id)
+{
+	m_QueuedSceneLoad = id;
 }
 
 

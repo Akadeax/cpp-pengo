@@ -7,9 +7,13 @@ using namespace dae;
 
 unsigned int Scene::m_IdCounter = 0;
 
-Scene::Scene(std::string name) : m_Name(std::move(name)) {}
+Scene::Scene(uint16_t id)
+	: m_ID{ id }
+{
+}
 
 Scene::~Scene() = default;
+
 
 void Scene::Add(std::unique_ptr<GameObject> object)
 {

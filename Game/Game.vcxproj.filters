@@ -86,6 +86,9 @@
     <ClCompile Include="SnobeeState.cpp">
       <Filter>Source\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="Scenes.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerController.h">
@@ -147,6 +150,9 @@
     </ClInclude>
     <ClInclude Include="SnobeeState.h">
       <Filter>Source\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Scenes.h">
+      <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

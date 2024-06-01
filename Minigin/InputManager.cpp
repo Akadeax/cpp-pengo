@@ -47,3 +47,8 @@ void dae::InputManager::RegisterInputDevice(std::unique_ptr<InputDevice> device)
 {
 	m_RegisteredDevices.push_back(std::move(device));
 }
+
+void dae::InputManager::ClearInputDevices()
+{
+	m_RegisteredDevices.clear();
+}

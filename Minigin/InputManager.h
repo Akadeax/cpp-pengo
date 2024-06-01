@@ -16,6 +16,7 @@ namespace dae
 
 		bool ProcessInput();
 		void RegisterInputDevice(std::unique_ptr<InputDevice> device);
+		void ClearInputDevices();
 
 		InputDevice* GetInputDevice(size_t index) const { return m_RegisteredDevices[index].get(); }
 

@@ -5,6 +5,7 @@
 #include "Scene.h"
 #include "GameManager.h"
 #include "GridManager.h"
+#include "SceneManager.h"
 #include "TextureRenderer.h"
 
 SnobeeController::SnobeeController(dae::GameObject* pParent)

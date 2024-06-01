@@ -1,5 +1,4 @@
 #pragma once
-#include "SceneManager.h"
 #include "GameObject.h"
 
 namespace dae
@@ -8,6 +7,8 @@ namespace dae
 	class Scene final
 	{
 	public:
+		explicit Scene(uint16_t id);
+
 		void Add(std::unique_ptr<GameObject> object);
 		void Remove(const GameObject* object);
 		void RemoveAll();
@@ -29,10 +30,7 @@ namespace dae
 		Scene& operator=(Scene&& other) = delete;
 
 	private:
-		friend Scene& SceneManager::CreateScene(const std::string& name, SceneManager::SceneID sceneIndex);
-		explicit Scene(std::string name);
-
-		std::string m_Name;
+		uint16_t m_ID;
 		std::vector <std::unique_ptr<GameObject>> m_Objects{};
 
 		static unsigned int m_IdCounter;

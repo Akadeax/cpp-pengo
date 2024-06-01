@@ -202,6 +202,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Block.cpp" />
+    <ClCompile Include="Scenes.cpp" />
     <ClCompile Include="SnobeeState.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameManager.cpp" />
@@ -230,6 +231,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Block.h" />
+    <ClInclude Include="Scenes.h" />
     <ClInclude Include="SnobeeState.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GridManager.h" />

@@ -10,6 +10,7 @@
 #include "PlayerController.h"
 #include "PlayerStateMachine.h"
 #include "Scene.h"
+#include "SceneManager.h"
 #include "Transform.h"
 
 PlayerInteractState::PlayerInteractState(

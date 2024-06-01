@@ -3,9 +3,11 @@
 #include <iostream>
 
 #include "AnimatedTextureRenderer.h"
+#include "GameObject.h"
 #include "GameTime.h"
 #include "Scene.h"
 #include "GridManager.h"
+#include "SceneManager.h"
 #include "SnobeeController.h"
 #include "SnobeeStateMachine.h"
 

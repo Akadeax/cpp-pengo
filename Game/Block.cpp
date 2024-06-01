@@ -7,6 +7,7 @@
 #include "Transform.h"
 #include "GridManager.h"
 #include "Scene.h"
+#include "SceneManager.h"
 #include "TextureRenderer.h"
 
 Block::Block(dae::GameObject* pParent)

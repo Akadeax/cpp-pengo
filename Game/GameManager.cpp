@@ -3,11 +3,16 @@
 #include <algorithm>
 #include <iostream>
 #include <random>
+#include <sstream>
 
 #include "AnimatedTextureRenderer.h"
+#include "GameObject.h"
 #include "Scene.h"
 #include "GridManager.h"
+#include "InputManager.h"
 #include "ResourceSystem.h"
+#include "SceneManager.h"
+#include "Scenes.h"
 #include "ServiceLocator.h"
 #include "SnobeeStateMachine.h"
 #include "Timer.h"
@@ -48,6 +53,8 @@ void GameManager::RefillEnemiesFromUnhatched()
 	int currentEnemyIndex{ 0 };
 	while (m_CurrentEnemyCount < MAX_ENEMIES)
 	{
+		if (currentEnemyIndex >= unhatchedBlocks.size()) return;
+
 		ReplaceBlockWithEnemy(unhatchedBlocks[currentEnemyIndex++]);
 	}
 }
@@ -91,6 +98,14 @@ void GameManager::OnEnemyMarkedForDeletion(const dae::GameObject*)
 
 	if (m_CurrentEnemyCount == 0)
 	{
-		std::cout << "You win level :)\n";
+		const auto currentScene{ dae::SceneManager::GetInstance().GetCurrentSceneID() };
+
+		std::stringstream ss;
+		ss << "Data/Levels/" << currentScene + 1 << ".json";
+
+		CreateGameScene(ss.str(), currentScene + 1);
+
+		dae::InputManager::GetInstance().ClearInputDevices();
+		dae::SceneManager::GetInstance().QueueSceneLoadForEndOfFrame(currentScene + 1);
 	}
 }

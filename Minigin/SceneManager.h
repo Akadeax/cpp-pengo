@@ -1,9 +1,10 @@
 #pragma once
 #include <map>
-#include <vector>
-#include <string>
 #include <memory>
+#include <optional>
+
 #include "Singleton.h"
+#include "Scene.h"
 
 namespace dae
 {
@@ -12,26 +13,29 @@ namespace dae
 	class SceneManager final : public Singleton<SceneManager>
 	{
 	public:
-		using SceneID = uint8_t;
+		Scene* MakeSceneForID(uint16_t id);
 
-		Scene& CreateScene(const std::string& name, SceneID sceneIndex);
+		void QueueSceneLoadForEndOfFrame(uint16_t id);
 
 		void Ready() const;
 		void Update() const;
 		void LateUpdate() const;
-		void HandleDeletion() const;
+		void HandleDeletion();
 		void FixedUpdate() const;
 		void Render() const;
 		void OnImGui() const;
 
 		Scene* GetCurrentScene();
-		void SetCurrentScene(SceneID id);
+		uint16_t GetCurrentSceneID();
+		void SetCurrentScene(uint16_t id);
 
 	private:
 		friend class Singleton;
 		SceneManager() = default;
 
-		std::map<SceneID, std::shared_ptr<Scene>> m_Scenes;
-		SceneID m_CurrentSceneId{ 0 };
+		std::map<uint16_t, std::unique_ptr<Scene>> m_Scenes;
+		uint16_t m_CurrentSceneId{ 0 };
+
+		std::optional<uint16_t> m_QueuedSceneLoad{ std::nullopt };
 	};
 }

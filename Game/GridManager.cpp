@@ -16,8 +16,9 @@
 #include "ServiceLocator.h"
 #pragma warning(pop)
 
-GridManager::GridManager(dae::GameObject* pParent)
+GridManager::GridManager(dae::GameObject* pParent, const std::string& levelFilePath)
 	: Component(pParent)
+	, m_LevelFilePath{ levelFilePath }
 {
 }
 
@@ -29,23 +30,7 @@ void GridManager::Ready()
 	m_BlockGrid = std::vector<Block*>(GRID_WIDTH * GRID_HEIGHT);
 	std::ranges::fill(m_BlockGrid, nullptr);
 
-	SpawnLevelFromJson("Data/Levels/level1.json");
-
-	std::vector<Block*> normalBlocks{ GetBlocksOfType(Block::Type::normal) };
-
-	std::random_device rd;
-	std::mt19937 gen{ rd() };
-
-	std::ranges::shuffle(normalBlocks, gen);
-
-	for(int i{}; i < DIAMOND_BLOCK_COUNT; ++i)
-	{
-		normalBlocks[i]->SetType(Block::Type::diamond);
-	}
-	for (int i{ DIAMOND_BLOCK_COUNT }; i < DIAMOND_BLOCK_COUNT + UNHATCHED_BLOCK_COUNT; ++i)
-	{
-		normalBlocks[i]->SetType(Block::Type::unhatched);
-	}
+	SpawnLevelFromJson(m_LevelFilePath);
 }
 
 /**
@@ -153,6 +138,19 @@ void GridManager::SpawnLevelFromJson(const std::string& path)
 		const int blockIdx{ block };
 		assert(blockIdx >= 0 && blockIdx < GRID_WIDTH * GRID_HEIGHT && "invalid block index, level file invalid!");
 		SpawnBlockAt(blockIdx);
+	}
+
+	for (const auto& block : json["unhatched"])
+	{
+		const int blockIdx{ block };
+		assert(blockIdx >= 0 && blockIdx < GRID_WIDTH * GRID_HEIGHT && "invalid block index, level file invalid!");
+		m_BlockGrid[blockIdx]->SetType(Block::Type::unhatched);
+	}
+	for (const auto& block : json["diamond"])
+	{
+		const int blockIdx{ block };
+		assert(blockIdx >= 0 && blockIdx < GRID_WIDTH * GRID_HEIGHT && "invalid block index, level file invalid!");
+		m_BlockGrid[blockIdx]->SetType(Block::Type::diamond);
 	}
 }
 
