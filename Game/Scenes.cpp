@@ -72,7 +72,7 @@ void CreateGameScene(const std::string& levelFilePath, uint16_t id)
 	{
 		// Pengo and its UI
 		std::unique_ptr pPengo{ std::make_unique<dae::GameObject>() };
-		pPengo->GetTransform().SetLocalPosition(glm::vec2(150, 200));
+		pPengo->GetTransform().SetLocalPosition(centerScreen);
 		pPengo->GetTransform().SetLocalScale({ 1.5f, 1.5f });
 		pPengo->AddComponent(std::make_unique<dae::AnimatedTextureRenderer>(
 			pPengo.get(),

@@ -98,6 +98,8 @@ void GameManager::OnEnemyMarkedForDeletion(const dae::GameObject*)
 
 	if (m_CurrentEnemyCount == 0)
 	{
+		dae::InputManager::GetInstance().ClearInputDevices();
+
 		const auto currentScene{ dae::SceneManager::GetInstance().GetCurrentSceneID() };
 
 		std::stringstream ss;
@@ -105,7 +107,6 @@ void GameManager::OnEnemyMarkedForDeletion(const dae::GameObject*)
 
 		CreateGameScene(ss.str(), currentScene + 1);
 
-		dae::InputManager::GetInstance().ClearInputDevices();
 		dae::SceneManager::GetInstance().QueueSceneLoadForEndOfFrame(currentScene + 1);
 	}
 }
