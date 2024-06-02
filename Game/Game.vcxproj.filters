@@ -21,11 +21,11 @@
     <Filter Include="Source\Enemy">
       <UniqueIdentifier>{ff285a42-edb3-46d6-985c-67e00d2ffcbc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Core">
+      <UniqueIdentifier>{02ee1552-79e5-48df-8c9c-ef2f1db2f544}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Game.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerController.cpp">
       <Filter>Source\Player</Filter>
     </ClCompile>
@@ -50,23 +50,11 @@
     <ClCompile Include="RemoveLifeCommand.cpp">
       <Filter>Source\Player\Commands</Filter>
     </ClCompile>
-    <ClCompile Include="IncreaseScoreCommand.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="LivesDisplay.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="ScoreDisplay.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="Block.cpp">
       <Filter>Source\Grid</Filter>
     </ClCompile>
     <ClCompile Include="GridManager.cpp">
       <Filter>Source\Grid</Filter>
-    </ClCompile>
-    <ClCompile Include="GameManager.cpp">
-      <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="PlayerInteractState.cpp">
       <Filter>Source\Player\States</Filter>
@@ -86,13 +74,27 @@
     <ClCompile Include="SnobeeState.cpp">
       <Filter>Source\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Scenes.cpp">
-      <Filter>Source</Filter>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager.cpp">
+      <Filter>Source\Core</Filter>
     </ClCompile>
     <ClCompile Include="SaveData.cpp">
-      <Filter>Source</Filter>
+      <Filter>Source\Core</Filter>
     </ClCompile>
-    <ClCompile Include="SkipLevelCommand.cpp" />
+    <ClCompile Include="Scenes.cpp">
+      <Filter>Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="LivesDisplay.cpp">
+      <Filter>Source\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreDisplay.cpp">
+      <Filter>Source\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="SkipLevelCommand.cpp">
+      <Filter>Source\Player\Commands</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerController.h">
@@ -119,23 +121,11 @@
     <ClInclude Include="RemoveLifeCommand.h">
       <Filter>Source\Player\Commands</Filter>
     </ClInclude>
-    <ClInclude Include="IncreaseScoreCommand.h">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="LivesDisplay.h">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="ScoreDisplay.h">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="Block.h">
       <Filter>Source\Grid</Filter>
     </ClInclude>
     <ClInclude Include="GridManager.h">
       <Filter>Source\Grid</Filter>
-    </ClInclude>
-    <ClInclude Include="GameManager.h">
-      <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="PlayerInteractState.h">
       <Filter>Source\Player\States</Filter>
@@ -155,12 +145,23 @@
     <ClInclude Include="SnobeeState.h">
       <Filter>Source\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Scenes.h">
-      <Filter>Source</Filter>
+    <ClInclude Include="GameManager.h">
+      <Filter>Source\Core</Filter>
     </ClInclude>
     <ClInclude Include="SaveData.h">
-      <Filter>Source</Filter>
+      <Filter>Source\Core</Filter>
     </ClInclude>
-    <ClInclude Include="SkipLevelCommand.h" />
+    <ClInclude Include="Scenes.h">
+      <Filter>Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="LivesDisplay.h">
+      <Filter>Source\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreDisplay.h">
+      <Filter>Source\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="SkipLevelCommand.h">
+      <Filter>Source\Player\Commands</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
