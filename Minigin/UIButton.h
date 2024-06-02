@@ -1,5 +1,4 @@
 #pragma once
-#include <functional>
 #include <glm/vec2.hpp>
 
 #include "Component.h"
@@ -7,10 +6,11 @@
 
 namespace dae
 {
-	class UIButton final : public Component
+	class UIButton : public Component
 	{
 	public:
-		Signal<> Hover{};
+		Signal<> HoverStart{};
+		Signal<> HoverEnd{};
 		Signal<> MouseDown{};
 		Signal<> MouseUp{};
 
@@ -24,11 +24,13 @@ namespace dae
 	private:
 		glm::vec2 m_ButtonClickSize;
 
-		void CheckHover() const;
+		void CheckHover();
 		void CheckMouseDown(glm::vec2 pos) const;
 		void CheckMouseUp(glm::vec2 pos) const;
 
 		bool IsInBounds(glm::vec2 clickPos) const;
+
+		bool m_HoverLastFrame{ false };
 	};
 
 

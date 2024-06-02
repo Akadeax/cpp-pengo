@@ -1,7 +1,5 @@
 #pragma once
-#include <map>
 #include <memory>
-#include <optional>
 
 #include "Singleton.h"
 #include "Scene.h"
@@ -13,9 +11,8 @@ namespace dae
 	class SceneManager final : public Singleton<SceneManager>
 	{
 	public:
-		Scene* MakeSceneForID(uint16_t id);
-
-		void QueueSceneLoadForEndOfFrame(uint16_t id);
+		void SetCurrentScene(std::unique_ptr<Scene> pScene);
+		void QueueSceneLoadForEndOfFrame(std::function<std::unique_ptr<Scene>()> sceneBuilder);
 
 		void Ready() const;
 		void Update() const;
@@ -25,17 +22,13 @@ namespace dae
 		void Render() const;
 		void OnImGui() const;
 
-		Scene* GetCurrentScene();
-		uint16_t GetCurrentSceneID();
-		void SetCurrentScene(uint16_t id);
+		Scene* GetCurrentScene() const;
 
 	private:
 		friend class Singleton;
 		SceneManager() = default;
 
-		std::map<uint16_t, std::unique_ptr<Scene>> m_Scenes;
-		uint16_t m_CurrentSceneId{ 0 };
-
-		std::optional<uint16_t> m_QueuedSceneLoad{ std::nullopt };
+		std::unique_ptr<Scene> m_pScene;
+		std::function<std::unique_ptr<Scene>()> m_QueuedSceneLoad{};
 	};
 }

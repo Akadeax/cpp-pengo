@@ -16,6 +16,7 @@ public:
 
 	void OnEnter() override;
 	void Update() override;
+	void OnExit() override;
 
 private:
 	GridManager* m_pGridManager;

@@ -11,12 +11,12 @@ ScoreDisplay::ScoreDisplay(dae::GameObject* pParent, PlayerController* pPlayerCo
 	, m_pPlayerController{ pPlayerController }
 {
 	m_pTextRenderer = pParent->GetComponent<dae::TextRenderer>();
-	UpdateScoreText();
 }
 
 void ScoreDisplay::Ready()
 {
 	m_pPlayerController->OnScoreChanged.Connect([this] { UpdateScoreText(); });
+	UpdateScoreText();
 }
 
 void ScoreDisplay::UpdateScoreText() const

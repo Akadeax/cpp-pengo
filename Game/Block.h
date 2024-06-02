@@ -27,6 +27,8 @@ public:
 
 	bool IsMoving() const { return m_IsPushing; }
 
+	bool pushable{ true };
+
 private:
 	GridManager* m_pGridManager{};
 

@@ -34,6 +34,10 @@ namespace dae
 
 		Transform& GetTransform() { return m_Transform; }
 
+
+		template<std::derived_from<Component> Ty, typename... Types>
+		void AddComponent(Types&&... args);
+
 		void AddComponent(std::unique_ptr<Component> pComponent);
 		void RemoveComponent(const Component* pComponent);
 
@@ -50,7 +54,7 @@ namespace dae
 
 		size_t GetChildCount() const;
 		GameObject* GetChildAt(int index) const;
-		const std::vector<std::unique_ptr<GameObject>>& GetChildren() const;
+		std::vector<std::unique_ptr<GameObject>>& GetChildren();
 
 		const std::string& GetTag() const { return m_Tag; }
 
@@ -67,6 +71,13 @@ namespace dae
 
 		bool m_MarkedForDeletion{ false };
 	};
+
+
+	template <std::derived_from<Component> Ty, typename ... Types>
+	void GameObject::AddComponent(Types&&... args)
+	{
+		AddComponent(std::make_unique<Ty>(std::forward<Types>(args)...));
+	}
 
 	template<std::derived_from<Component> TComponent>
 	TComponent* GameObject::GetComponent() const

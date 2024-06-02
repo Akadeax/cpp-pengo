@@ -52,6 +52,8 @@ void Block::Ready()
 
 void Block::Push(glm::ivec2 dir)
 {
+	if (!pushable) return;
+
 	dae::Transform& blockTransform{ GetParent()->GetTransform() };
 	const glm::vec2 gridPos{ m_pGridManager->WorldToGrid(blockTransform.GetWorldPosition()) };
 	m_pGridManager->RemoveBlock(gridPos);

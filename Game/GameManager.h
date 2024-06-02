@@ -16,6 +16,8 @@ public:
 
 	const std::vector<Block*>& GetCurrentlyMovingBlocks() const { return m_CurrentlyMovingBlocks; }
 
+	void AdvanceLevel();
+
 private:
 	GridManager* m_pGridManager{};
 
@@ -24,6 +26,8 @@ private:
 
 	void OnBlockPushStart(Block* block);
 	void OnBlockPushEnd(Block* block);
+
+	void CheckDiamondBlocks();
 
 	void OnEnemyMarkedForDeletion(const dae::GameObject* go);
 
@@ -34,4 +38,6 @@ private:
 	dae::Timer* m_pEnemyTimer{};
 
 	static constexpr int MAX_ENEMIES{ 3 };
+	static constexpr int DIAMOND_BLOCKS_COMBINE_POINTS_WALL{ 5000 };
+	static constexpr int DIAMOND_BLOCKS_COMBINE_POINTS_FREE{ 10'000 };
 };

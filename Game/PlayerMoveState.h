@@ -3,6 +3,7 @@
 
 #include "AnimatedTextureRenderer.h"
 #include "PlayerState.h"
+#include "Signal.h"
 #include "StateMachine.h"
 
 class PlayerController;

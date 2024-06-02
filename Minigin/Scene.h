@@ -7,7 +7,7 @@ namespace dae
 	class Scene final
 	{
 	public:
-		explicit Scene(uint16_t id);
+		explicit Scene(int id);
 
 		void Add(std::unique_ptr<GameObject> object);
 		void Remove(const GameObject* object);
@@ -21,7 +21,8 @@ namespace dae
 		void Render() const;
 		void OnImGui() const;
 
-		GameObject* GetGameObjectByTag(const std::string& tag);
+		GameObject* GetGameObjectByTag(const std::string& tag) const;
+		std::vector<GameObject*> GetGameObjectsByTag(const std::string& tag) const;
 
 		~Scene();
 		Scene(const Scene& other) = delete;
@@ -29,9 +30,11 @@ namespace dae
 		Scene& operator=(const Scene& other) = delete;
 		Scene& operator=(Scene&& other) = delete;
 
+		int GetID() const { return m_ID; }
+
 	private:
-		uint16_t m_ID;
 		std::vector <std::unique_ptr<GameObject>> m_Objects{};
+		int m_ID{};
 
 		static unsigned int m_IdCounter;
 	};

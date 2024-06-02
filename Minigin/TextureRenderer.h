@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include <glm/vec2.hpp>
 
 #include "Component.h"
 
@@ -18,11 +19,13 @@ namespace dae
 		int GetHFrames() const { return m_HFrames; }
 
 		uint16_t frame{ 0 };
+		glm::vec2 offset{};
 
 	protected:
 		std::shared_ptr<Texture2D> m_pTexture;
 
 		int m_VFrames;
 		int m_HFrames;
+
 	};
 }

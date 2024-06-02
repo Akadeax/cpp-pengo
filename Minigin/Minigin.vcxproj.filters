@@ -149,6 +149,9 @@
     <ClInclude Include="UIButton.h">
       <Filter>Source\SceneTree\Components\UI</Filter>
     </ClInclude>
+    <ClInclude Include="UITextColorButton.h">
+      <Filter>Source\SceneTree\Components\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameObject.cpp">
@@ -263,6 +266,9 @@
       <Filter>Source\SceneTree\Components\UI</Filter>
     </ClCompile>
     <ClCompile Include="UIButton.cpp">
+      <Filter>Source\SceneTree\Components\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UITextColorButton.cpp">
       <Filter>Source\SceneTree\Components\UI</Filter>
     </ClCompile>
   </ItemGroup>

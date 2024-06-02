@@ -3,5 +3,6 @@
 
 #include "SceneManager.h"
 
-void CreateMenuScene();
-void CreateGameScene(const std::string& levelFilePath, uint16_t id);
+std::unique_ptr<dae::Scene> CreateMenuScene();
+std::unique_ptr<dae::Scene> CreateGameScene(const std::string& levelFilePath, int id);
+std::unique_ptr<dae::Scene> CreateFirstGameScene();

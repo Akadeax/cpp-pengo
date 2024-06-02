@@ -14,7 +14,7 @@ public:
 	dae::Signal<Block*> BlockPushStart{};
 	dae::Signal<Block*> BlockPushEnd{};
 
-	explicit GridManager(dae::GameObject* pParent, const std::string& levelFilePath);
+	explicit GridManager(dae::GameObject* pParent, std::string levelFilePath);
 	void Ready() override;
 
 	glm::vec2 WorldToGrid(glm::vec2 world) const;

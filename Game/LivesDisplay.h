@@ -17,9 +17,8 @@ public:
 	void Ready() override;
 
 private:
-	PlayerController* m_pPlayerController;
-	dae::TextRenderer* m_pTextRenderer;
+	PlayerController* m_pPlayerController{};
+	dae::TextRenderer* m_pTextRenderer{};
 
 	void UpdateLivesText() const;
-	void OnGameOver() const;
 };

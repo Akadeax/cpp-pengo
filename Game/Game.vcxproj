@@ -101,7 +101,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)Minigin;$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)3rdParty\SDL2_image\include;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2\include;$(SolutionDir)3rdParty\imgui;$(SolutionDir)3rdParty\nlohmann\include;$(SolutionDir)3rdParty\SDL2_mixer\include;$(MSBuildProgramFiles32)\Visual Leak Detector\include</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>5105</DisableSpecificWarnings>
+      <DisableSpecificWarnings>5105;26819</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -128,7 +128,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)Minigin;$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)3rdParty\SDL2_image\include;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2\include;$(SolutionDir)3rdParty\imgui;$(SolutionDir)3rdParty\nlohmann\include;$(SolutionDir)3rdParty\SDL2_mixer\include;</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>5105</DisableSpecificWarnings>
+      <DisableSpecificWarnings>5105;26819</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -155,7 +155,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)Minigin;$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)3rdParty\SDL2_image\include;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2\include;$(SolutionDir)3rdParty\imgui;$(SolutionDir)3rdParty\nlohmann\include;$(SolutionDir)3rdParty\SDL2_mixer\include;$(MSBuildProgramFiles32)\Visual Leak Detector\include</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>5105</DisableSpecificWarnings>
+      <DisableSpecificWarnings>5105;26819</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -182,7 +182,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)Minigin;$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)3rdParty\SDL2_image\include;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2\include;$(SolutionDir)3rdParty\imgui;$(SolutionDir)3rdParty\nlohmann\include;$(SolutionDir)3rdParty\SDL2_mixer\include;</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>5105</DisableSpecificWarnings>
+      <DisableSpecificWarnings>5105;26819</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -202,7 +202,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Block.cpp" />
+    <ClCompile Include="SaveData.cpp" />
     <ClCompile Include="Scenes.cpp" />
+    <ClCompile Include="SkipLevelCommand.cpp" />
     <ClCompile Include="SnobeeState.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameManager.cpp" />
@@ -231,7 +233,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Block.h" />
+    <ClInclude Include="SaveData.h" />
     <ClInclude Include="Scenes.h" />
+    <ClInclude Include="SkipLevelCommand.h" />
     <ClInclude Include="SnobeeState.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GridManager.h" />

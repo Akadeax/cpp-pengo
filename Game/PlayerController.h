@@ -18,9 +18,11 @@ public:
 	void Ready() override;
 
 	int GetLives() const { return m_Lives; }
+	void SetLives(int lives);
 	void Kill();
 
 	int GetScore() const { return m_Score; }
+	void SetScore(int score);
 	void IncreaseScore(int amount);
 
 	glm::ivec2 FacingDir{};
@@ -29,4 +31,6 @@ public:
 private:
 	int m_Lives{ 3 };
 	int m_Score{ 0 };
+
+	glm::vec2 m_StartPos{};
 };

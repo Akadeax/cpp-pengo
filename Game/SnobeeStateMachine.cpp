@@ -21,7 +21,8 @@ void SnobeeStateMachine::Ready()
 	m_StunStateID = AddState(std::make_unique<SnobeeStunState>(
 		GetParent()->GetComponent<SnobeeController>(),
 		this,
-		GetParent()->GetComponent<dae::AnimatedTextureRenderer>()
+		GetParent()->GetComponent<dae::AnimatedTextureRenderer>(),
+		0
 	));
 
 	SetState(0);

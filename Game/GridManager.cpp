@@ -4,27 +4,26 @@
 #include <fstream>
 #include <json.hpp>
 #include <random>
+#include <filesystem>
 
 #include "Block.h"
 #include "GameObject.h"
 #include "TextureRenderer.h"
+#include "ResourceSystem.h"
+#include "ServiceLocator.h"
 
 #pragma warning(push, 0)
 #include <glm/gtx/string_cast.hpp>
-
-#include "ResourceSystem.h"
-#include "ServiceLocator.h"
 #pragma warning(pop)
 
-GridManager::GridManager(dae::GameObject* pParent, const std::string& levelFilePath)
+GridManager::GridManager(dae::GameObject* pParent, std::string levelFilePath)
 	: Component(pParent)
-	, m_LevelFilePath{ levelFilePath }
+	, m_LevelFilePath{ std::move(levelFilePath) }
 {
 }
 
 void GridManager::Ready()
 {
-	std::cout << "READY\n";
 	m_pBlockTexture = dae::ServiceLocator::GetResourceSystem().LoadTexture("Data/blocks.png");
 
 	m_BlockGrid = std::vector<Block*>(GRID_WIDTH * GRID_HEIGHT);

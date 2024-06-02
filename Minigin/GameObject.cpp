@@ -182,7 +182,7 @@ dae::GameObject* dae::GameObject::GetChildAt(int index) const
 	return m_Children[index].get();
 }
 
-const std::vector<std::unique_ptr<dae::GameObject>>& dae::GameObject::GetChildren() const
+std::vector<std::unique_ptr<dae::GameObject>>& dae::GameObject::GetChildren()
 {
 	return m_Children;
 }

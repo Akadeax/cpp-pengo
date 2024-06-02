@@ -11,6 +11,7 @@
 #include "GameObject.h"
 #include "Scene.h"
 #include "SceneManager.h"
+#include "Scenes.h"
 
 PlayerController::PlayerController(dae::GameObject* pParent)
 	: Component(pParent)
@@ -23,18 +24,36 @@ void PlayerController::Ready()
 	const GridManager* pGridManager{ pScene->GetGameObjectByTag("GridManager")->GetComponent<GridManager>() };
 
 	const glm::vec2 startPos{ pGridManager->GridToWorld({ 0, 0 }) };
-	GetParent()->GetTransform().SetLocalPosition(startPos);
+	m_StartPos = startPos;
+
+	GetParent()->GetTransform().SetLocalPosition(m_StartPos);
+}
+
+void PlayerController::SetLives(int lives)
+{
+	m_Lives = lives;
 }
 
 void PlayerController::Kill()
 {
- 	--m_Lives;
-	OnDeath.Emit();
-
-	if (m_Lives <= 0)
+	if (m_Lives == 0)
 	{
 		OnGameOver.Emit();
+		dae::SceneManager::GetInstance().QueueSceneLoadForEndOfFrame(CreateMenuScene);
 	}
+	else
+	{
+		--m_Lives;
+		OnDeath.Emit();
+
+		GetParent()->GetTransform().SetLocalPosition(m_StartPos);
+	}
+}
+
+void PlayerController::SetScore(int score)
+{
+	m_Score = score;
+	OnScoreChanged.Emit();
 }
 
 void PlayerController::IncreaseScore(int amount)

@@ -1,75 +1,61 @@
 #include "SceneManager.h"
 
-#include <cassert>
-
+#include "InputManager.h"
 #include "Scene.h"
-#include <iostream>
+
+void dae::SceneManager::SetCurrentScene(std::unique_ptr<Scene> pScene)
+{
+	m_pScene = std::move(pScene);
+}
+
+void dae::SceneManager::QueueSceneLoadForEndOfFrame(std::function<std::unique_ptr<Scene>()> sceneBuilder)
+{
+	m_QueuedSceneLoad = std::move(sceneBuilder);
+}
 
 void dae::SceneManager::Ready() const
 {
-	m_Scenes.at(m_CurrentSceneId)->Ready();
+	m_pScene->Ready();
 }
 
 void dae::SceneManager::Update() const
 {
-	m_Scenes.at(m_CurrentSceneId)->Update();
+	m_pScene->Update();
 }
 
 void dae::SceneManager::LateUpdate() const
 {
-	m_Scenes.at(m_CurrentSceneId)->LateUpdate();
+	m_pScene->LateUpdate();
 }
 
 void dae::SceneManager::HandleDeletion()
 {
-	m_Scenes.at(m_CurrentSceneId)->HandleDeletion();
+	m_pScene->HandleDeletion();
 
-	if (m_QueuedSceneLoad.has_value())
+	if (m_QueuedSceneLoad != nullptr)
 	{
-		SetCurrentScene(m_QueuedSceneLoad.value());
+		InputManager::GetInstance().ClearInputDevices();
+		SetCurrentScene(m_QueuedSceneLoad());
+		m_QueuedSceneLoad = nullptr;
 	}
 }
 
 void dae::SceneManager::FixedUpdate() const
 {
-	m_Scenes.at(m_CurrentSceneId)->FixedUpdate();
+	m_pScene->FixedUpdate();
 }
 
 void dae::SceneManager::Render() const
 {
-	m_Scenes.at(m_CurrentSceneId)->Render();
+	m_pScene->Render();
 }
 
 void dae::SceneManager::OnImGui() const
 {
-	m_Scenes.at(m_CurrentSceneId)->OnImGui();
+	m_pScene->OnImGui();
 }
 
-dae::Scene* dae::SceneManager::GetCurrentScene()
+dae::Scene* dae::SceneManager::GetCurrentScene() const
 {
-	return m_Scenes[m_CurrentSceneId].get();
+	return m_pScene.get();
 }
-
-uint16_t dae::SceneManager::GetCurrentSceneID()
-{
-	return m_CurrentSceneId;
-}
-
-void dae::SceneManager::SetCurrentScene(uint16_t id)
-{
-	m_CurrentSceneId = id;
-}
-
-dae::Scene* dae::SceneManager::MakeSceneForID(uint16_t id)
-{
-	std::unique_ptr scene{std::make_unique<Scene>(id)};
-	m_Scenes[id] = std::move(scene);
-	return m_Scenes[id].get();
-}
-
-void dae::SceneManager::QueueSceneLoadForEndOfFrame(uint16_t id)
-{
-	m_QueuedSceneLoad = id;
-}
-
-

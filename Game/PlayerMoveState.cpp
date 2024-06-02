@@ -23,6 +23,11 @@ PlayerMoveState::PlayerMoveState(
 	m_MoveRight = GetRenderer()->AddAnimation({ 0.4f, { 6, 7 } });
 	m_MoveDown = GetRenderer()-> AddAnimation({ 0.4f, { 0, 1 } });
 	m_MoveLeft = GetRenderer()-> AddAnimation({ 0.4f, { 2, 3 } });
+
+	GetPlayerController()->OnDeath.Connect([this]
+		{
+			GetStateMachine()->SetState(m_IdleStateID);
+		});
 }
 
 void PlayerMoveState::OnEnter()

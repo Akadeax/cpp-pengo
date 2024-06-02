@@ -7,13 +7,13 @@ using namespace dae;
 
 unsigned int Scene::m_IdCounter = 0;
 
-Scene::Scene(uint16_t id)
+Scene::~Scene() = default;
+
+
+Scene::Scene(int id)
 	: m_ID{ id }
 {
 }
-
-Scene::~Scene() = default;
-
 
 void Scene::Add(std::unique_ptr<GameObject> object)
 {
@@ -94,11 +94,11 @@ void Scene::OnImGui() const
 	}
 }
 
-GameObject* Scene::GetGameObjectByTag(const std::string& tag)
+GameObject* Scene::GetGameObjectByTag(const std::string& tag) const
 {
 	const auto result{ std::ranges::find_if(
 		m_Objects,
-		[this, tag](auto& ptr) { return ptr->GetTag() == tag; }
+		[this, &tag](auto& ptr) { return ptr->GetTag() == tag; }
 	) };
 
 	if (result == std::end(m_Objects))
@@ -107,5 +107,17 @@ GameObject* Scene::GetGameObjectByTag(const std::string& tag)
 	}
 
 	return result->get();
+}
+
+std::vector<GameObject*> Scene::GetGameObjectsByTag(const std::string& tag) const
+{
+	std::vector<GameObject*> results{};
+
+	// copy_if does not want to project the unique ptr into a raw ptr here, so for_each it is
+	std::ranges::for_each(m_Objects, [&tag, &results](const std::unique_ptr<GameObject>& pGo)
+		{
+			if (pGo->GetTag() == tag) results.emplace_back(pGo.get());
+		});
+	return results;
 }
 

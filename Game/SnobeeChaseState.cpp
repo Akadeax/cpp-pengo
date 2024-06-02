@@ -1,7 +1,5 @@
 #include "SnobeeChaseState.h"
 
-#include <iostream>
-
 #include "AnimatedTextureRenderer.h"
 #include "GameObject.h"
 #include "GameTime.h"
@@ -73,4 +71,9 @@ void SnobeeChaseState::Update()
 	GetSnobeeController()->GetParent()->GetTransform().SetLocalPosition(
 		mix(m_MoveStartPos, m_MoveTargetPos, lerpFactor)
 	);
+}
+
+void SnobeeChaseState::OnExit()
+{
+	GetSnobeeController()->GetParent()->GetTransform().SetLocalPosition(m_MoveTargetPos);
 }

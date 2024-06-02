@@ -16,7 +16,7 @@ dae::UIButton::UIButton(GameObject* pParent, glm::vec2 buttonClickRect)
 void dae::UIButton::Ready()
 {
 	InputManager::GetInstance().MouseDown.Connect([this](glm::vec2 pos) { CheckMouseDown(pos); });
-	InputManager::GetInstance().MouseUp.Connect([this](glm::vec2 pos) { CheckMouseDown(pos); });
+	InputManager::GetInstance().MouseUp.Connect([this](glm::vec2 pos) { CheckMouseUp(pos); });
 }
 
 void dae::UIButton::Update()
@@ -34,18 +34,36 @@ void dae::UIButton::Render() const
 #endif
 }
 
-void dae::UIButton::CheckHover() const
+void dae::UIButton::CheckHover()
 {
-	std::cout << IsInBounds(InputManager::GetInstance().GetMousePosition()) << '\n';
+	const bool isHovering{ IsInBounds(InputManager::GetInstance().GetMousePosition()) };
+
+	if (!m_HoverLastFrame && isHovering)
+	{
+		HoverStart.Emit();
+	}
+	else if (m_HoverLastFrame && !isHovering)
+	{
+		HoverEnd.Emit();
+	}
+
+	m_HoverLastFrame = isHovering;
 }
 
-void dae::UIButton::CheckMouseDown(glm::vec2) const
+void dae::UIButton::CheckMouseDown(glm::vec2 pos) const
 {
-
+	if (IsInBounds(pos))
+	{
+		MouseDown.Emit();
+	}
 }
 
-void dae::UIButton::CheckMouseUp(glm::vec2) const
+void dae::UIButton::CheckMouseUp(glm::vec2 pos) const
 {
+	if (IsInBounds(pos))
+	{
+		MouseUp.Emit();
+	}
 }
 
 bool dae::UIButton::IsInBounds(glm::vec2 clickPos) const

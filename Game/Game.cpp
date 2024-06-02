@@ -7,6 +7,7 @@
 #endif
 #endif
 
+#include <fstream>
 #include <sstream>
 #include "ControllerInputDevice.h"
 #include "GridManager.h"
@@ -16,6 +17,7 @@
 #include "UIButton.h"
 #include "Minigin/Minigin.h"
 #include "Scenes.h"
+#include "json.hpp"
 
 void Load()
 {
@@ -25,9 +27,9 @@ void Load()
 		"Data/Sound/act_start.mp3"
 	);
 	dae::ServiceLocator::RegisterResourceSystem(std::make_unique<dae::SDLResourceSystem>());
-	
-	CreateGameScene("Data/Levels/1.json", 1);
-	dae::SceneManager::GetInstance().SetCurrentScene(1);
+
+	//dae::SceneManager::GetInstance().SetCurrentScene(CreateGameScene("Data/Levels/1.json", 1));
+	dae::SceneManager::GetInstance().SetCurrentScene(CreateMenuScene());
 }
 
 int main(int, char* [])

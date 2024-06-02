@@ -33,7 +33,7 @@ void dae::TextureRenderer::Render() const
 		*m_pTexture,
 		&source,
 		{ cellSizeX, cellSizeY },
-		transform.GetWorldPosition(),
+		transform.GetWorldPosition() + offset,
 		transform.GetWorldRotation(),
 		transform.GetWorldScale()
 	);

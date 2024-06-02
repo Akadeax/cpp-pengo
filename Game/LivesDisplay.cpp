@@ -11,24 +11,19 @@ LivesDisplay::LivesDisplay(dae::GameObject* pParent, PlayerController* pPlayerCo
 	: Component(pParent)
 	, m_pPlayerController{ pPlayerController }
 {
-	m_pTextRenderer = pParent->GetComponent<dae::TextRenderer>();
-	UpdateLivesText();
 }
 
 void LivesDisplay::Ready()
 {
+	m_pTextRenderer = GetParent()->GetComponent<dae::TextRenderer>();
+	UpdateLivesText();
+
 	m_pPlayerController->OnDeath.Connect([this] { UpdateLivesText(); });
-	m_pPlayerController->OnGameOver.Connect([this] { OnGameOver(); });
 }
 
 void LivesDisplay::UpdateLivesText() const
 {
 	std::stringstream ss{};
-	ss << "# Lives: " << m_pPlayerController->GetLives();
+	ss << "Lives: " << m_pPlayerController->GetLives();
 	m_pTextRenderer->SetText(ss.str());
-}
-
-void LivesDisplay::OnGameOver() const
-{
-	std::cout << "That's game over :(\n";
 }

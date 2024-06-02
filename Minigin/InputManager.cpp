@@ -50,5 +50,7 @@ void dae::InputManager::RegisterInputDevice(std::unique_ptr<InputDevice> device)
 
 void dae::InputManager::ClearInputDevices()
 {
+	MouseDown.DisconnectAll();
+	MouseUp.DisconnectAll();
 	m_RegisteredDevices.clear();
 }

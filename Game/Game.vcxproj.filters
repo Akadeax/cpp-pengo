@@ -89,6 +89,10 @@
     <ClCompile Include="Scenes.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="SaveData.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="SkipLevelCommand.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerController.h">
@@ -154,5 +158,9 @@
     <ClInclude Include="Scenes.h">
       <Filter>Source</Filter>
     </ClInclude>
+    <ClInclude Include="SaveData.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="SkipLevelCommand.h" />
   </ItemGroup>
 </Project>
