@@ -8,7 +8,6 @@
 #include "GameManager.h"
 #include "GameObject.h"
 #include "GridManager.h"
-#include "IncreaseScoreCommand.h"
 #include "InputManager.h"
 #include "KeyboardInputDevice.h"
 #include "LivesDisplay.h"
