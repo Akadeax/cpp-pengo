@@ -8,6 +8,9 @@
 #include "GridManager.h"
 #include "Scene.h"
 #include "SceneManager.h"
+#include "ServiceLocator.h"
+#include "SoundEffects.h"
+#include "SoundSystem.h"
 #include "TextureRenderer.h"
 
 Block::Block(dae::GameObject* pParent)
@@ -41,6 +44,7 @@ void Block::Update()
 		m_pGridManager->AddBlock(roundedGridPos, this);
 
 		m_pGridManager->BlockPushEnd.Emit(this);
+		dae::ServiceLocator::GetSoundSystem().PlaySound(dae::SoundSystem::SoundType::sfx, soundEffects::BLOCK_STOP, 255);
 	}
 }
 
@@ -72,6 +76,8 @@ void Block::Destroy() const
 	const glm::vec2 gridPos{ m_pGridManager->WorldToGrid(blockTransform.GetWorldPosition()) };
 	GetParent()->MarkForDeletion();
 	m_pGridManager->RemoveBlock(gridPos);
+
+	dae::ServiceLocator::GetSoundSystem().PlaySound(dae::SoundSystem::SoundType::sfx, soundEffects::BLOCK_BREAK, 255);
 }
 
 void Block::SetType(Type type)

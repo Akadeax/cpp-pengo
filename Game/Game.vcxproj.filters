@@ -163,5 +163,8 @@
     <ClInclude Include="SkipLevelCommand.h">
       <Filter>Source\Player\Commands</Filter>
     </ClInclude>
+    <ClInclude Include="SoundEffects.h">
+      <Filter>Source</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -8,6 +8,8 @@
 #include "SceneManager.h"
 #include "TextureRenderer.h"
 #include "PlayerController.h"
+#include "ServiceLocator.h"
+#include "SoundEffects.h"
 
 SnobeeController::SnobeeController(dae::GameObject* pParent)
 	: Component(pParent)
@@ -66,4 +68,5 @@ void SnobeeController::Die() const
 	}
 
 	GetParent()->MarkForDeletion();
+	dae::ServiceLocator::GetSoundSystem().PlaySound(dae::SoundSystem::SoundType::sfx, soundEffects::SNOBEE_DEATH, 255);
 }

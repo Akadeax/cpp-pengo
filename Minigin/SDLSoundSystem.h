@@ -8,7 +8,7 @@ namespace dae
 	struct SoundRequest
 	{
 		SoundSystem::SoundType type;
-		SoundSystem::SoundID id;
+		SoundID id;
 		int volume;
 	};
 
@@ -25,6 +25,10 @@ namespace dae
 
 		SoundID RegisterSound(SoundType type, const std::string& filePath) override;
 		void PlaySound(SoundType type, SoundID id, int volume) override;
+		void StopMusic() override;
+
+		void MuteSound() override;
+		void UnmuteSound() override;
 
 	private:
 		class SDLSoundSystemImpl;

@@ -7,10 +7,10 @@ namespace dae
 {
 	class TextRenderer;
 
-	class UITextColorButton final : public UIButton
+	class TextColorButton final : public UIButton
 	{
 	public:
-		UITextColorButton(
+		TextColorButton(
 			GameObject* pParent,
 			const glm::vec2& buttonClickRect,
 			SDL_Color normal =  SDL_Color{ 255, 255, 255, 255 },

@@ -253,6 +253,7 @@
     <ClInclude Include="SnobeeController.h" />
     <ClInclude Include="SnobeeStateMachine.h" />
     <ClInclude Include="SnobeeStunState.h" />
+    <ClInclude Include="SoundEffects.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

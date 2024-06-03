@@ -149,7 +149,13 @@
     <ClInclude Include="UIButton.h">
       <Filter>Source\SceneTree\Components\UI</Filter>
     </ClInclude>
-    <ClInclude Include="UITextColorButton.h">
+    <ClInclude Include="TextColorButton.h">
+      <Filter>Source\SceneTree\Components\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="ToggleButton.h">
+      <Filter>Source\SceneTree\Components\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="TextColorToggleButton.h">
       <Filter>Source\SceneTree\Components\UI</Filter>
     </ClInclude>
   </ItemGroup>
@@ -268,7 +274,13 @@
     <ClCompile Include="UIButton.cpp">
       <Filter>Source\SceneTree\Components\UI</Filter>
     </ClCompile>
-    <ClCompile Include="UITextColorButton.cpp">
+    <ClCompile Include="TextColorButton.cpp">
+      <Filter>Source\SceneTree\Components\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="ToggleButton.cpp">
+      <Filter>Source\SceneTree\Components\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="TextColorToggleButton.cpp">
       <Filter>Source\SceneTree\Components\UI</Filter>
     </ClCompile>
   </ItemGroup>

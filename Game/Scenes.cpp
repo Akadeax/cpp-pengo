@@ -1,6 +1,7 @@
 #include "Scenes.h"
 
 #include <glm/vec2.hpp>
+#include <utility>
 
 #include "AnimatedTextureRenderer.h"
 #include "ControllerInputDevice.h"
@@ -22,11 +23,14 @@
 #include "ScoreDisplay.h"
 #include "ServiceLocator.h"
 #include "SkipLevelCommand.h"
+#include "SoundEffects.h"
+#include "SoundSystem.h"
 #include "TextRenderer.h"
 #include "TextureRenderer.h"
 #include "UIAnchor.h"
 #include "UIButton.h"
-#include "UITextColorButton.h"
+#include "TextColorButton.h"
+#include "TextColorToggleButton.h"
 
 using std::shared_ptr, std::unique_ptr, std::make_unique;
 using dae::GameObject;
@@ -36,36 +40,48 @@ unique_ptr<dae::Scene> CreateMenuScene()
 	unique_ptr pScene{ make_unique<dae::Scene>(0) };
 
 
-	shared_ptr<dae::Font> pFont{
+	const shared_ptr<dae::Font> pFont{
 	dae::ServiceLocator::GetResourceSystem().LoadFont("Data/pixelFont.otf", 12)
 	};
 
-	unique_ptr pTitleAnchor{ make_unique<GameObject>() };
-	unique_ptr pTitleAnchorComp{ make_unique<dae::UIAnchor>(pTitleAnchor.get(), dae::UIAnchorPoint::center) };
+	pScene->Add(MenuButtonBuilder(
+		"Start Solo", pFont, 0,
+		[] { dae::SceneManager::GetInstance().QueueSceneLoadForEndOfFrame(CreateFirstGameScene); }
+	));
 
-	unique_ptr pTitle{ make_unique<GameObject>() };
-	unique_ptr pTitleText{ make_unique<dae::TextRenderer>(
-		pTitleAnchor.get(),
-		"Start Game", pFont,
-		SDL_Color{ 255, 255, 255, 255 },
-		dae::TextAlign::center, dae::TextAlign::center,
-		pTitleAnchorComp.get()
-	) };
+	pScene->Add(MenuButtonBuilder(
+		"Start Co-Op", pFont, 30,
+		[] { dae::SceneManager::GetInstance().QueueSceneLoadForEndOfFrame(CreateFirstGameScene); }
+	));
 
-	unique_ptr pTitleButton{ make_unique<dae::UITextColorButton>(pTitle.get(), glm::vec2{ 130, 15 }) };
 
-	pTitleButton->MouseUp.Connect([]
-		{
-			dae::SceneManager::GetInstance().QueueSceneLoadForEndOfFrame(CreateFirstGameScene);
-		});
+	unique_ptr pMuteButtonAnchor{ make_unique<GameObject>() };
 
-	pTitleAnchor->AddComponent(std::move(pTitleAnchorComp));
-	pTitle->AddComponent(std::move(pTitleText));
-	pTitle->AddComponent(std::move(pTitleButton));
+	unique_ptr pMuteButtonAnchorComp{ make_unique<dae::UIAnchor>(
+		pMuteButtonAnchor.get(),
+		dae::UIAnchorPoint::bottomRight,
+		glm::vec2{ -10, -10 }
+	)};
 
-	pTitleAnchor->AttachChild(std::move(pTitle));
-	pScene->Add(std::move(pTitleAnchor));
+	unique_ptr pMuteButton{ make_unique<GameObject>() };
+	pMuteButton->AddComponent(make_unique<dae::TextRenderer>(
+		pMuteButton.get(),
+		"Mute audio",
+		pFont,
+		SDL_Color{},
+		dae::TextAlign::end,
+		dae::TextAlign::end,
+		pMuteButtonAnchorComp.get()
+	));
+	unique_ptr pMuteButtonComp{ make_unique<dae::TextColorToggleButton>(pMuteButton.get(), glm::vec2{ 120.f, 15.f }) };
 
+	pMuteButtonComp->ToggleOn.Connect([] { dae::ServiceLocator::GetSoundSystem().UnmuteSound(); });
+	pMuteButtonComp->ToggleOff.Connect([] { dae::ServiceLocator::GetSoundSystem().MuteSound(); });
+
+	pMuteButton->AddComponent(std::move(pMuteButtonComp));
+	pMuteButtonAnchor->AddComponent(std::move(pMuteButtonAnchorComp));
+	pMuteButtonAnchor->AttachChild(std::move(pMuteButton));
+	pScene->Add(std::move(pMuteButtonAnchor));
 	return std::move(pScene);
 }
 
@@ -201,7 +217,7 @@ unique_ptr<dae::Scene> CreateGameScene(const std::string& levelFilePath, int id)
 		{
 			unique_ptr pLivesAnchor{ make_unique<GameObject>() };
 			unique_ptr pLivesAnchorComp{ make_unique<dae::UIAnchor>(pLivesAnchor.get(), dae::UIAnchorPoint::topLeft) };
-			pLivesAnchorComp->offset = glm::vec2{ 10, 10 };
+			pLivesAnchorComp->anchorPointOffset = glm::vec2{ 10, 10 };
 			pLivesAnchor->AddComponent(std::move(pLivesAnchorComp));
 
 			unique_ptr pLivesDisplay{ make_unique<GameObject>() };
@@ -221,7 +237,7 @@ unique_ptr<dae::Scene> CreateGameScene(const std::string& levelFilePath, int id)
 		{
 			unique_ptr pScoreAnchor{ make_unique<GameObject>() };
 			unique_ptr pScoreAnchorComp{ make_unique<dae::UIAnchor>(pScoreAnchor.get(), dae::UIAnchorPoint::topRight) };
-			pScoreAnchorComp->offset = glm::vec2{ -10, 10 };
+			pScoreAnchorComp->anchorPointOffset = glm::vec2{ -10, 10 };
 			pScoreAnchor->AddComponent(std::move(pScoreAnchorComp));
 
 			unique_ptr pScoreDisplay{ make_unique<GameObject>() };
@@ -256,4 +272,49 @@ unique_ptr<dae::Scene> CreateGameScene(const std::string& levelFilePath, int id)
 unique_ptr<dae::Scene> CreateFirstGameScene()
 {
 	return CreateGameScene("Data/Levels/1.json", 1);
+}
+
+
+std::unique_ptr<GameObject> MenuButtonBuilder(
+	std::string text,
+	std::shared_ptr<dae::Font> pFont,
+	float yOffset,
+	std::function<void()> onClick
+)
+{
+	unique_ptr pTitleAnchor{ make_unique<GameObject>() };
+	unique_ptr pTitleAnchorComp{ make_unique<dae::UIAnchor>(
+		pTitleAnchor.get(), dae::UIAnchorPoint::center, glm::vec2{ 0, yOffset }
+	)};
+
+	unique_ptr pTitle{ make_unique<GameObject>() };
+	unique_ptr pTitleText{ make_unique<dae::TextRenderer>(
+		pTitleAnchor.get(),
+		std::move(text), std::move(pFont),
+		SDL_Color{ 255, 255, 255, 255 },
+		dae::TextAlign::center, dae::TextAlign::center,
+		pTitleAnchorComp.get()
+	) };
+
+	unique_ptr pTitleButton{ make_unique<dae::TextColorButton>(pTitle.get(), glm::vec2{ 130, 15 }) };
+
+	pTitleButton->HoverStart.Connect([]
+		{
+			dae::ServiceLocator::GetSoundSystem().PlaySound(dae::SoundSystem::SoundType::sfx, soundEffects::BUTTON_HOVER, 10);
+		});
+
+	pTitleButton->MouseDown.Connect([]
+		{
+			dae::ServiceLocator::GetSoundSystem().PlaySound(dae::SoundSystem::SoundType::sfx, soundEffects::BUTTON_CLICK, 150);
+		});
+
+	pTitleButton->MouseUp.Connect(std::move(onClick));
+
+	pTitleAnchor->AddComponent(std::move(pTitleAnchorComp));
+	pTitle->AddComponent(std::move(pTitleText));
+	pTitle->AddComponent(std::move(pTitleButton));
+
+	pTitleAnchor->AttachChild(std::move(pTitle));
+
+	return std::move(pTitleAnchor);
 }

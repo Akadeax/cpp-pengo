@@ -16,6 +16,9 @@ namespace dae
 
 		SoundID RegisterSound(SoundType, const std::string&) override { return 0; }
 		void PlaySound(SoundType, SoundID, int) override {}
+		void StopMusic() override {}
+		void MuteSound() override {}
+		void UnmuteSound() override {}
 	};
 }
 

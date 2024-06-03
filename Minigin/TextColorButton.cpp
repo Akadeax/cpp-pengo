@@ -1,9 +1,9 @@
-#include "UITextColorButton.h"
+#include "TextColorButton.h"
 
 #include "GameObject.h"
 #include "TextRenderer.h"
 
-dae::UITextColorButton::UITextColorButton(
+dae::TextColorButton::TextColorButton(
 	GameObject* pParent,
 	const glm::vec2& buttonClickRect, 
 	SDL_Color normal,
@@ -17,7 +17,7 @@ dae::UITextColorButton::UITextColorButton(
 {
 }
 
-void dae::UITextColorButton::Ready()
+void dae::TextColorButton::Ready()
 {
 	UIButton::Ready();
 

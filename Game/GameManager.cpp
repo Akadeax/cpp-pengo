@@ -19,6 +19,7 @@
 #include "Scenes.h"
 #include "ServiceLocator.h"
 #include "SnobeeStateMachine.h"
+#include "SoundEffects.h"
 #include "Timer.h"
 
 GameManager::GameManager(dae::GameObject* pParent)
@@ -35,12 +36,18 @@ void GameManager::Ready()
 	m_pGridManager->BlockPushEnd.Connect([this](Block* block) { OnBlockPushEnd(block); });
 
 
-	std::unique_ptr timer{ std::make_unique<dae::Timer>(GetParent(), 2.f, true) };
+	std::unique_ptr timer{ std::make_unique<dae::Timer>(GetParent(), 3.f, true) };
 	m_pEnemyTimer = timer.get();
-	timer->Timeout.Connect([this] { RefillEnemiesFromUnhatched(); });
+	timer->Timeout.Connect([this]
+	{
+		RefillEnemiesFromUnhatched();
+		dae::ServiceLocator::GetSoundSystem().PlaySound(dae::SoundSystem::SoundType::music, soundEffects::SONG, 255);
+	});
 	GetParent()->AddComponent(std::move(timer));
 
 	m_pSnobeeTexture = dae::ServiceLocator::GetResourceSystem().LoadTexture("Data/snobee_green.png");
+
+	dae::ServiceLocator::GetSoundSystem().PlaySound(dae::SoundSystem::SoundType::sfx, soundEffects::PLAYER_START, 255);
 }
 
 void GameManager::AdvanceLevel()
@@ -198,6 +205,15 @@ void GameManager::OnEnemyMarkedForDeletion(const dae::GameObject*)
 
 	if (m_CurrentEnemyCount == 0)
 	{
-		AdvanceLevel();
+		std::unique_ptr timer{ std::make_unique<dae::Timer>(GetParent(), 3.f, true) };
+		m_pEnemyTimer = timer.get();
+		timer->Timeout.Connect([this]
+			{
+				AdvanceLevel();
+			});
+		GetParent()->AddComponent(std::move(timer));
+
+		dae::ServiceLocator::GetSoundSystem().StopMusic();
+		dae::ServiceLocator::GetSoundSystem().PlaySound(dae::SoundSystem::SoundType::sfx, soundEffects::PLAYER_CLEAR, 255);
 	}
 }

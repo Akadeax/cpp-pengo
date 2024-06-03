@@ -12,6 +12,8 @@
 #include "Scene.h"
 #include "SceneManager.h"
 #include "Scenes.h"
+#include "ServiceLocator.h"
+#include "SoundEffects.h"
 
 PlayerController::PlayerController(dae::GameObject* pParent)
 	: Component(pParent)
@@ -40,6 +42,9 @@ void PlayerController::Kill()
 	{
 		OnGameOver.Emit();
 		dae::SceneManager::GetInstance().QueueSceneLoadForEndOfFrame(CreateMenuScene);
+		dae::ServiceLocator::GetSoundSystem().StopMusic();
+		dae::ServiceLocator::GetSoundSystem().PlaySound(dae::SoundSystem::SoundType::sfx, soundEffects::PLAYER_LOSE, 255);
+
 	}
 	else
 	{
@@ -47,6 +52,7 @@ void PlayerController::Kill()
 		OnDeath.Emit();
 
 		GetParent()->GetTransform().SetLocalPosition(m_StartPos);
+		dae::ServiceLocator::GetSoundSystem().PlaySound(dae::SoundSystem::SoundType::sfx, soundEffects::PLAYER_DEATH, 255);
 	}
 }
 

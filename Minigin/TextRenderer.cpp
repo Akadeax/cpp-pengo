@@ -59,7 +59,7 @@ void dae::TextRenderer::Update()
 
 	if (m_pAnchorToOffset)
 	{
-		m_pAnchorToOffset->offset = localOffset;
+		m_pAnchorToOffset->alignmentOffset = localOffset;
 		m_pAnchorToOffset->UpdateAnchoredPosition();
 	}
 	else

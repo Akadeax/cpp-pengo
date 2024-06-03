@@ -12,12 +12,15 @@ namespace dae
 	class UIAnchor final : public Component
 	{
 	public:
-		explicit UIAnchor(GameObject* pParent, UIAnchorPoint anchor, glm::vec2 offset = { 0, 0 });
+		explicit UIAnchor(GameObject* pParent, UIAnchorPoint anchor, glm::vec2 anchorPointOffset = { 0, 0 });
 
 		void Ready() override;
 		void UpdateAnchoredPosition() const;
 
-		glm::vec2 offset;
+		// user-set offset from the Anchor point
+		glm::vec2 anchorPointOffset;
+		// offset set by any renderers under this (for example TextAlignment)
+		glm::vec2 alignmentOffset{};
 
 	private:
 		UIAnchorPoint m_Anchor;

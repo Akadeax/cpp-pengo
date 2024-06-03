@@ -19,6 +19,11 @@ namespace dae
         SoundID RegisterSound(SoundType type, const std::string& filePath);
         void PlaySound(SoundType type, SoundID id, int volume);
 
+        void StopMusic();
+
+        void MuteSound();
+        void UnmuteSound();
+
         void RunThread();
 
 	private:
@@ -31,6 +36,7 @@ namespace dae
         std::mutex m_Mutex{};
         std::condition_variable m_ConditionVar{};
 
+        bool m_Muted{ false };
 
         bool m_KillThread{ false };
 	};
@@ -71,7 +77,7 @@ namespace dae
         Mix_Quit();
 	}
 
-	SoundSystem::SoundID SDLSoundSystem::SDLSoundSystemImpl::RegisterSound(SoundType type, const std::string& filePath)
+	SoundID SDLSoundSystem::SDLSoundSystemImpl::RegisterSound(SoundType type, const std::string& filePath)
 	{
         std::lock_guard lock{ m_Mutex };
         switch (type)
@@ -106,6 +112,24 @@ namespace dae
         m_ConditionVar.notify_all();
 	}
 
+	void SDLSoundSystem::SDLSoundSystemImpl::StopMusic()
+	{
+        std::lock_guard lock(m_Mutex);
+        Mix_HaltMusic();
+	}
+
+	void SDLSoundSystem::SDLSoundSystemImpl::MuteSound()
+	{
+        std::lock_guard lock(m_Mutex);
+        m_Muted = true;
+	}
+
+	void SDLSoundSystem::SDLSoundSystemImpl::UnmuteSound()
+	{
+        std::lock_guard lock(m_Mutex);
+        m_Muted = false;
+	}
+
 	void SDLSoundSystem::SDLSoundSystemImpl::RunThread()
 	{
         while (!m_KillThread)
@@ -116,20 +140,22 @@ namespace dae
             while (!m_SoundRequests.empty())
             {
                 if (!lock.owns_lock()) lock.lock();
+
                 const SoundRequest& currentRequest{ m_SoundRequests.front() };
                 m_SoundRequests.pop();
+
                 lock.unlock();
 
                 switch (currentRequest.type)
                 {
                 case SoundType::sfx:
                     Mix_Volume(-1, currentRequest.volume);
-                    Mix_PlayChannel(-1, m_SFX.at(currentRequest.id), 0);
+                    if (!m_Muted) Mix_PlayChannel(-1, m_SFX.at(currentRequest.id), 0);
                     break;
 
                 case SoundType::music:
                     Mix_VolumeMusic(currentRequest.volume);
-                    Mix_PlayMusic(m_Music.at(currentRequest.id), -1);
+                    if (!m_Muted) Mix_PlayMusic(m_Music.at(currentRequest.id), -1);
                     break;
                 }
 
@@ -149,7 +175,7 @@ dae::SDLSoundSystem::SDLSoundSystem()
 
 dae::SDLSoundSystem::~SDLSoundSystem() = default; // Defaulted in .cpp so type for uniqueptr is defined
 
-dae::SoundSystem::SoundID dae::SDLSoundSystem::RegisterSound(SoundType type, const std::string& filePath)
+dae::SoundID dae::SDLSoundSystem::RegisterSound(SoundType type, const std::string& filePath)
 {
     return m_pImpl->RegisterSound(type, filePath);
 }
@@ -157,4 +183,19 @@ dae::SoundSystem::SoundID dae::SDLSoundSystem::RegisterSound(SoundType type, con
 void dae::SDLSoundSystem::PlaySound(SoundType type, SoundID id, int volume)
 {
     m_pImpl->PlaySound(type, id, volume);
+}
+
+void dae::SDLSoundSystem::StopMusic()
+{
+    m_pImpl->StopMusic();
+}
+
+void dae::SDLSoundSystem::MuteSound()
+{
+    m_pImpl->MuteSound();
+}
+
+void dae::SDLSoundSystem::UnmuteSound()
+{
+    m_pImpl->UnmuteSound();
 }
