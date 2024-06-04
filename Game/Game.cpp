@@ -17,6 +17,7 @@
 void Load()
 {
 	dae::ServiceLocator::RegisterSoundSystem(std::make_unique<dae::SDLSoundSystem>());
+
 	dae::SoundSystem& sound{ dae::ServiceLocator::GetSoundSystem() };
 	soundEffects::BLOCK_BREAK = sound.RegisterSound(dae::SoundSystem::SoundType::sfx, "Data/Sound/block_break.mp3");
 	soundEffects::BLOCK_STOP = sound.RegisterSound(dae::SoundSystem::SoundType::sfx, "Data/Sound/block_stop.mp3");
@@ -31,7 +32,6 @@ void Load()
 
 	dae::ServiceLocator::RegisterResourceSystem(std::make_unique<dae::SDLResourceSystem>());
 
-	dae::SceneManager::GetInstance().SetCurrentScene(CreateGameScene("Data/Levels/1.json", 1));
 	dae::SceneManager::GetInstance().SetCurrentScene(CreateMenuScene());
 }
 
