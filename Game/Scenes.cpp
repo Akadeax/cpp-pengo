@@ -457,7 +457,7 @@ std::unique_ptr<dae::Scene> CreateCoOpScene(const std::string& levelFilePath, in
 		pPengo->GetTransform().SetLocalScale({ 1.5f, 1.5f });
 		pPengo->AddComponent(make_unique<dae::AnimatedTextureRenderer>(
 			pPengo.get(),
-			dae::ServiceLocator::GetResourceSystem().LoadTexture("Data/pengo_red.png"),
+			dae::ServiceLocator::GetResourceSystem().LoadTexture("Data/pengo_pink.png"),
 			4, 8
 		));
 		pPengo->AddComponent(make_unique<PlayerController>(pPengo.get()));
@@ -501,7 +501,7 @@ std::unique_ptr<dae::Scene> CreateCoOpScene(const std::string& levelFilePath, in
 		{
 			unique_ptr pLivesAnchor{ make_unique<GameObject>() };
 			unique_ptr pLivesAnchorComp{ make_unique<dae::UIAnchor>(pLivesAnchor.get(), dae::UIAnchorPoint::topLeft) };
-			pLivesAnchorComp->anchorPointOffset = glm::vec2{ 10, 10 };
+			pLivesAnchorComp->anchorPointOffset = glm::vec2{ 10, 30 };
 			pLivesAnchor->AddComponent(std::move(pLivesAnchorComp));
 
 			unique_ptr pLivesDisplay{ make_unique<GameObject>() };
@@ -521,7 +521,7 @@ std::unique_ptr<dae::Scene> CreateCoOpScene(const std::string& levelFilePath, in
 		{
 			unique_ptr pScoreAnchor{ make_unique<GameObject>() };
 			unique_ptr pScoreAnchorComp{ make_unique<dae::UIAnchor>(pScoreAnchor.get(), dae::UIAnchorPoint::topRight) };
-			pScoreAnchorComp->anchorPointOffset = glm::vec2{ -10, 10 };
+			pScoreAnchorComp->anchorPointOffset = glm::vec2{ -10, 30 };
 			pScoreAnchor->AddComponent(std::move(pScoreAnchorComp));
 
 			unique_ptr pScoreDisplay{ make_unique<GameObject>() };

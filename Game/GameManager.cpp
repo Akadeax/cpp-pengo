@@ -21,6 +21,7 @@
 #include "SnobeeStateMachine.h"
 #include "SoundEffects.h"
 #include "Timer.h"
+#include "UIAnchor.h"
 
 GameManager::GameManager(dae::GameObject* pParent)
 	: Component(pParent)
@@ -50,6 +51,27 @@ void GameManager::Ready()
 	dae::ServiceLocator::GetSoundSystem().PlaySound(dae::SoundSystem::SoundType::sfx, soundEffects::PLAYER_START, 255);
 }
 
+void GameManager::StunWall(glm::ivec2 dir)
+{
+	for (const std::unique_ptr<dae::GameObject>& pEnemyGo : GetParent()->GetChildren())
+	{
+		glm::vec2 gridPos{ m_pGridManager->LocalToGrid(pEnemyGo->GetTransform().GetLocalPosition(), false) };
+
+		constexpr float halfWidth{ static_cast<float>(GridManager::GRID_WIDTH / 2) };
+		constexpr float halfHeight{ static_cast<float>(GridManager::GRID_HEIGHT / 2) };
+
+		const bool upWallStun{ glm::epsilonEqual(gridPos.y, -halfHeight, 0.5f) && dir.y == -1 };
+		const bool rightWallStun{ glm::epsilonEqual(gridPos.x, halfWidth, 0.5f) && dir.x == 1 };
+		const bool downWallStun{ glm::epsilonEqual(gridPos.y, halfHeight, 0.5f) && dir.y == 1 };
+		const bool leftWallStun{ glm::epsilonEqual(gridPos.x, -halfWidth, 0.5f) && dir.x == -1 };
+
+		if (upWallStun || rightWallStun || downWallStun || leftWallStun)
+		{
+			pEnemyGo->GetComponent<SnobeeStateMachine>()->Stun();
+		}
+	}
+}
+
 void GameManager::AdvanceLevel()
 {
 	SaveData::GetInstance().SaveCrossLevelData(dae::SceneManager::GetInstance().GetCurrentScene());
@@ -61,15 +83,21 @@ void GameManager::AdvanceLevel()
 	std::string filePath{ ss.str() };
 
 
+	size_t playerCount{ dae::SceneManager::GetInstance().GetCurrentScene()->GetGameObjectsByTag("Player").size() };
+
 	if (!std::filesystem::exists(filePath))
 	{
-		dae::SceneManager::GetInstance().QueueSceneLoadForEndOfFrame(CreateFirstGameScene);
+		dae::SceneManager::GetInstance().QueueSceneLoadForEndOfFrame(playerCount == 1 ? CreateFirstGameScene : CreateFirstCoOpScene);
 	}
 	else
 	{
-		dae::SceneManager::GetInstance().QueueSceneLoadForEndOfFrame([filePath, currentSceneID]() -> std::unique_ptr<dae::Scene>
+		dae::SceneManager::GetInstance().QueueSceneLoadForEndOfFrame([filePath, currentSceneID, playerCount]() -> std::unique_ptr<dae::Scene>
 			{
-				return CreateGameScene(filePath, currentSceneID + 1);
+				if (playerCount == 1)
+				{
+					return CreateGameScene(filePath, currentSceneID + 1);
+				}
+				return CreateCoOpScene(filePath, currentSceneID + 1);
 			});
 	}
 }

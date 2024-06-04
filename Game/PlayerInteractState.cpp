@@ -2,8 +2,10 @@
 
 #include <iostream>
 #include <SDL_syswm.h>
+#include <glm/gtc/epsilon.hpp>
 
 #include "AnimatedTextureRenderer.h"
+#include "GameManager.h"
 #include "GameObject.h"
 #include "GameTime.h"
 #include "GridManager.h"
@@ -49,6 +51,13 @@ void PlayerInteractState::OnEnter()
 	const glm::vec2 targetGridSpace{
 		pGridManager->WorldToGrid(playerTransform.GetLocalPosition()) + glm::vec2{ dir.x, dir.y }
 	};
+
+	if (!pGridManager->IsGridPositionValid(targetGridSpace))
+	{
+		GameManager* pGameManager{ pScene->GetGameObjectByTag("GameManager")->GetComponent<GameManager>() };
+		pGameManager->StunWall(GetPlayerController()->FacingDir);
+		return;
+	}
 
 	Block* targetBlock{ pGridManager->GetBlock(targetGridSpace) };
 	if (targetBlock == nullptr) return;

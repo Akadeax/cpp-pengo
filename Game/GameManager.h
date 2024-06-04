@@ -16,6 +16,8 @@ public:
 
 	const std::vector<Block*>& GetCurrentlyMovingBlocks() const { return m_CurrentlyMovingBlocks; }
 
+	void StunWall(glm::ivec2 dir);
+
 	void AdvanceLevel();
 
 private:
