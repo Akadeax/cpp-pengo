@@ -9,6 +9,7 @@
 
 #include "AnimatedTextureRenderer.h"
 #include "GameObject.h"
+#include "GameTime.h"
 #include "Scene.h"
 #include "GridManager.h"
 #include "InputManager.h"
@@ -100,6 +101,11 @@ void GameManager::AdvanceLevel()
 				return CreateCoOpScene(filePath, currentSceneID + 1);
 			});
 	}
+}
+
+void GameManager::Update()
+{
+	m_LevelTime += dae::GameTime::GetInstance().GetDeltaTime();
 }
 
 void GameManager::RefillEnemiesFromUnhatched()
@@ -240,6 +246,18 @@ void GameManager::OnEnemyMarkedForDeletion(const dae::GameObject*)
 				AdvanceLevel();
 			});
 		GetParent()->AddComponent(std::move(timer));
+
+		// Add points based on time
+		if (m_LevelTime < 60.f)
+		{
+			// percentage of points to give the player
+			const float pointsFactor{ (60 - m_LevelTime) / 60.f };
+			const dae::Scene* pScene{ dae::SceneManager::GetInstance().GetCurrentScene() };
+			for (const dae::GameObject* pPlayer : pScene->GetGameObjectsByTag("Player"))
+			{
+				pPlayer->GetComponent<PlayerController>()->IncreaseScore(static_cast<int>(COMPLETE_LEVEL_INSTANTLY_POINTS * pointsFactor));
+			}
+		}
 
 		dae::ServiceLocator::GetSoundSystem().StopMusic();
 		dae::ServiceLocator::GetSoundSystem().PlaySound(dae::SoundSystem::SoundType::sfx, soundEffects::PLAYER_CLEAR, 255);

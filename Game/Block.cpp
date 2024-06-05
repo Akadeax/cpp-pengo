@@ -68,16 +68,19 @@ void Block::Push(glm::ivec2 dir)
 	m_pGridManager->BlockPushStart.Emit(this);
 }
 
-void Block::Destroy() const
+bool Block::Destroy(bool playSound) const
 {
-	if (m_Type == Type::diamond) return;
+	if (m_Type == Type::diamond) return false;
 
 	dae::Transform& blockTransform{ GetParent()->GetTransform() };
 	const glm::vec2 gridPos{ m_pGridManager->WorldToGrid(blockTransform.GetWorldPosition()) };
 	GetParent()->MarkForDeletion();
 	m_pGridManager->RemoveBlock(gridPos);
-
-	dae::ServiceLocator::GetSoundSystem().PlaySound(dae::SoundSystem::SoundType::sfx, soundEffects::BLOCK_BREAK, 255);
+	if (playSound)
+	{
+		dae::ServiceLocator::GetSoundSystem().PlaySound(dae::SoundSystem::SoundType::sfx, soundEffects::BLOCK_BREAK, 255);
+	}
+	return true;
 }
 
 void Block::SetType(Type type)

@@ -17,8 +17,9 @@ public:
 	const std::vector<Block*>& GetCurrentlyMovingBlocks() const { return m_CurrentlyMovingBlocks; }
 
 	void StunWall(glm::ivec2 dir);
-
 	void AdvanceLevel();
+
+	void Update() override;
 
 private:
 	GridManager* m_pGridManager{};
@@ -39,7 +40,10 @@ private:
 	std::vector<Block*> m_CurrentlyMovingBlocks{};
 	dae::Timer* m_pEnemyTimer{};
 
+	float m_LevelTime{};
+
 	static constexpr int MAX_ENEMIES{ 3 };
 	static constexpr int DIAMOND_BLOCKS_COMBINE_POINTS_WALL{ 5000 };
 	static constexpr int DIAMOND_BLOCKS_COMBINE_POINTS_FREE{ 10'000 };
+	static constexpr int COMPLETE_LEVEL_INSTANTLY_POINTS{ 10'000 };
 };

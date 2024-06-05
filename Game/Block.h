@@ -20,7 +20,7 @@ public:
 	void Ready() override;
 
 	void Push(glm::ivec2 dir);
-	void Destroy() const;
+	bool Destroy(bool playSound = true) const;
 
 	Type GetType() const { return m_Type; }
 	void SetType(Type type);

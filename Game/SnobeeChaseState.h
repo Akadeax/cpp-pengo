@@ -28,7 +28,7 @@ private:
 	float m_TimeUntilNextMove{ 0.f };
 
 
-	static constexpr float m_MoveTime{ 0.6f };
+	static constexpr float m_MoveTime{ 0.4f };
 
 	dae::AnimationID m_ChaseUp{};
 	dae::AnimationID m_ChaseRight{};

@@ -43,7 +43,7 @@ void PlayerInteractState::OnEnter()
 	);
 
 
-	dae::Scene* pScene{ dae::SceneManager::GetInstance().GetCurrentScene() };
+	const dae::Scene* pScene{ dae::SceneManager::GetInstance().GetCurrentScene() };
 	const GridManager* pGridManager{ pScene->GetGameObjectByTag("GridManager")->GetComponent<GridManager>() };
 
 	const dae::Transform& playerTransform{ GetStateMachine()->GetParent()->GetTransform() };
