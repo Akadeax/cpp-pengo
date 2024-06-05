@@ -1,5 +1,7 @@
 #include "Scenes.h"
 
+#include <SDL_keyboard.h>
+#include <SDL_syswm.h>
 #include <glm/vec2.hpp>
 #include <utility>
 
@@ -38,7 +40,7 @@ using dae::GameObject;
 unique_ptr<dae::Scene> CreateMenuScene()
 {
 	unique_ptr pScene{ make_unique<dae::Scene>(0) };
-
+	dae::InputManager::GetInstance().EndTextInput();
 
 	const shared_ptr<dae::Font> pFont{
 	dae::ServiceLocator::GetResourceSystem().LoadFont("Data/pixelFont.otf", 12)
@@ -82,6 +84,37 @@ unique_ptr<dae::Scene> CreateMenuScene()
 	pMuteButtonAnchor->AddComponent(std::move(pMuteButtonAnchorComp));
 	pMuteButtonAnchor->AttachChild(std::move(pMuteButton));
 	pScene->Add(std::move(pMuteButtonAnchor));
+
+
+	unique_ptr pHighscoreListAnchor{ make_unique<GameObject>() };
+	pHighscoreListAnchor->AddComponent(make_unique<dae::UIAnchor>(
+		pHighscoreListAnchor.get(),
+		dae::UIAnchorPoint::topRight,
+		glm::vec2{-10, 15 }
+	));
+
+	const std::vector<HighscoreData> highscores{ SaveData::GetInstance().GetHighscoreData() };
+	constexpr size_t HIGHSCORE_SHOW_AMOUNT{ 5 };
+
+	size_t showAmount{ std::min(highscores.size(), HIGHSCORE_SHOW_AMOUNT) };
+	for (size_t i{}; i < showAmount; ++i)
+	{
+		std::stringstream ss;
+		ss << highscores[i].name << ": " << highscores[i].score;
+
+		unique_ptr pHighscoreDisplay{ make_unique<GameObject>() };
+		pHighscoreDisplay->GetTransform().SetLocalPosition({ 0, 15 * i });
+		pHighscoreDisplay->AddComponent(make_unique<dae::TextRenderer>(
+			pHighscoreDisplay.get(),
+			ss.str(), pFont, SDL_Color{ 0, 255, 0, 255 },
+			dae::TextAlign::end, dae::TextAlign::start,
+			nullptr
+		));
+
+		pHighscoreListAnchor->AttachChild(std::move(pHighscoreDisplay));
+	}
+
+	pScene->Add(std::move(pHighscoreListAnchor));
 	return std::move(pScene);
 }
 
@@ -273,6 +306,7 @@ unique_ptr<dae::Scene> CreateFirstGameScene()
 {
 	return CreateGameScene("Data/Levels/1.json", 1);
 }
+
 
 std::unique_ptr<dae::Scene> CreateCoOpScene(const std::string& levelFilePath, int id)
 {
@@ -554,9 +588,78 @@ std::unique_ptr<dae::Scene> CreateCoOpScene(const std::string& levelFilePath, in
 
 }
 
+
 std::unique_ptr<dae::Scene> CreateFirstCoOpScene()
 {
 	return CreateCoOpScene("Data/Levels/1.json", 1);
+}
+
+
+std::unique_ptr<dae::Scene> GameOverScene()
+{
+	unique_ptr pScene{ make_unique<dae::Scene>(0) };
+
+	shared_ptr<dae::Font> pFont{
+		dae::ServiceLocator::GetResourceSystem().LoadFont("Data/pixelFont.otf", 9)
+	};
+
+	unique_ptr pTitleAnchor{ make_unique<GameObject>() };
+	unique_ptr pTitleAnchorComp{ make_unique<dae::UIAnchor>(
+		pTitleAnchor.get(), dae::UIAnchorPoint::center, glm::vec2{ 0, 0 }
+	) };
+
+	unique_ptr pTitle{ make_unique<GameObject>() };
+	pTitle->AddComponent(make_unique<dae::TextRenderer>(
+		pTitleAnchor.get(),
+		"Game over :( enter your name to save your highscore", pFont,
+		SDL_Color{ 255, 255, 255, 255 },
+		dae::TextAlign::center, dae::TextAlign::center,
+		pTitleAnchorComp.get()
+	));
+
+	pTitleAnchor->AddComponent(std::move(pTitleAnchorComp));
+
+	pScene->Add(std::move(pTitle));
+	pScene->Add(std::move(pTitleAnchor));
+
+
+	unique_ptr pInputAnchor{ make_unique<GameObject>() };
+	unique_ptr pInputAnchorComp{ make_unique<dae::UIAnchor>(
+		pInputAnchor.get(), dae::UIAnchorPoint::center, glm::vec2{ 0, 30 }
+	) };
+
+
+	unique_ptr pInputBox{ make_unique<GameObject>() };
+	unique_ptr pInputBoxComp{ make_unique<dae::TextRenderer>(
+		pInputBox.get(),
+		"", pFont, SDL_Color{ 255, 255, 255, 255 },
+		dae::TextAlign::center, dae::TextAlign::center,
+		pInputAnchorComp.get()
+	) };
+
+	dae::InputManager& input{ dae::InputManager::GetInstance() };
+	input.StartTextInput();
+
+	dae::TextRenderer* pInputTextRaw{ pInputBoxComp.get() };
+	input.TextInput.Connect([pInputTextRaw](const std::string& textInput)
+		{
+			pInputTextRaw->SetText(pInputTextRaw->GetText() + textInput);
+		});
+
+	pInputAnchor->AddComponent(std::move(pInputAnchorComp));
+	pInputBox->AddComponent(std::move(pInputBoxComp));
+	pInputAnchor->AttachChild(std::move(pInputBox));
+
+	pScene->Add(std::move(pInputAnchor));
+
+
+	pScene->Add(MenuButtonBuilder("Confirm", pFont, 60, [pInputTextRaw]
+		{
+			SaveData::GetInstance().SaveHighscore({ pInputTextRaw->GetText(), SaveData::GetInstance().lastRunScore });
+			dae::SceneManager::GetInstance().QueueSceneLoadForEndOfFrame(CreateMenuScene);
+		}, 70));
+
+	return std::move(pScene);
 }
 
 
@@ -564,7 +667,8 @@ std::unique_ptr<GameObject> MenuButtonBuilder(
 	std::string text,
 	std::shared_ptr<dae::Font> pFont,
 	float yOffset,
-	std::function<void()> onClick
+	std::function<void()> onClick,
+	float rectWidth
 )
 {
 	unique_ptr pTitleAnchor{ make_unique<GameObject>() };
@@ -581,7 +685,7 @@ std::unique_ptr<GameObject> MenuButtonBuilder(
 		pTitleAnchorComp.get()
 	) };
 
-	unique_ptr pTitleButton{ make_unique<dae::TextColorButton>(pTitle.get(), glm::vec2{ 130, 15 }) };
+	unique_ptr pTitleButton{ make_unique<dae::TextColorButton>(pTitle.get(), glm::vec2{ rectWidth, 15 }) };
 
 	pTitleButton->HoverStart.Connect([]
 		{

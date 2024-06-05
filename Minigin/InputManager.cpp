@@ -27,6 +27,11 @@ bool dae::InputManager::ProcessInput()
 			m_MousePosition = { e.motion.x, e.motion.y };
 		}
 
+		if (e.type == SDL_TEXTINPUT)
+		{
+			TextInput.Emit(std::string{ e.text.text });
+		}
+
 		// Passing event to ImGui
 		ImGui_ImplSDL2_ProcessEvent(&e);
 
@@ -52,5 +57,16 @@ void dae::InputManager::ClearInputDevices()
 {
 	MouseDown.DisconnectAll();
 	MouseUp.DisconnectAll();
+	TextInput.DisconnectAll();
 	m_RegisteredDevices.clear();
+}
+
+void dae::InputManager::StartTextInput() const
+{
+	SDL_StartTextInput();
+}
+
+void dae::InputManager::EndTextInput() const
+{
+	SDL_StopTextInput();
 }

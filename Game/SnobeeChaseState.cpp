@@ -19,7 +19,7 @@ SnobeeChaseState::SnobeeChaseState(
 )
 	: SnobeeState(pSnobeeController, pStateMachine, pRenderer)
 {
-	dae::Scene* pScene{ dae::SceneManager::GetInstance().GetCurrentScene() };
+	const dae::Scene* pScene{ dae::SceneManager::GetInstance().GetCurrentScene() };
 	m_pGridManager = pScene->GetGameObjectByTag("GridManager")->GetComponent<GridManager>();
 
 	m_ChaseUp = GetRenderer()->   AddAnimation({ .3f, { 12, 13 } });

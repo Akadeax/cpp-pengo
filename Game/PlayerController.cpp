@@ -7,8 +7,10 @@
 #include <glm/gtx/string_cast.hpp>
 #pragma warning(pop)
 
+#include "GameManager.h"
 #include "GridManager.h"
 #include "GameObject.h"
+#include "SaveData.h"
 #include "Scene.h"
 #include "SceneManager.h"
 #include "Scenes.h"
@@ -41,7 +43,8 @@ void PlayerController::Kill()
 	if (m_Lives == 0)
 	{
 		OnGameOver.Emit();
-		dae::SceneManager::GetInstance().QueueSceneLoadForEndOfFrame(CreateMenuScene);
+		SaveData::GetInstance().lastRunScore = m_Score;
+		dae::SceneManager::GetInstance().QueueSceneLoadForEndOfFrame(GameOverScene);
 		dae::ServiceLocator::GetSoundSystem().StopMusic();
 		dae::ServiceLocator::GetSoundSystem().PlaySound(dae::SoundSystem::SoundType::sfx, soundEffects::PLAYER_LOSE, 255);
 

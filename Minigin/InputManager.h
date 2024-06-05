@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 #include <vector>
 #include <glm/vec2.hpp>
 
@@ -13,6 +14,7 @@ namespace dae
 	public:
 		Signal<glm::vec2> MouseDown{};
 		Signal<glm::vec2> MouseUp{};
+		Signal<std::string> TextInput{};
 
 		bool ProcessInput();
 		void RegisterInputDevice(std::unique_ptr<InputDevice> device);
@@ -21,6 +23,9 @@ namespace dae
 		InputDevice* GetInputDevice(size_t index) const { return m_RegisteredDevices[index].get(); }
 
 		glm::vec2 GetMousePosition() const { return m_MousePosition; }
+
+		void StartTextInput() const;
+		void EndTextInput() const;
 
 	private:
 		std::vector<std::unique_ptr<InputDevice>> m_RegisteredDevices{};

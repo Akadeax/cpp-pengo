@@ -35,6 +35,7 @@ namespace dae
 
 		void Update() override;
 
+		std::string GetText() const { return m_Text; }
 		void SetText(const std::string& text);
 		void SetColor(SDL_Color color);
 

@@ -33,7 +33,8 @@ void dae::TextRenderer::Update()
 {
 	if (!m_IsDirty) return;
 
-	SDL_Surface* surf{ TTF_RenderText_Blended(m_pFont->GetFont(), m_Text.c_str(), m_Color) };
+	const std::string targetText{ m_Text.empty() ? "|" : m_Text };
+	SDL_Surface* surf{ TTF_RenderText_Blended(m_pFont->GetFont(), targetText.c_str(), m_Color) };
 	if (surf == nullptr)
 	{
 		throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());

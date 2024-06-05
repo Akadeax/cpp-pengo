@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <filesystem>
-#include <iostream>
 #include <random>
 #include <sstream>
 #include <glm/gtc/epsilon.hpp>
@@ -22,7 +21,6 @@
 #include "SnobeeStateMachine.h"
 #include "SoundEffects.h"
 #include "Timer.h"
-#include "UIAnchor.h"
 
 GameManager::GameManager(dae::GameObject* pParent)
 	: Component(pParent)
