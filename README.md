@@ -1,18 +1,27 @@
-# Minigin
+# Pengo
+This is a simple remake of the 1982 arcade game [Pengo](https://en.wikipedia.org/wiki/Pengo_(video_game)). It contains all the gameplay features of the original Pengo, including all 16 original levels and 2 player co-op using keyboard and controller.
 
-Minigin is a very small project using [SDL2](https://www.libsdl.org/) and [glm](https://github.com/g-truc/glm) for 2D c++ game projects. It is in no way a game engine, only a barebone start project where everything sdl related has been set up. It contains glm for vector math, to aleviate the need to write custom vector and matrix classes.
+[![Build Status](https://github.com/Akadeax/cpp-pengo/actions/workflows/msbuild.yml/badge.svg)](https://github.com/Akadeax/cpp-pengo/actions)
 
-[![Build Status](https://github.com/avadae/minigin/actions/workflows/msbuild.yml/badge.svg)](https://github.com/avadae/msbuild/actions)
-[![GitHub Release](https://img.shields.io/github/v/release/avadae/minigin?logo=github&sort=semver)](https://github.com/avadae/minigin/releases/latest)
+![GIF of Gameplay](./RepoIMG/PengoGameplay.gif)
 
-# Goal
+## Level Editor
+The project comes packaged with a level editor and its' source code under `Tools/LevelEditor`. This is a simple [flutter](https://flutter.dev/) application that allows you to export custom levels and import them into the game with ease.
 
-Minigin can/may be used as a start project for the exam assignment in the course 'Programming 4' at DAE. In that assignment students need to recreate a popular 80's arcade game with a game engine they need to program themselves. During the course we discuss several game programming patterns, using the book '[Game Programming Patterns](https://gameprogrammingpatterns.com/)' by Robert Nystrom as reading material. 
+![GIF of Level Editor](./RepoIMG/PengoLevelEditor.gif)
 
-# Disclaimer
+## Engine Features
+The project is split up into a generic engine (`Minigin/`) and a game project (`Game/`), both written in C++ from almost-scratch using SDL2 and glm. A big thanks to Alex Vanden Abeele for assisting with the set-up of SDL2.
+The Engine has several features that are only partially displayed in the game, including:
+- A generic input system that allows you to bind keyboard & controller input to actions via the Command pattern
+- A service locator giving access to a multi-threaded sound system and a resource cache
+- A component system reminiscient of Unity Engine (GameObjects that hold polymorphic components)
+- A sprite animation system inspired by Godot Engine
+- A UI system similar to Unity's that allows you to anchor ui elements to either corners of the screen or each other, along with a collection of half a dozen pre-made UI components
+- A templated implementation of the Signals and Slots pattern (think more flexible Observer) similar to Godot & Qt
+- A traditional imlementation of the State pattern
+- A json-based level loader and highscore saver powered by [nlohmann](https://github.com/nlohmann/json)
 
-Minigin is, despite perhaps the suggestion in its name, not a game engine. It is just a very simple sdl2 ready project with some of the scaffolding in place to get started. None of the patterns discussed in the course are used yet (except singleton which use we challenge during the course). It is up to the students to implement their own vision for their engine, apply patterns as they see fit, create their game as efficient as possible.
+As you may be able to tell, large parts of this engine are an amalgamation of positive experiences I've had with other engines and tried to replicate in C++. While the code is relatively well-documented throughout, this is meant as an educational project and not as an actual engine ready for use in projects.
 
-# Use
-
-Download the latest release of this project and compile/run in visual studio. Since students need to have their work on github too, they can use this repository as a template.
+If you wish to do so anyway, this entire project is under [Unlicense](https://unlicense.org/), so feel free to do with it whatever you'd like to.
